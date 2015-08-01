@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="groupSummary_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ffe3617a-ddb2-4e7e-badd-32585245f2ad">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="amountStatus" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="a99e99d4-0c33-4fcc-9952-d58656a31caf" x="657" y="0" width="145" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="36162345-c5f6-486f-ac94-0ef3f7b2851e" x="520" y="0" width="137" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="76beff9a-8548-4247-9e6b-5298d06bca30" x="0" y="0" width="520" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="caf047fd-4114-464b-8a44-391a3241bcfe" x="11" y="0" width="509" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3744e71b-761c-48de-b22a-2c7899e33642" x="520" y="0" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amountStatus}=="Cr"?$F{amount}:""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d2fb9374-67c6-4938-8637-81947f6d5a3a" x="657" y="0" width="142" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amountStatus}=="Dr"?$F{amount}:""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,19 @@
+<div class="page page-dashboard" data-ng-controller="AccountGroupCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Account Group
+                    <a href="#group/create" class="pull-right btn btn-default btn-xs">New</a>
+                </div>
+                <div class="panel-body">
+                    <my-grid ajax-data-url="../accountGroup/gridData"
+                             ajax-grid-def="../accountGroup/gridDef"
+                             ajax-delete-id="../accountGroup/delete"
+                             ajax-menu-def="../accountGroup/menuDef">
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>

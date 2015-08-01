@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="outstandingReport" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="83e283de-59f4-44a5-89ec-55cb70e10adf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="reportName" class="java.lang.String"/>
+	<field name="fromDate" class="java.lang.String"/>
+	<field name="toDate" class="java.lang.String"/>
+	<field name="child" class="java.util.Collection"/>
+	<field name="totalPendingAmount" class="java.lang.String"/>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="e54c6280-8142-4238-a094-b66903dff404" x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="8651482d-93e0-43c5-846a-fa8f95505770" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="d0bd77e0-a2b7-4a55-8e77-347e19d200f8" x="0" y="0" width="468" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="28fb9e29-869e-4f42-ad11-609a933b2ff0" x="668" y="0" width="134" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f9718bc2-983a-47b4-9ea8-930cc321d35b" x="468" y="0" width="200" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="d9c7e0f8-30ea-4ffc-b769-3ae8e0572c8e" x="11" y="0" width="457" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="caca9ec3-8110-4b06-a90d-1aab0f84277d" x="468" y="0" width="200" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="814a3836-8470-4630-af3a-04d56b1db50b" x="668" y="0" width="134" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="d61e825a-98d2-4082-b5a1-c539876aacb2" x="0" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c204c91e-9b5b-452e-a410-51bff7c5b246" x="67" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="e693fe72-1871-4418-861c-f6cb94e9b689" x="134" y="0" width="200" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="097ad898-b190-4926-bd0d-b72b78b88d41" x="334" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7381c5f4-0c6d-491a-9b44-3d69051c8a76" x="401" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="77901415-842e-483e-9922-4f16b1974e9c" x="468" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="38d51347-ed68-4ac0-9900-f6f2b3eb1394" x="568" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c3d5cdfb-1e5a-4e74-9088-56c5fb134562" x="668" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="e829de78-da87-4b7a-96a3-4d36b1d763aa" x="735" y="0" width="67" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="b809ef19-3e49-4209-92b1-9b0820a06729" x="0" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="61da0cf8-834e-4406-9182-bd3d92c1d360" x="67" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Ref. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f9d50447-9e51-421f-b5b5-f52f91cbf086" x="134" y="0" width="200" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Party's Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5d7736a5-d6d7-4f6b-9e73-1150eaee097a" x="735" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Over Due]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6e788b6e-4310-4d5f-8350-23e2d35648d3" x="668" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Due On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21e1a51f-5d5f-4a1e-878d-d8ae97bc817a" x="568" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Pending Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="df282013-0624-42dc-8f1f-ecdd08f6b4d5" x="468" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7214003b-a745-4faa-83ab-a36f44f51683" x="401" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Vch. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="244b4ed8-28fe-4ddf-b2a7-12cbca56ddc8" x="334" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Vch. Type]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="aa88b824-6db3-48d7-aea9-681d8188eda5" x="0" y="0" width="802" height="20"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{child})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "outstandingReport_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="53c1aa97-0a3b-4556-bddc-8b05221a7f51" x="0" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="199a498a-2629-4d17-b323-6d785ece81b8" x="67" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="d8ee2e55-4a7c-4730-b9d6-17199e653806" x="134" y="0" width="200" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="98ba34b5-d27e-4615-af1c-19ee228f1eec" x="334" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="778a5a19-dcc5-4a39-b719-e40068c4f6b6" x="401" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="32aa907d-23ae-4a9c-9673-24b93aa26eca" x="468" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1e56f030-2adf-4705-897c-6dbdc5352fbc" x="568" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="30b75bc4-fe99-4453-affa-a16422872823" x="668" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9b807f6d-d5f0-47f1-bcad-33bfff12366a" x="735" y="0" width="67" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="b160f3ce-9fa6-4e4b-9d48-fca695c2af70" x="468" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="f71420fc-311f-4b43-9c56-58a755357011" x="568" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPendingAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

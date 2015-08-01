@@ -1,0 +1,36 @@
+/*
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS file within this directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require main.css
+*= require ui.css
+* require bootstrap.css
+*= require themify-icons.css
+
+*= require angular-ui-css/angular-ui-tree.min.css
+*= require angular-ui-css/angular-wizard.css
+*= require angular-ui-css/loading-bar.min.css
+
+*= require bootstrap-ui-css/bootstrap-slider.css
+*= require bootstrap-ui-css/bootstrap-spinner.css
+*= require bootstrap-ui-css/fileinput.min.css
+*= require bootstrap-ui-css/jquery-jvectormap-1.2.2.css
+*= require bootstrap-ui-css/ng-tags-input.css
+
+/* ng grid */
+/*
+*= require custom_ng_grid/style.css
+*= require custom_ng_grid/ng-grid.css
+
+
+
+*= require angular-treeRepeat-master/css/app.css
+
+
+*= encoding UTF-8
+*/

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="profitAndLossReport_subreport1" language="groovy" pageWidth="402" pageHeight="555" orientation="Landscape" columnWidth="402" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="056924b8-fbee-4c75-8519-9874be0b6ea7">
+	<property name="ireport.zoom" value="1.610510000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="amountStatus" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="51b7f186-11d4-4530-b3a2-4cccb3a265cf" stretchType="RelativeToBandHeight" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f9e49eb1-8099-42ad-ac23-b6b71440bc75" stretchType="RelativeToBandHeight" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="51102ab9-d216-4c31-b39c-51c175ec3799" stretchType="RelativeToTallestObject" x="6" y="0" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0a2ebd23-13d9-4724-91bb-7bfce1f43537" stretchType="RelativeToBandHeight" x="289" y="0" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,275 @@
+<div class="page page-dashboard" data-ng-controller="VoucherCtrl" xmlns="http://www.w3.org/1999/html" id="voucher">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Voucher
+                    <a href="#voucher/list" class="pull-right btn btn-default btn-xs">List</a>
+                    <a href="#voucher/create" class="pull-right btn btn-default btn-xs" ng-show="buttonShow">New</a>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-lg-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="voucherType" class="col-sm-4">Voucher Type<span
+                                            class="reqColor">*</span></label>
+
+                                    <div class="col-sm-6">
+                                        <!--<div class="ui-select">-->
+                                        <select id="voucherType" name="voucherType.id" ng-model="vObject.voucherType"
+                                                class="form-control input-sm" tooltip="Tooltip on top"
+                                                data-placement="top" tooltip-trigger="focus" focus-req="name"
+                                                ng-options="cl.id as cl.name for cl in vTypeList"
+                                                ng-disabled="isVoucherTypeDisable"
+                                                data-ng-change="findVoucherStatusByProperty(vObject.voucherType)"></select>
+
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="voucherNo" class="col-sm-4">Voucher No<span
+                                            class="reqColor">*</span></label>
+
+                                    <div class="col-sm-6">
+                                        <input id="voucherNo" tooltip="Tooltip on top" type="text"
+                                               class="form-control input-sm" ng-readonly="readonlyVoucherNo"
+                                               data-toggle="tooltip" focus-req="date"
+                                               name="voucherNo" ng-model="vObject.voucherNo"
+                                               data-placement="top" tooltip-trigger="focus" required="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="date" class="col-sm-4">Voucher Date<span
+                                            class="reqColor">*</span></label>
+
+                                    <div class="col-sm-6">
+                                        <input type="date" id="date" tooltip="Tooltip on top"
+                                               class="form-control input-sm"
+                                               data-toggle="tooltip" focus-on="ref"
+                                               name="date" ng-model="vObject.date"
+                                               data-placement="top" tooltip-trigger="focus"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ref" class="col-sm-4">Ref.</label>
+
+                                    <div class="col-sm-6">
+                                        <input id="ref" tooltip="Tooltip on top" type="text"
+                                               class="form-control input-sm"
+                                               data-toggle="tooltip" focus-on="pincode"
+                                               name="ref" ng-model="vObject.ref"
+                                               data-placement="top" tooltip-trigger="focus">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <h4><span class="text-danger">{{voucherLabel}}</span></h4>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 well">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="partyName" class="col-sm-3">Party Ledger</label>
+
+                                    <div class="col-sm-8">
+                                        <select id="partyName" name="partyName.id" ng-model="vObject.partyName"
+                                                class="form-control input-sm" tooltip="Tooltip on top"
+                                                data-placement="top" tooltip-trigger="focus" focus-req="partyName"
+                                                ng-options="cl.id as cl.name for cl in ledgerList"
+                                                ng-change="findBalance(vObject.partyName)"></select>
+                                    </div>
+                                </div>
+                                <h4><span class="pull-left col-md-4 label label-warning"
+                                          ng-bind="'Balance :'+' '+balanceInfo.amount+' '+balanceInfo.status"></span>
+                                </h4>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="amount" class="col-sm-3">{{voucherStatus.parentLabel}}</label>
+
+                                    <div class="col-sm-4">
+                                        <input id="amount" tooltip="Tooltip on top" type="text"
+                                               class="form-control input-sm"
+                                               data-toggle="tooltip" focus-on="pincode"
+                                               name="ref" ng-model="vObject.amount"
+                                               data-ng-change="vObject.amount=isNumber(vObject.amount);checkBillValid();checkSaleValid();"
+                                               data-placement="top" tooltip-trigger="focus">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2" data-ng-show="maintainBillByBill">
+                                <div class="form-group">
+                                    <span data-ng-bind="billTotal+' '+billStatus"></span><span ng-class="icon"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-5"></div>
+                            <div class="col-md-7" data-ng-show="maintainBillByBill">
+                                <div class="panel panel-default">
+                                    <!--<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span>Bill-Wise Details</strong></div>-->
+                                    <table class="table">
+                                        <tr>
+                                            <th class="col-md-2"><a href="" data-ng-click="addBillChild()"><span
+                                                    class="glyphicon glyphicon-plus"></span></a> Action
+                                            </th>
+                                            <th class="col-md-2 text-center">Ref. Type<span
+                                                    class="reqColor glyphicon glyphicon-star"></span></th>
+                                            <th class="col-md-2 text-center">Bill No<span
+                                                    class="reqColor glyphicon glyphicon-star"></span></th>
+                                            <th class="col-md-2 text-center">Cr Days</th>
+                                            <th class="col-md-4 text-center">Amount(Dr/Cr)</th>
+                                        </tr>
+                                    </table>
+                                    <div data-slim-scroll="" data-scroll-height="120px"
+                                         style="overflow: hidden; width: auto; height: 150px;">
+                                        <table class="table-bordered">
+                                            <tr ng-repeat="bc in billChildJSON track by $index">
+                                                <td class="col-md-2">
+                                                    <a href="" data-ng-click="deleteBillChild($index)"><span
+                                                            class="glyphicon glyphicon-trash"></span></a>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <select id="typeRef" ng-model="bc.typeRef"
+                                                            class="form-control input-sm"
+                                                            ng-options="tr.id as tr.name for tr in typeRefList"
+                                                            ng-change="findBillNoList(bc.typeRef,vObject.partyName)"></select>
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <select id="billNo" ng-model="bc.billNo"
+                                                            class="form-control input-sm"
+                                                            ng-options="tr.billNo as tr.billNo for tr in billNoList"
+                                                            data-ng-show="billShow"
+                                                            data-ng-change="findAmountAgstBill(bc.billNo,$index)"></select>
+                                                    <input id="billNo" type="text" class="form-control input-sm"
+                                                           ng-model="bc.billNo" data-ng-hide="billShow">
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <input id="crDays" type="text" class="form-control input-sm"
+                                                           ng-model="bc.crDays"
+                                                           data-ng-change="bc.crDays=isNumber(bc.crDays)">
+                                                </td>
+                                                <td class="col-md-2 text-right">
+                                                    <input id="amount" type="text"
+                                                           data-ng-change="bc.amount=isNumber(bc.amount);getBillCalculation()"
+                                                           class="form-control input-sm" ng-model="bc.amount">
+                                                </td>
+                                                <td class="col-md-2">
+                                                    <select id="amountStatus" ng-model="bc.amountStatus"
+                                                            class="form-control input-sm"
+                                                            data-ng-change="getBillCalculation()"
+                                                            ng-options="tr for tr in amountStatus"></select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 well">
+                            <div class="panel panel-default">
+                                <!--<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span>Bill-Wise Details</strong></div>-->
+                                <table class="table">
+                                    <tr>
+                                        <th class="col-md-1"><a href="" data-ng-click="addChild()">
+                                            <span class="glyphicon glyphicon-plus"></span></a> Action
+                                        </th>
+                                        <!--<th class="col-md-1 text-center"></th>-->
+                                        <th class="col-md-4 text-center">Particulars<span
+                                                class="reqColor glyphicon glyphicon-star"></span></th>
+                                        <th class="col-md-1 text-center">{{voucherStatus.childLabel}}</th>
+                                        <!--<th class="col-md-1 text-center">Credit</th>-->
+                                        <th class="col-md-3 text-center" ng-show="narrationForEachEntry">Narration</th>
+                                    </tr>
+                                </table>
+                                <div data-slim-scroll="" data-scroll-height="120px"
+                                     style="overflow: hidden; width: auto; height: 150px;">
+                                    <table class="table-bordered">
+                                        <tr ng-repeat="child in childJSON track by $index">
+                                            <td class="col-md-1">
+                                                <!--<a href="" data-ng-click="updateChild($index)"><span class="glyphicon glyphicon-edit"></span></a>-->
+                                                <a href="" data-ng-click="deleteChild($index)"><span
+                                                        class="glyphicon glyphicon-trash"></span></a>
+                                            </td>
+                                            <!--<td class="col-md-1" ng-bind="child.status"></td>-->
+                                            <td class="col-md-4"><select ng-model="child.ledger"
+                                                                         class="form-control input-sm"
+                                                                         ng-options="tr.id as tr.name for tr in AccountLedger"></select>
+                                            </td>
+                                            <td class="col-md-1"><input type="text" class="form-control input-sm"
+                                                                        ng-model="child.debit"
+                                                                        data-ng-change="child.debit=isNumber(child.debit);getSaleCalculation();checkSaleValid();">
+                                            </td>
+                                            <!--<td class="col-md-1"><input type="text" class="form-control input-sm"-->
+                                            <!--ng-model="child.credit"></td>-->
+                                            <td class="col-md-3" ng-show="narrationForEachEntry"><input type="text"
+                                                                                                        class="form-control input-sm"
+                                                                                                        ng-model="child.narration">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="panel-bottom">
+                                    <table class="table">
+                                        <tr>
+                                            <td class="col-md-6">
+                                                <div class="col-md-2" ng-show="useCommonNarration">
+                                                    <label>Narration</label></div>
+                                                <div class="col-md-6" ng-show="useCommonNarration">
+                                                    <input type="text" class="form-control input-sm"
+                                                           ng-model="vObject.narration">
+                                                </div>
+                                            </td>
+                                            <!--<td class="col-md-1"><span ng-class="saleIcon"></span></td>-->
+                                            <!--<td class="col-md-4"></td>-->
+                                            <!--<td class="col-md-1"><span class="col-md-8 label label-success">{{vObject.amount}}</span>-->
+                                            <!--</td>-->
+                                            <td class="col-md-1"><h4><span class="col-md-10 label label-success">{{saleTotal}}</span><span
+                                                    ng-class="saleIcon"></span></h4>
+                                            </td>
+                                            <td class="col-md-3" ng-show="narrationForEachEntry"></td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="save" type="button" valid class="btn btn-line-info"
+                                        ng-hide="buttonShow" data-ng-click="save()">Save
+                                </button>
+                                <button id="update" type="button" class="btn btn-line-info" ng-show="buttonShow"
+                                        data-ng-click="update()">
+                                    Update
+                                </button>
+                                <!--<button id="delete" type="button" class="btn btn-line-danger" ng-show="buttonShow"
+                                        data-ng-click="delete()">
+                                    Delete
+                                </button>-->
+                                <!--<button id="delete" type="button" class="btn btn-w-sm btn-default"-->
+                                <!--data-ng-click="printInvoice()">-->
+                                <!--Print-->
+                                <!--</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- end Modal -->
+
+        </div>
+    </div>
+
+</div>

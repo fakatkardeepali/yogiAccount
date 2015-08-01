@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ledgerOutstandingReport_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f0ccab69-cc57-4a47-afdb-69f4fc4119e3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="refNo" class="java.lang.String"/>
+	<field name="vNo" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="remainAmount" class="java.lang.String"/>
+	<field name="dueOn" class="java.lang.String"/>
+	<field name="overDue" class="java.lang.String"/>
+	<field name="vType" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="5fa7141a-9134-4f78-ae99-cc2fb80404c2" x="704" y="0" width="98" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c7a05313-c8f5-4ad7-b41d-3014a03d483e" x="604" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="980c0e2e-2df4-41eb-b6a1-18758089ce16" x="504" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="39488e8f-a000-4e40-a895-f02fe16927c3" x="404" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="29ce037b-03f6-481e-999c-251caee0aff3" x="304" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="a9a8f733-9663-422d-af24-9d28596886f9" x="204" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7e44d875-8f7d-41be-b2fd-b215e528346f" x="104" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9cd46d97-ef52-4054-a769-cef7d0e89098" x="0" y="0" width="104" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="d228f5c6-a4ed-4fd6-89bf-83491295b79e" x="0" y="0" width="104" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="23d44c3b-d6cf-4544-a710-aa9cca1a3c30" x="104" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{refNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0c6e7206-a7a4-4f24-8181-a1085fb11692" x="304" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cd282fea-2827-4cd6-9a23-76268c02fab7" x="204" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f92160e1-59fb-4505-a075-5d8d2c7bdf8d" x="404" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}+"  "+$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="051df572-ec2c-4432-a6cb-751ce3b33014" x="504" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{remainAmount}+"  "+$F{status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ac1e0a5b-f5b4-4a4b-84cf-5b3c0515496d" x="604" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dueOn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0e432063-e765-462b-be5b-2277650fcee2" x="704" y="0" width="98" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{overDue}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

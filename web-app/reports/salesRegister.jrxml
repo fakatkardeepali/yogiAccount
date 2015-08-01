@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salesRegister" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ff7f1c41-e53e-48d5-b9c2-1e92060ce284">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="b83aef00-dfd0-4645-b17b-038a05b6f2da" x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="9de16c5a-34d3-435d-91a2-de6af021dc48" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[COMPANY NAME]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="c949ae3f-b92f-4cde-9ac4-9833714e0fcf" x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="3bde463d-9579-41ec-877b-11da0d753d09" x="11" y="0" width="108" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Voucher Register]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="90febd09-2278-40ba-8fbc-6e7805308e6a" x="657" y="0" width="19" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="56341225-0423-4e47-a7bb-09b69e083a01" x="520" y="0" width="32" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[From]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="744b7ec5-9a57-45d8-bb39-1e56564b9e5a" x="0" y="0" width="64" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ab870ae1-8994-4f8f-9482-08ba17df178e" x="64" y="0" width="338" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="338485ef-ce59-4eb1-be8a-1c23c6246ead" x="402" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1cb58a36-6b21-4f75-ba93-e94107aee02f" x="502" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="3dacb439-c01c-406c-9610-f57b79365fd9" x="602" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ad0bb010-196d-40e6-b778-26c274b6de35" x="702" y="0" width="100" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="063da03d-c7e2-4dc4-bddd-1c9baf08c94c" x="0" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="92e6c74e-28c9-48f4-b057-7f153740a21f" x="702" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Credit Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="928bba0a-92ee-4e59-8fa0-9ee9cce147b9" x="602" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Debit Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7a32bb2d-a14c-4c3e-a990-3fb2eb47ddf5" x="502" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Voucher No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="824eaab5-f8d5-4015-a6f8-24b0efc589de" x="402" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Voucher Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6bf4b9ed-b193-482a-bd31-c04439bda98c" x="64" y="0" width="338" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

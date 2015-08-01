@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="balanceSheetReport" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b6f6210c-2986-4f93-9da6-3c600a091b06">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="saleChild" class="java.util.Collection"/>
+	<field name="toDate" class="java.lang.String"/>
+	<field name="totalCrAmount" class="java.math.BigDecimal"/>
+	<field name="reportName1" class="java.lang.String"/>
+	<field name="totalSale" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="totalDrAmount" class="java.math.BigDecimal"/>
+	<field name="fromDate" class="java.lang.String"/>
+	<field name="totalPurchase" class="java.lang.String"/>
+	<field name="purchaseChild" class="java.util.Collection"/>
+	<field name="reportName2" class="java.lang.String"/>
+	<field name="profitLossChild" class="java.util.Collection"/>
+	<field name="openingCrAmount" class="java.math.BigDecimal"/>
+	<field name="openingDrAmount" class="java.math.BigDecimal"/>
+	<variable name="totalDebit" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{totalDrAmount}?$F{totalDrAmount}:0)+($F{openingDrAmount}?$F{openingDrAmount}:0)]]></variableExpression>
+	</variable>
+	<variable name="totalCredit" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{totalCrAmount}?$F{totalCrAmount}:0)+($F{openingCrAmount}?$F{openingCrAmount}:0)]]></variableExpression>
+	</variable>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="4c4ba254-c1b2-4231-8937-4149810c6fac" stretchType="RelativeToBandHeight" x="0" y="0" width="401" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f94c5da9-98a8-440f-a7f2-1bacfdce874b" stretchType="RelativeToBandHeight" x="401" y="0" width="401" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="d972cd47-f9ad-41ee-bcaa-92381ad37a57" stretchType="RelativeToTallestObject" x="0" y="0" width="401" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e663c0a2-d2d9-4ea0-ac5e-30952efa92fb" stretchType="RelativeToTallestObject" x="401" y="0" width="401" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="515cd10b-2d7a-4b1c-bc41-02f693b61096" x="603" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="6c317a1a-c915-45a7-a1f7-946e972e5994" x="189" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8a7e7fb5-c70e-48fb-aa5c-259acbc4c254" stretchType="RelativeToBandHeight" x="0" y="0" width="189" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="03dc6152-9112-4ee4-bddb-945fd81fd261" stretchType="RelativeToBandHeight" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="351c48e4-223d-434e-991d-eae1901d86aa" stretchType="RelativeToBandHeight" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="24f7435d-a3a3-4d4e-9bcc-bbff4c22f76d" stretchType="RelativeToBandHeight" x="401" y="0" width="202" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="fae2809a-b180-4def-9d0e-0506e72347d6" stretchType="RelativeToTallestObject" x="289" y="0" width="112" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="5d9d0a83-0fb5-46ec-9faa-ed49e33d828b" stretchType="RelativeToTallestObject" x="189" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="03a978b1-cfcf-4a15-80e8-130c7911675f" stretchType="RelativeToTallestObject" x="6" y="0" width="183" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="dececd18-607f-44da-b78a-789e0abf149f" stretchType="RelativeToTallestObject" x="703" y="0" width="99" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="b4e61f08-10ad-417f-bc07-e3f10bc5162f" stretchType="RelativeToTallestObject" x="407" y="0" width="196" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="87ac2eff-f483-44e4-ae4d-42d317edfb09" stretchType="RelativeToTallestObject" x="603" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="e55e9544-7d64-4b0a-88ae-2be3f4a2ba7a" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1b6228fc-fb4a-41ba-b549-ea720bf16974" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="caf42ec0-c109-464b-a943-93b6486aa846" x="289" y="0" width="112" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40dbe636-9e68-496e-8d11-bc8d11c44c42" x="6" y="0" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="8e9db51e-1a68-4077-bb65-473870c9c9ed" x="401" y="0" width="312" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1410b7f0-d7f6-46d6-aa5d-8140df91173b" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="684af59d-6c48-46b9-8909-f9644c0f8844" x="703" y="0" width="99" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d4b56e9-c2f7-43d6-bce3-975c534a65e5" x="407" y="0" width="306" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="b4a47b79-fe07-4d30-9a94-4b784ea78995" stretchType="RelativeToBandHeight" x="0" y="0" width="401" height="19"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="77fb5c54-88a7-4563-aaa4-7e41c3421b28" stretchType="RelativeToBandHeight" x="401" y="0" width="401" height="19"/>
+			</rectangle>
+			<subreport>
+				<reportElement uuid="987dd9c2-75a9-4edf-8d85-bbf5c4117678" x="0" y="0" width="401" height="19"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{purchaseChild})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "balanceSheetReport_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="0798d952-b7d2-4f73-8e20-6092f1e23b1b" x="401" y="0" width="402" height="19"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{saleChild})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "balanceSheetReport_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="19">
+			<rectangle>
+				<reportElement uuid="c80400b6-5e84-4ff6-8c13-0d6dbd7e3677" stretchType="RelativeToBandHeight" x="0" y="0" width="401" height="19"/>
+			</rectangle>
+			<subreport>
+				<reportElement uuid="7e470b6c-8185-4e56-add1-b2b88d8a40f4" x="401" y="0" width="402" height="19"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{profitLossChild})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "balanceSheetReport_subreport3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<rectangle>
+				<reportElement uuid="ae080e25-c28f-4964-ad9d-d92e59e22792" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="14f4ee1d-6983-45b4-9da6-73b0e50b8201" x="0" y="20" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c4330155-4fcb-410a-979c-43f1c85d0842" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="e001e739-bea8-419d-aad4-df2c0f416621" x="289" y="20" width="112" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7940dc0f-5e5a-4919-b8cc-e4245e8ee45f" x="401" y="0" width="302" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="5b8b0c1f-8e01-4d23-a905-0510d89227fe" x="401" y="20" width="302" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="26213b7c-1984-446d-838c-bb3fef455cb4" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="440c5db0-83b5-4855-ad83-000277d519bf" x="703" y="20" width="99" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d1fd8f10-fe10-4c6c-8fa3-33a6bd47c9ae" x="6" y="0" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Difference in opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="15e7e0b4-1e29-4e38-bd87-c9b5b17ebaea" x="6" y="20" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1cb2dfdb-fccd-4574-93d1-a1e747a82154" x="407" y="20" width="296" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="76024393-e349-479a-a494-be29c24ff165" x="289" y="0" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{openingDrAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9f618633-276e-4118-9b29-b42ec571e2ea" x="289" y="20" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalDebit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="057a6e7c-58fa-4083-9a87-613ef44c875c" x="703" y="20" width="94" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalCredit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a9b29ea6-326b-4cc6-bcfc-1164c05cbc95" x="408" y="0" width="283" height="20">
+					<printWhenExpression><![CDATA[$F{totalCrAmount}>0]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Difference in opening Balance]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="94a3b2cc-2246-45ad-965c-15c621a3de9b" x="703" y="0" width="94" height="20">
+					<printWhenExpression><![CDATA[$F{totalCrAmount}>0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{openingCrAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

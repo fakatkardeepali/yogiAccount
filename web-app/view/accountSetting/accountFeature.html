@@ -1,0 +1,85 @@
+<div class="modal-header">
+    <h3>Account Setting</h3>
+</div>
+<div class="modal-body">
+    <div class="panel-body">
+        <div class="form-horizontal">
+
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="incomeExpenseStatementInsteadOfPL" class="col-sm-7">Income Expense Statement Instead Of
+                        P&L</label>
+
+                    <div class="col-sm-3">
+                        <input id="incomeExpenseStatementInsteadOfPL" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="incomeExpenseStatementInsteadOfPL"
+                               ng-model="settingObject.incomeExpenseStatementInsteadOfPL"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="useDebitCreditNotes" class="col-sm-7">Use Debit/Credit Notes</label>
+
+                    <div class="col-sm-3">
+                        <input id="useDebitCreditNotes" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="useDebitCreditNotes" ng-model="settingObject.useDebitCreditNotes"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group" data-ng-show="false">
+                    <label for="maintainBillWiseDetails" class="col-sm-7">Maintain Bill-Wise Details</label>
+
+                    <div class="col-sm-3">
+                        <input id="maintainBillWiseDetails" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup" ng-change="defaultValue()"
+                               name="maintainBillWiseDetails" ng-model="settingObject.maintainBillWiseDetails"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="forNontradingAccountAlso" class="col-sm-7">Maintain Bill-Wise Details For Non-trading
+                        Account Also</label>
+
+                    <div class="col-sm-3">
+                        <input id="forNontradingAccountAlso" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="forNontradingAccountAlso" ng-model="settingObject.forNontradingAccountAlso"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="activeIntersetCalculation" class="col-sm-7">Active Interest Calculation</label>
+
+                    <div class="col-sm-3">
+                        <input id="activeIntersetCalculation" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="activeIntersetCalculation" ng-model="settingObject.activeIntersetCalculation"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="usedAdvanceParameters" class="col-sm-7">Used Advance Parameters</label>
+
+                    <div class="col-sm-3">
+                        <input id="usedAdvanceParameters" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="usedAdvanceParameters" ng-model="settingObject.usedAdvanceParameters"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-line-info" type="button" ng-click="update()">OK</button>
+    <button class="btn btn-line-danger" type="button" ng-click="close()">Cancel</button>
+</div>

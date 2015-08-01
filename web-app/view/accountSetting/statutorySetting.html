@@ -1,0 +1,514 @@
+<!--<div class="modal-lg">-->
+<div class="modal-header">
+    <h3>Statutory Setting</h3>
+</div>
+<div class="modal-body">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div data-ng-show="mainFrame">
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label for="enableValueAddedTax" class="col-sm-7">Enable Value Added Tax (VAT)</label>
+
+                    <div class="col-sm-2">
+                        <input id="enableValueAddedTax" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="enableValueAddedTax" ng-model="statutoryObject.enableValueAddedTax"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="vatChange(statutoryObject.enableValueAddedTax)">
+                    </div>
+                </div>
+                <div class="form-group" data-ng-show="statutoryObject.enableValueAddedTax">
+                    <label for="vatAlterDetails" class="col-sm-7">Vat Alter Details</label>
+
+                    <div class="col-sm-2">
+                        <input id="vatAlterDetails" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="vatAlterDetails" ng-model="statutoryObject.vatAlterDetails"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="vatOpen(statutoryObject.vatAlterDetails)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="enableServiceTax" class="col-sm-7">Enable Service Tax</label>
+
+                    <div class="col-sm-2">
+                        <input id="enableServiceTax" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="enableServiceTax" ng-model="statutoryObject.enableServiceTax"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="serviceTaxChange(statutoryObject.enableServiceTax)">
+                    </div>
+                </div>
+                <div class="form-group" data-ng-show="statutoryObject.enableServiceTax">
+                    <label for="serviceTaxAlterDetails" class="col-sm-7">Service Tax Alter Details</label>
+
+                    <div class="col-sm-2">
+                        <input id="serviceTaxAlterDetails" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="serviceTaxAlterDetails" ng-model="statutoryObject.serviceTaxAlterDetails"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="serviceTaxOpen(statutoryObject.serviceTaxAlterDetails)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="tdsEnableTaxDeductedAtSource" class="col-sm-7">Enable Tax Deducted At Source
+                        (TDS)</label>
+
+                    <div class="col-sm-2">
+                        <input id="tdsEnableTaxDeductedAtSource" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsEnableTaxDeductedAtSource"
+                               ng-model="statutoryObject.tdsEnableTaxDeductedAtSource"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="tdsChange(statutoryObject.tdsEnableTaxDeductedAtSource)">
+                    </div>
+                </div>
+                <div class="form-group" data-ng-show="statutoryObject.tdsEnableTaxDeductedAtSource">
+                    <label for="tdsAlterDetails" class="col-sm-7">TDS alter Details</label>
+
+                    <div class="col-sm-2">
+                        <input id="tdsAlterDetails" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsAlterDetails" ng-model="statutoryObject.tdsAlterDetails"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="tdsOpen(statutoryObject.tdsAlterDetails)">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tcsEnableTaxCollectedAtSource" class="col-sm-7">Enable Tax Collected At Source
+                        (TCS)</label>
+
+                    <div class="col-sm-2">
+                        <input id="tcsEnableTaxCollectedAtSource" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsEnableTaxCollectedAtSource"
+                               ng-model="statutoryObject.tcsEnableTaxCollectedAtSource"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="tcsChange(statutoryObject.tcsEnableTaxCollectedAtSource)">
+                    </div>
+                </div>
+                <div class="form-group" data-ng-show="statutoryObject.tcsEnableTaxCollectedAtSource">
+                    <label for="tcsAlterDetails" class="col-sm-7">TCS Alter Details</label>
+
+                    <div class="col-sm-2">
+                        <input id="tcsAlterDetails" type="checkbox" tooltip="Tooltip on top"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsAlterDetails" ng-model="statutoryObject.tcsAlterDetails"
+                               data-placement="top" tooltip-trigger="focus"
+                               ng-change="tcsOpen(statutoryObject.tcsAlterDetails)">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="vatTinComposition" class="col-sm-4">Vat Tin Composition</label>
+
+                    <div class="col-sm-4">
+                        <input id="vatTinComposition" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="vatTinComposition" ng-model="statutoryObject.vatTinComposition"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="vatTinRegular" class="col-sm-4">Vat Tin Regular</label>
+
+                    <div class="col-sm-4">
+                        <input id="vatTinRegular" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="vatTinRegular" ng-model="statutoryObject.vatTinRegular"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="localSalesTaxNumber" class="col-sm-4">Local Sales Tax Number</label>
+
+                    <div class="col-sm-4">
+                        <input id="localSalesTaxNumber" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="localSalesTaxNumber" ng-model="statutoryObject.localSalesTaxNumber"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="interStateSalesTaxNumber" class="col-sm-4">Inter-State Sales Tax Number</label>
+
+                    <div class="col-sm-4">
+                        <input id="interStateSalesTaxNumber" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="interStateSalesTaxNumber" ng-model="statutoryObject.interStateSalesTaxNumber"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="panTaxNo" class="col-sm-4">Pan/Income Tax No</label>
+
+                    <div class="col-sm-4">
+                        <input id="panTaxNo" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="panTaxNo" ng-model="statutoryObject.panTaxNo"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+            </div>
+            </div>
+            <!--// VAT  Child Frame-->
+            <div class="col-md-12" data-ng-show="vatChild">
+                <div class="form-group">
+                    <label for="state" class="col-sm-4">State</label>
+
+                    <div class="col-sm-4">
+                        <select id="state" type="text" tooltip="Tooltip on top"
+                                class="form-control input-sm"
+                                data-toggle="tooltip" focus-on="underGroup"
+                                name="state" ng-model="statutoryObject.state"
+                                data-placement="top" tooltip-trigger="focus"
+                                ng-options="s.id as s.name for s in stateList"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="typeOfDealer" class="col-sm-4">Type Of Dealer</label>
+
+                    <div class="col-sm-4">
+                        <select id="typeOfDealer" type="text" tooltip="Tooltip on top"
+                                class="form-control input-sm"
+                                data-toggle="tooltip" focus-on="underGroup"
+                                name="typeOfDealer" ng-model="statutoryObject.typeOfDealer"
+                                data-placement="top" tooltip-trigger="focus"
+                                ng-options="t.id as t.name for t in typeOfDealerList"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="regularVatApplicableFrom" class="col-sm-4">regular Vat Applicable From</label>
+
+                    <div class="col-sm-4">
+                        <input id="regularVatApplicableFrom" type="date" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="regularVatApplicableFrom" ng-model="statutoryObject.regularVatApplicableFrom"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-line-info pull-right" ng-click="vatOpen(0)">OK</button>
+                </div>
+
+            </div>
+            <!--// Service Tax ( Child Frame )-->
+            <div class="col-md-12" data-ng-show="serviceTaxChild">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="serviceTaxRegNo" class="col-sm-4">Service Tax Registration no</label>
+
+                        <div class="col-sm-4">
+                            <input id="serviceTaxRegNo" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="serviceTaxRegNo" ng-model="statutoryObject.serviceTaxRegNo"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfReg" class="col-sm-4">Date of Registration</label>
+
+                        <div class="col-sm-4">
+                            <input id="dateOfReg" type="date" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="dateOfReg" ng-model="statutoryObject.dateOfReg"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="assesseeCode" class="col-sm-4">Assessee Code</label>
+
+                        <div class="col-sm-4">
+                            <input id="assesseeCode" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="assesseeCode" ng-model="statutoryObject.assesseeCode"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="premisesCodeNo" class="col-sm-4">Premises Code No</label>
+
+                        <div class="col-sm-4">
+                            <input id="premisesCodeNo" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="premisesCodeNo" ng-model="statutoryObject.premisesCodeNo"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeOfOrganization" class="col-sm-4">Type Of Organization</label>
+
+                        <div class="col-sm-4">
+                            <select id="typeOfOrganization" tooltip="Tooltip on top"
+                                    class="form-control input-sm"
+                                    data-toggle="tooltip" focus-on="underGroup"
+                                    name="typeOfOrganization" ng-model="statutoryObject.typeOfOrganization"
+                                    data-placement="top" tooltip-trigger="focus"
+                                    ng-options="t.id as t.name for t in typeOfOrganizationList"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="isLargeTaxPayer" class="col-sm-4">Is Large Tax Payer</label>
+
+                        <div class="col-sm-4">
+                            <input id="isLargeTaxPayer" type="checkbox" tooltip="Tooltip on top"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="isLargeTaxPayer" ng-model="statutoryObject.isLargeTaxPayer"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="largeTaxPayerUnit" class="col-sm-4">Large Tax Payer Unit</label>
+
+                        <div class="col-sm-4">
+                            <input id="largeTaxPayerUnit" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="largeTaxPayerUnit" ng-model="statutoryObject.largeTaxPayerUnit"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="divisionCode" class="col-sm-4">Division Code</label>
+
+                        <div class="col-sm-4">
+                            <input id="divisionCode" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="divisionCode" ng-model="statutoryObject.divisionCode"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="divisionName" class="col-sm-4">Division Code</label>
+
+                        <div class="col-sm-4">
+                            <input id="divisionName" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="divisionName" ng-model="statutoryObject.divisionName"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rangeCode" class="col-sm-4">Range Code</label>
+
+                        <div class="col-sm-4">
+                            <input id="rangeCode" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="rangeCode" ng-model="statutoryObject.rangeCode"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rangeName" class="col-sm-4">Range Name</label>
+
+                        <div class="col-sm-4">
+                            <input id="rangeName" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="rangeName" ng-model="statutoryObject.rangeName"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="commisionerateCode" class="col-sm-4">Commisionerate Code</label>
+
+                        <div class="col-sm-4">
+                            <input id="commisionerateCode" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="commisionerateCode" ng-model="statutoryObject.commisionerateCode"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="commisionerateName" class="col-sm-4">Commisionerate Name</label>
+
+                        <div class="col-sm-4">
+                            <input id="commisionerateName" type="text" tooltip="Tooltip on top"
+                                   class="form-control input-sm"
+                                   data-toggle="tooltip" focus-on="underGroup"
+                                   name="commisionerateName" ng-model="statutoryObject.commisionerateName"
+                                   data-placement="top" tooltip-trigger="focus">
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <button class="btn btn-line-info pull-right" ng-click="serviceTaxOpen(0)">OK</button>
+                </div>
+            </div>
+
+            <!--// TDS Child Frame-->
+
+            <div class="col-md-12" data-ng-show="tdsChild">
+                <div class="form-group">
+                    <label for="tdsTaxAssessmentNo" class="col-sm-4">Tax Assessment No</label>
+
+                    <div class="col-sm-4">
+                        <input id="tdsTaxAssessmentNo" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsTaxAssessmentNo" ng-model="statutoryObject.tdsTaxAssessmentNo"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tdsIncomeTaxCircleward" class="col-sm-4">Income Tax Circle/Ward(TDS)</label>
+
+                    <div class="col-sm-4">
+                        <input id="tdsIncomeTaxCircleward" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsIncomeTaxCircleward" ng-model="statutoryObject.tdsIncomeTaxCircleward"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tdsDeductorCollectorType" class="col-sm-4">Deductor/Collector Type</label>
+
+                    <div class="col-sm-4">
+                        <select id="tdsDeductorCollectorType" tooltip="Tooltip on top"
+                                class="form-control input-sm"
+                                data-toggle="tooltip" focus-on="underGroup"
+                                name="tdsDeductorCollectorType" ng-model="statutoryObject.tdsDeductorCollectorType"
+                                data-placement="top" tooltip-trigger="focus"
+                                ng-options="t.id as t.name for t in typeOfCompanyList"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tdsResponsiblePerson" class="col-sm-4">Name of Person responsible</label>
+
+                    <div class="col-sm-4">
+                        <input id="tdsResponsiblePerson" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsResponsiblePerson" ng-model="statutoryObject.tdsResponsiblePerson"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tdsDesignation" class="col-sm-4">Designation</label>
+
+                    <div class="col-sm-4">
+                        <input id="tdsDesignation" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tdsDesignation" ng-model="statutoryObject.tdsDesignation"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-line-info pull-right" ng-click="tdsOpen(0)">OK</button>
+                </div>
+
+            </div>
+
+            <div class="col-md-12" data-ng-show="tcsChild">
+                <div class="form-group">
+                    <label for="tcsTaxAssessmentNo" class="col-sm-4">Tax Assessment No</label>
+
+                    <div class="col-sm-4">
+                        <input id="tcsTaxAssessmentNo" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsTaxAssessmentNo" ng-model="statutoryObject.tcsTaxAssessmentNo"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tcsIncomeTaxCircleward" class="col-sm-4">Income Tax Circle/Ward(TDS)</label>
+
+                    <div class="col-sm-4">
+                        <input id="tcsIncomeTaxCircleward" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsIncomeTaxCircleward" ng-model="statutoryObject.tcsIncomeTaxCircleward"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tcsDeductorCollectorType" class="col-sm-4">Deductor/Collector Type</label>
+
+                    <div class="col-sm-4">
+                        <select id="tcsDeductorCollectorType" tooltip="Tooltip on top"
+                                class="form-control input-sm"
+                                data-toggle="tooltip" focus-on="underGroup"
+                                name="tcsDeductorCollectorType" ng-model="statutoryObject.tcsDeductorCollectorType"
+                                data-placement="top" tooltip-trigger="focus"
+                                ng-options="t.id as t.name for t in typeOfCompanyList"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tcsResponsiblePerson" class="col-sm-4">Name of Person responsible</label>
+
+                    <div class="col-sm-4">
+                        <input id="tcsResponsiblePerson" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsResponsiblePerson" ng-model="statutoryObject.tcsResponsiblePerson"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tcsDesignation" class="col-sm-4">Designation</label>
+
+                    <div class="col-sm-4">
+                        <input id="tcsDesignation" type="text" tooltip="Tooltip on top"
+                               class="form-control input-sm"
+                               data-toggle="tooltip" focus-on="underGroup"
+                               name="tcsDesignation" ng-model="statutoryObject.tcsDesignation"
+                               data-placement="top" tooltip-trigger="focus">
+                    </div>
+                </div>
+
+                <div>
+                    <button class="btn btn-line-info pull-right" ng-click="tcsOpen(0)">OK</button>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer" data-ng-show="mainFrame">
+    <button class="btn btn-line-info" ng-click="save()" ng-disabled="buttonDisable">Save</button>
+    <button class="btn btn-line-danger" ng-click="close()" ng-disabled="buttonDisable">Close</button>
+    <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+</div>
+<!--</div>-->

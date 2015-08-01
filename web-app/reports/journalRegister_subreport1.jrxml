@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journalRegister_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0769e0d7-c38f-4635-988d-fe99cda735d1">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="particulars" class="java.lang.String"/>
+	<field name="vType" class="java.lang.String"/>
+	<field name="vNo" class="java.lang.String"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="credit" class="java.lang.String"/>
+	<field name="debit" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="1229d8c9-3b8a-4c11-9bbc-0ec1ff997b9c" stretchType="RelativeToBandHeight" x="552" y="0" width="86" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="761bba0e-bf5e-44ad-91e9-9f0459184bd1" stretchType="RelativeToBandHeight" x="638" y="0" width="81" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="3654415e-119f-4563-adaf-0ecd3283affe" stretchType="RelativeToBandHeight" x="719" y="0" width="83" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="043b35ca-4e6f-4351-af1f-c5c5f2ffeb94" stretchType="RelativeToBandHeight" x="0" y="0" width="64" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="5006084d-e08a-4ef2-8772-236d6373325a" stretchType="RelativeToBandHeight" x="64" y="0" width="388" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ad8d5e1d-3d7a-4387-83e1-a6193dc3c4c6" stretchType="RelativeToBandHeight" x="452" y="0" width="100" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="efad9f65-54c0-489b-8216-bff463cc529f" stretchType="RelativeToBandHeight" x="0" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="0b669117-a30e-4b32-9551-23378b3bc531" stretchType="RelativeToTallestObject" x="69" y="0" width="383" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{particulars}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="c5c34c3b-85d1-46cc-92e8-18f232af2663" stretchType="RelativeToTallestObject" x="456" y="0" width="96" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a63b59b9-9c36-4ace-b5c3-146183443d76" stretchType="RelativeToBandHeight" x="556" y="0" width="82" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a588e14f-ea7e-4f3c-8823-2d20698b2821" stretchType="RelativeToBandHeight" x="638" y="0" width="78" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{credit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="796ed38d-f59c-4321-b8d1-eca6ad478225" stretchType="RelativeToBandHeight" x="719" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

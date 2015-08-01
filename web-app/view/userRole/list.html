@@ -1,0 +1,20 @@
+<div class="page page-dashboard" data-ng-controller="UserRoleCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon"></span>User Role
+                    <a href="#userRole/create" class="pull-right btn btn-default btn-xs">New</a>
+                </div>
+                <div class="panel-body">
+                    <my-grid ajax-data-url="../userRole/gridData"
+                             ajax-grid-def="../userRole/gridDef"
+                             ajax-delete-id="../userRole/delete"
+                             ajax-menu-def="../userRole/menuDef">
+                    </my-grid>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>

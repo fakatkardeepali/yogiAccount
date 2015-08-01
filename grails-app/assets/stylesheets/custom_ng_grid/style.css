@@ -1,0 +1,33 @@
+/*body {*/
+/*padding: 50px;*/
+/*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif*/
+/*}*/
+
+a {
+    color: #00B7FF
+}
+
+.gridStyle {
+    border: 1px solid #d4d4d4;
+    align-self: center;
+    width: auto;
+    height: 35vw;
+}
+
+searchHeight {
+    height: 100px;
+}
+
+/*searchHeight {*/
+/*height: 50px*/
+/*}*/
+
+.searchText {
+    height: 20px;
+    margin: -2px 1px 0 1px;
+    width: 100%
+}
+
+.hideSearchBoxes {
+    visibility: hidden;
+}

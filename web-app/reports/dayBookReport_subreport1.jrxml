@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dayBookReport_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="89bb8b6c-c950-4664-a359-2d2051a3f3f9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="particulars" class="java.lang.String"/>
+	<field name="vType" class="java.lang.String"/>
+	<field name="vNo" class="java.lang.String"/>
+	<field name="debitAmount" class="java.lang.String"/>
+	<field name="creditAmount" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="cc3c2df0-8ddc-455e-95a4-2551336cd1df" stretchType="RelativeToBandHeight" x="704" y="0" width="98" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="dde2fd77-0477-4b46-8354-2ee311e36b3d" stretchType="RelativeToBandHeight" x="604" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="498760ef-9988-4807-84c0-fcd0fa7c678c" stretchType="RelativeToBandHeight" x="504" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="fe25a1fe-8cc9-442f-a933-47ac7c1a142b" stretchType="RelativeToBandHeight" x="404" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9acb4b1a-5b85-442c-9445-a6dd8d3f459d" stretchType="RelativeToBandHeight" x="64" y="0" width="340" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ce81a321-1b40-469b-b603-25e133cb0b15" stretchType="RelativeToBandHeight" x="0" y="0" width="64" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="6926935f-dc56-4185-92ca-076e6a056870" stretchType="RelativeToBandHeight" x="0" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e75fc0cf-8e6b-4842-8ef7-2c34157102ed" stretchType="RelativeToTallestObject" x="70" y="0" width="334" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{particulars}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="69693cc6-c9cf-429a-b616-1ef049407748" stretchType="RelativeToBandHeight" x="404" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fdc5d1ef-666e-4d3b-af2f-59856a42f455" stretchType="RelativeToBandHeight" x="504" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="48dcedee-3ac5-42fe-8391-0cb112754dda" stretchType="RelativeToBandHeight" x="604" y="0" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debitAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4c4df4df-d11d-4a66-9cbc-5a0653173f92" stretchType="RelativeToBandHeight" x="704" y="0" width="91" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

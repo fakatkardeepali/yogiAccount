@@ -1,0 +1,63 @@
+<section class="panel panel-dark" ng-if="parentData.companyName">
+    <!--<div class="panel-heading"><span class="glyphicon"></span>Group Summary</div>-->
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="col-md-12">
+                <div class="invoice-inner" id="summary">
+                    <table class="table table-bordered table-striped ">
+                        <tr>
+                            <th class="size-h3 text-center col-xs-12" colspan="12">
+                                {{parentData.companyName}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="col-xs-8 text-left" colspan="8">{{parentData.reportName}}</th>
+                            <th class="col-xs-2 text-center" style="font-size:small;" colspan="2">From:
+                                {{parentData.fromDate}}
+                            </th>
+                            <th class="col-xs-2 text-center" style="font-size:small;" colspan="2">To:
+                                {{parentData.toDate}}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="col-xs-8 text-center" colspan="8">Group Name:
+                                {{parentData.groupName}}
+                            </th>
+                            <th class="col-xs-4 text-center" colspan="4">Closing Balance</th>
+                        </tr>
+                        <tr>
+                            <th class="col-xs-8" colspan="8">Particulars</th>
+                            <th class="col-xs-2 text-right" colspan="2">Credit</th>
+                            <th class="col-xs-2 text-right" colspan="2">Debit</th>
+                        </tr>
+                        <!--ng-reapet-->
+                        <tr ng-repeat="child in childData track by $index">
+                            <td class="col-xs-8 text-left" style="font-size:small;" colspan="8">
+                                <span data-ng-click="getInfoGroupAndLedger(child.isGroup,child.id)"><a href="">{{child.name}}</a></span>
+                            </td>
+                            <td class="col-xs-2 text-right" style="font-size:small;" colspan="2">
+                                {{(child.amountStatus=="Cr")?child.amount:0|number:2}}
+                            </td>
+                            <td class="col-xs-2 text-right" style="font-size:small;" colspan="2">
+                                {{(child.amountStatus=="Dr")?child.amount:0|number:2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="col-xs-8 text-right" colspan="8">Grand Total</th>
+                            <th class="col-xs-2 text-right" colspan="2">
+                                {{parentData.totalCrAmount|number:2}}
+                            </th>
+                            <th class="col-xs-2 text-right" colspan="2">
+                                {{parentData.totalDrAmount|number:2}}
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+                <button id="delete" type="button" class="btn btn-line-primary"
+                        data-ng-click="printInvoice()">
+                    Print
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

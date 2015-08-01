@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statisticsReport_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a40c11dd-393c-49ff-8d42-ee5c1cefe2bc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="voucherType" class="java.lang.String"/>
+	<field name="count" class="java.lang.String"/>
+	<field name="accountType" class="java.lang.String"/>
+	<field name="count1" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="db00a804-c944-4360-b0fe-714ba9c7b140" stretchType="RelativeToBandHeight" x="0" y="0" width="301" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="47a658d5-ed78-4f64-99c5-293c8af23445" stretchType="RelativeToBandHeight" x="301" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="dd2c5d59-8097-4c5c-bbfa-6887a14aeb96" stretchType="RelativeToBandHeight" x="401" y="0" width="301" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="411b52eb-5088-4f1a-8056-8f35540a0154" stretchType="RelativeToBandHeight" x="702" y="0" width="100" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="67893d4a-4349-49d0-8d07-5440c10abcca" stretchType="RelativeToTallestObject" x="5" y="0" width="296" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{voucherType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1283c151-7577-4e66-b2ef-2593b0949b8e" stretchType="RelativeToBandHeight" x="301" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e5bfa87f-2bdc-4636-ac9b-f6fde2b648cc" stretchType="RelativeToTallestObject" x="406" y="0" width="296" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{accountType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9b6a0ba9-6e69-47b5-a345-856c85f3891a" stretchType="RelativeToBandHeight" x="702" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{count1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,36 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head lang="en">-->
+<!--<meta charset="UTF-8">-->
+<!--<title></title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<my-grid ajax-data-url="../company/gridData"-->
+<!--ajax-grid-def="../company/gridDef"-->
+<!--ajax-delete-id="../company/delete"-->
+<!--ajax-menu-def="../company/menuDef">-->
+
+<!--</my-grid>-->
+<!--</body>-->
+<!--</html>-->
+
+<div class="page page-dashboard" data-ng-controller="OrganizationCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Organization
+                    <a href="#organization/create" class="pull-right btn btn-default btn-xs">New</a>
+                </div>
+                <div class="panel-body">
+                    <my-grid ajax-data-url="../organization/gridData"
+                             ajax-grid-def="../organization/gridDef"
+                             ajax-delete-id="../organization/delete"
+                             ajax-menu-def="../organization/menuDef">
+                    </my-grid>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</div>

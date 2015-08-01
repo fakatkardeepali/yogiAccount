@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="profitAndLossReport" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ad07939a-4a2b-477d-9b4b-365ce157c612">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="purchaseChild" class="java.util.Collection"/>
+	<field name="saleChild" class="java.util.Collection"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="fromDate" class="java.lang.String"/>
+	<field name="toDate" class="java.lang.String"/>
+	<field name="reportName" class="java.lang.String"/>
+	<field name="totalSale" class="java.lang.String"/>
+	<field name="totalPurchase" class="java.lang.String"/>
+	<field name="totalCrAmount" class="java.lang.String"/>
+	<field name="totalCrAmountStatus" class="java.lang.String"/>
+	<field name="totalDrAmount" class="java.lang.String"/>
+	<field name="totalDrAmountStauts" class="java.lang.String"/>
+	<variable name="debit" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalDrAmountStauts}=="Net Profit"?$F{totalDrAmountStauts}:""]]></variableExpression>
+	</variable>
+	<variable name="credit" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalCrAmountStatus}=="Net Loss"?$F{totalCrAmountStatus}:""]]></variableExpression>
+	</variable>
+	<variable name="debitAmount" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalDrAmountStauts}=="Net Purchase"?$F{totalDrAmount}:""]]></variableExpression>
+	</variable>
+	<variable name="creditAmount" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalCrAmountStatus}=="Net Loss"?$F{totalCrAmount}:""]]></variableExpression>
+	</variable>
+	<title>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="f2a9340d-5dc8-4e58-b3ca-0a3c912e118e" stretchType="RelativeToBandHeight" x="0" y="0" width="401" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c20d589c-745d-4c19-914b-cfc6f988e973" stretchType="RelativeToBandHeight" x="401" y="0" width="401" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="161a2a05-9164-47fb-8a45-94fca52ed84b" stretchType="RelativeToTallestObject" x="0" y="0" width="401" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="cdb101b6-26d1-4ccd-885b-8ca3cd780a42" stretchType="RelativeToTallestObject" x="401" y="0" width="401" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="77c35e15-7682-42fe-a3e1-823613d2685c" x="603" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8f09617a-e4ae-40f1-ad05-6ca3060024de" x="189" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="3a8aca9b-2889-496f-a8c0-d4e6f79e98bc" stretchType="RelativeToBandHeight" x="0" y="0" width="189" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="be9a0d59-9da7-42bd-9edd-a847278f8e54" stretchType="RelativeToBandHeight" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="62e7a541-997a-44c5-b45f-b758f6b875cb" stretchType="RelativeToBandHeight" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="432d06b0-9ad6-46ab-a55c-22a5cc8fe9b0" stretchType="RelativeToBandHeight" x="401" y="0" width="202" height="20"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="a44e3d92-ea32-4f3f-bf74-09ace80efaa6" stretchType="RelativeToTallestObject" x="289" y="0" width="112" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="87614caa-ca86-43c8-80c4-0bdd025064c5" stretchType="RelativeToTallestObject" x="189" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="0c990174-c88e-4b7d-a9dc-2d6d76440959" stretchType="RelativeToTallestObject" x="6" y="0" width="183" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="7ce0a0a4-ae11-45da-acc8-c51d806c7762" stretchType="RelativeToTallestObject" x="703" y="0" width="99" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="4a996760-ec91-44e7-8ed6-2196edfd18ce" stretchType="RelativeToTallestObject" x="407" y="0" width="196" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1c6108fb-92f4-41fa-975f-6f11b6229dcc" stretchType="RelativeToTallestObject" x="603" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="7e873d2d-045f-4c5f-828c-7d8dc7bab4fe" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ca9c7641-8809-4243-a4fc-51855d78d971" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="2c651f69-b141-419a-9cb8-7033670a8a4b" x="289" y="0" width="112" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bf9936cf-2b98-4481-a044-1cfce820b3f7" x="6" y="0" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="ffc67f89-62f4-40ec-88ce-3cab4c07b950" x="401" y="0" width="302" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1d34f3e0-1866-42d3-82fa-877c2bfbfdb6" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="04757d28-96fd-4486-9229-2c8bc079fbec" x="703" y="0" width="99" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eeac70a5-5fcf-47c6-9644-b866909b8b4e" x="407" y="0" width="296" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="5f805d19-2954-441a-a7f3-fbb828aedda0" x="0" y="0" width="401" height="16"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{purchaseChild})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "profitAndLossReport_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement uuid="d61bb41e-f2fd-49aa-8bc5-9001aa8d5d04" x="401" y="0" width="401" height="16"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{saleChild})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "profitAndLossReport_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40">
+			<rectangle>
+				<reportElement uuid="dc19b787-8ea6-4833-8dcc-f6987d0ee6fe" x="401" y="0" width="302" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="b4feca0f-6525-421b-8688-01e3db3bb4f8" x="703" y="0" width="99" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9b50ce96-408f-4c4b-b040-d5f319748442" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="d398834e-727a-46a1-a1b1-d735d9e985df" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="74b31edc-8dc5-441f-8224-6f751b7a1908" x="703" y="20" width="99" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f63e1b90-68ac-4006-bbce-77b4384e291d" x="401" y="20" width="302" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="c7b74b2f-efdc-4996-ace5-d975e62adcf7" x="0" y="20" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="9bfc1848-4b81-4720-8b12-1f65c469eb97" x="289" y="20" width="112" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="5c19de97-6bee-422e-bfc9-38297364ad75" x="6" y="0" width="283" height="20" isRemoveLineWhenBlank="true"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{debit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9391566c-54a2-4155-b1e6-fae1bf44e363" x="407" y="0" width="296" height="20" isRemoveLineWhenBlank="true"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{credit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="aaf720a0-a101-4ab8-b55b-804eff328cab" x="6" y="20" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Net Purchase]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ddb2d6ce-e44e-434d-aa6b-914035c2283a" x="407" y="20" width="296" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Net Sale]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="77fbddb9-eb94-4fd8-bfdd-c9722168dcf6" x="289" y="20" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPurchase}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f2b7d4ab-039c-405b-acad-cafe908376be" x="702" y="20" width="98" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalSale}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1bb5a7d2-51bf-41ef-aef6-0b5c009be7b7" x="289" y="0" width="109" height="20" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{debitAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="184b49b8-9e1b-474d-a66c-8f3592a0ca07" x="703" y="0" width="97" height="20" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{creditAmount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

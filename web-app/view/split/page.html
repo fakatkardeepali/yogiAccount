@@ -1,0 +1,84 @@
+<div class="page page-dashboard" data-ng-controller="SplitCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon"></span>Split Company
+                    <span> <a href="#group/list" class="pull-right btn btn-default btn-xs">List</a></span><span>
+                        <a href="#group/create" class="pull-right btn btn-default btn-xs"
+                           ng-show="buttonShow">New</a></span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-1">Name
+                                    <span class="reqColor">*</span></label>
+
+                                <div class="col-sm-4">
+                                    <input id="name" tooltip="Its Mandatory Field" type="text"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" autofocus="" focus-req="alias"
+                                           name="name" ng-model="splitObject.name" autofocus=""
+                                           data-placement="top" tooltip-trigger="focus" required="">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="from" class="col-sm-3">FROM
+                                    <span class="reqColor">*</span></label>
+
+                                <div class="col-sm-6">
+                                    <input id="from" tooltip="Its Mandatory Field" type="date"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" autofocus="" focus-req="alias"
+                                           name="from" ng-model="splitObject.from" autofocus="" ng-readonly="true"
+                                           data-placement="top" tooltip-trigger="focus" required="">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="to" class="col-sm-4">Start New Date
+                                    <span class="reqColor">*</span></label>
+
+                                <div class="col-sm-6">
+                                    <input id="to" tooltip="Please Choose First Day of Month" type="date"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" autofocus="" focus-req="alias"
+                                           name="to" ng-model="splitObject.to" autofocus=""
+                                           ng-change="checkValidDate(splitObject.to)"
+                                           data-placement="top" tooltip-trigger="focus" required="">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="save" type="button" class="btn btn-line-info"
+                                        data-ng-click="save()" data-ng-hide="buttonShow">Save
+                                    <!--</button>-->
+                                    <!--<button id="update" type="button" data-ng-click="update()" data-ng-show="buttonShow"-->
+                                    <!--class="btn btn-line-info">Update-->
+                                    <!--</button>-->
+                                    <!--<button id="delete" type="button" data-ng-click="delete()"-->
+                                    <!--class="btn btn-line-danger" data-ng-show="buttonShow">Delete-->
+                                    <!--</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- end Modal -->
+
+        </div>
+    </div>
+
+</div>

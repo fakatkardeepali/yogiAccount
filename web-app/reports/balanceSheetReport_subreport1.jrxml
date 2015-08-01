@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="balanceSheetReport_subreport1" language="groovy" pageWidth="402" pageHeight="555" orientation="Landscape" columnWidth="402" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fb9bf481-12ce-4ac3-b404-fec259fcf290">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="amountStatus" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="ca19c391-ef4e-4aa3-8d6d-98e7182c4fed" stretchType="RelativeToBandHeight" x="0" y="0" width="289" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ca867a37-111c-4889-b488-fa279ccb7ee3" stretchType="RelativeToBandHeight" x="289" y="0" width="112" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="9115e97e-8c6b-458e-93e6-66fb21677b05" stretchType="RelativeToTallestObject" x="6" y="0" width="283" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4e70c6b-3ffe-461a-89b8-85f24f3c6db1" stretchType="RelativeToBandHeight" x="289" y="0" width="109" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

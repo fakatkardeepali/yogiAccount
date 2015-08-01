@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ledgerOutstandingReport" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a52453af-5712-4ff5-b5af-05a8ee8abf07">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="fromDate" class="java.lang.String"/>
+	<field name="toDate" class="java.lang.String"/>
+	<field name="reportName" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="child" class="java.util.Collection"/>
+	<field name="partyName" class="java.lang.String"/>
+	<field name="totalOpeningAmount" class="java.lang.String"/>
+	<field name="totalRemainAmount" class="java.lang.String"/>
+	<field name="openingAmountStatus" class="java.lang.String"/>
+	<field name="remianAmountStatus" class="java.lang.String"/>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="9b09f6af-0324-484f-870c-7ceb7cc7c732" x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="7ea93b41-476c-4c1a-9dc0-e403e22c1ed1" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="0c9ffa5a-7e31-43d1-b55c-dd6f969f4d0e" x="704" y="0" width="98" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f4de9b07-6881-4384-afb1-4be7327caf49" x="0" y="0" width="604" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="6ea9d740-17cf-4601-876e-b7e834e75dcd" x="0" y="20" width="802" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="cdfe137d-4d59-4353-b528-b561dcffa806" x="704" y="0" width="98" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="919fac52-3720-4f8d-a8a5-a7ca6726b16f" x="11" y="0" width="593" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="ea6f3c94-e273-457b-8e05-da7d68b95fba" x="604" y="0" width="100" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="47a59b92-d683-48bf-82cc-b3cc670ff915" x="604" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="23aace30-2a88-4120-a9b7-b19406348c65" x="0" y="20" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ledger Name : "+$F{partyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="b9e14761-e184-4a9e-a85a-2f2a0c665d04" x="704" y="0" width="98" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8a01f22b-a5d7-4862-8155-9b20b00261dd" x="604" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ea9a5e82-7cd0-4a77-858b-2e852b63f617" x="504" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="49d4d8a7-a957-461e-9dce-4d74b4f61c99" x="404" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="b9aaeda5-d1ae-43ea-b6e0-4d4e3d8357bc" x="304" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="cb88b465-62d4-45db-8460-1ea50359c93c" x="204" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="956b4fa4-d5c9-424e-a657-cf2e65818509" x="104" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ba69804b-1f28-4a19-9cea-b9d1c2620b6f" x="0" y="0" width="104" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d4ab2c6b-f4a0-4188-abde-0ab3d30f462c" x="704" y="0" width="98" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Over Due]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2b8ea13f-6d79-4ddf-a76f-d15ce3cad83e" x="604" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Due On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="194a09d4-2823-451e-a7fc-b04c9ac19672" x="504" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Pending Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a190b94c-a5e3-45bb-8dda-f7ea309d8432" x="404" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Opening Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2b109fc2-7d4d-4921-aea3-9d70736d2631" x="304" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Vch. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e27b5fc-2d8a-4fc2-b974-040be51be147" x="204" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Vch. Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cdae8689-71d6-4f32-b01e-5d3ad481acfa" x="104" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Ref. No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="00f52776-3e41-4acf-87f3-97ffb60ec715" x="0" y="0" width="104" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="7284c1f9-1f9c-449e-8e7a-1e06f4c69a06" x="0" y="0" width="802" height="15"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{child})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ledgerOutstandingReport_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="43de515b-a6fe-460a-824a-95c6227c8ca5" x="404" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="fcde5675-4158-4f18-85ea-590a784b310b" x="504" y="0" width="100" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="c1e8d05d-0433-4da9-8831-a06599f2a95a" x="404" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalOpeningAmount}+"  "+$F{openingAmountStatus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5e9af1d6-22b3-45c5-9846-b936177f9129" x="504" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalRemainAmount}+"  "+$F{remianAmountStatus}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement uuid="b309c25f-9b9c-44c8-b902-ea105bc0c2b4" x="604" y="0" width="198" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="bac4c5b8-7118-43c6-8245-a18868828cb0" x="0" y="0" width="404" height="20"/>
+			</rectangle>
+		</band>
+	</detail>
+</jasperReport>

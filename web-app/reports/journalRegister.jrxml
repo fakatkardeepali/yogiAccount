@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="journalRegister" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="58617216-4965-48e6-930c-38573e86b6f6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="reportName" class="java.lang.String"/>
+	<field name="fromDate" class="java.lang.String"/>
+	<field name="toDate" class="java.lang.String"/>
+	<field name="child" class="java.util.Collection"/>
+	<field name="debitTotal" class="java.lang.String"/>
+	<field name="creditTotal" class="java.lang.String"/>
+	<title>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="e8802c11-fc0e-4fed-ae1b-c04500adac64" x="0" y="0" width="802" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="18c3ff4e-07fb-4d72-8bb1-b5e5518b66a9" x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="739335fc-4adf-4e85-9233-2f745535a018" x="0" y="0" width="452" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7f7ef050-218f-46d9-b58a-e2ab5e19ee50" x="638" y="0" width="164" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="dc9ad358-3b18-49da-a4ec-57ec874be184" x="452" y="0" width="186" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="3c202cea-4579-48c5-88be-86ec22538010" x="11" y="0" width="441" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reportName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6589d519-d2c2-49b9-ae89-cf2047a74fbe" x="452" y="0" width="186" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["From : "+$F{fromDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="91cab310-ff95-40b3-8341-993a3dab9cea" x="638" y="0" width="164" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["To : "+$F{toDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="0b6c4dc0-26e3-4e22-b198-e60547441bba" x="552" y="0" width="86" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8d245f9b-ae9e-427a-89fa-80ea9befa9aa" x="638" y="0" width="81" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="bcfbccee-4852-4f54-aa54-5b3f5d77ea1e" x="719" y="0" width="83" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ff46e0c2-9f66-4535-b405-91090ec66cc4" x="0" y="0" width="64" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="b67dbdbc-3046-4b0c-ae8a-c87484383305" x="64" y="0" width="388" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="770664b0-ddac-4661-88d2-085fe5dd0212" x="452" y="0" width="100" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="c4f1fa0c-9be8-4a33-bbab-1ff64f56ddb6" x="0" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c2fe1393-fb34-47fc-bfd7-be0d48583aaf" x="64" y="0" width="388" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Particulars]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="05c9b222-f05a-4c0f-aad4-dcf9714528c8" x="452" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Voucher Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d3935ef9-ba07-469c-a103-4c43009c92a2" x="719" y="0" width="83" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Debit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e346efe2-0f3b-4fde-996f-86b58088a093" x="638" y="0" width="81" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Credit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2067c9a7-3795-404b-a479-1b5cecbdda5f" x="552" y="0" width="86" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Voucher No.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="51409cf0-9251-439f-878f-e05135e22f29" x="0" y="0" width="802" height="15"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{child})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "journalRegister_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="b4dbe4de-c87b-4fa6-b14c-5b436d90124e" x="452" y="0" width="186" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="77cf9632-e163-4520-bbea-97e8d3f6a7f3" x="638" y="0" width="81" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="3f02e835-34e4-45e4-81e9-6e9cf8263123" x="719" y="0" width="83" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="6f476151-ec77-4eb5-ab28-84060048b18f" x="452" y="0" width="186" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[Current Total]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="49a94ebe-f0cd-49df-8b2d-038df8e2bc54" x="0" y="0" width="452" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="f24d57f9-c16c-440c-873d-5766abb9f576" x="719" y="0" width="78" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{debitTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="58d09a88-b659-4374-9884-54536f3dda9b" x="638" y="0" width="77" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{creditTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

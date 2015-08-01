@@ -1,0 +1,91 @@
+<div class="page page-dashboard" data-ng-controller="RoleRightsCtrl" xmlns="http://www.w3.org/1999/html">
+    <style type="text/css">
+
+        .wfm {
+            width: 500px
+        }
+
+        .newui {
+            list-style: none;
+        }
+
+        .newli {
+            padding-top: 10px
+        }
+
+
+    </style>
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Role Rights
+                    <span> <a href="#role/list" class="pull-right btn btn-default btn-xs">List</a></span><span>
+                        <a href="#role/create" class="pull-right btn btn-default btn-xs" ng-show="buttonShow">New</a>
+                </span></div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <!--<button class="btn btn-w-md btn-gap btn-danger" data-ng-click="notify('error')">error message</button>-->
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2">Authority Name
+                                <span class="reqColor">*</span></label>
+
+                            <div class="col-sm-6">
+                                <input id="name" tooltip="Its Mandatory Field" type="text"
+                                       class="form-control input-sm "
+                                       data-toggle="tooltip" autofocus="" focus-req="alias"
+                                       name="name" ng-model="roleObject.name"
+                                       data-placement="top" tooltip-trigger="focus" required="">
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div>
+
+                            <ul class="newui" frang-tree>
+                                <li class="newli" frang-tree-repeat="node in frameList">
+                                    <div><span class="icon"
+                                               ng-class="{collapsed: node.collapsed, expanded: !node.collapsed}"
+                                               ng-show="node.module && node.module.length > 0"
+                                               ng-click="node.collapsed = !node.collapsed"></span>
+                                        <input type="checkbox" ng-model="node.bool"
+                                               ng-change="allCheck($index,node.bool,node.parentIndex,node.level)"><span
+                                                class="lbl"></span>
+                                               <span
+                        ng-class="{folder: node.module && node.module.length > 0}"
+                        ng-bind="node.name"
+                        ng-click="action(node)"></span>
+                                    </div>
+                                    <ul ng-if="!node.collapsed && node.module && node.module.length > 0"
+                                        frang-tree-insert-children="node.module"></ul>
+                                </li>
+                            </ul>
+                            <div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <button id="save" type="button" valid class="btn btn-line-info"
+                                                ng-hide="buttonShow" data-ng-click="save()">Save
+                                        </button>
+                                        <button id="update" type="button" class="btn btn-line-info"
+                                                ng-show="buttonShow"
+                                                data-ng-click="update()">
+                                            Update
+                                        </button>
+                                        <!--<button id="delete" type="button" class="btn btn-line-danger"
+                                                ng-show="buttonShow"
+                                                data-ng-click="delete()">
+                                            Delete
+                                        </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        </div>
+    </div>

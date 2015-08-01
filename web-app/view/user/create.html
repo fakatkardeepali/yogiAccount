@@ -1,0 +1,133 @@
+<div class="page page-dashboard" data-ng-controller="UserCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>User
+                    <a href="#user/list" class="pull-right btn btn-default btn-xs">List</a>
+                    <a href="#user/create" class="pull-right btn btn-default btn-xs" ng-show="buttonShow">New</a>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" data-ng-show="orgShow">
+                            <label for="organization" class="col-sm-2">Organization</label>
+
+                            <div class="col-sm-3">
+                                <!--<div class="ui-select">-->
+                                <select id="organization" name="organization.id" ng-model="userObject.organization"
+                                        class="form-control input-sm" tooltip="Tooltip on top"
+                                        focus-req="company"
+                                        data-placement="top" tooltip-trigger="focus"
+                                        ng-options="cl.id as cl.name for cl in orgList"
+                                        ng-change="getCompany(userObject.organization)"></select>
+
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group" data-ng-show="orgShow">
+                            <label for="company" class="col-sm-2">Company</label>
+
+                            <div class="col-sm-3">
+                                <!--<div class="ui-select">-->
+                                <select id="company" name="company.id" ng-model="userObject.company"
+                                        class="form-control input-sm" tooltip="Tooltip on top"
+                                        focus-req="username"
+                                        data-placement="top" tooltip-trigger="focus"
+                                        ng-options="cl.id as cl.name for cl in companyList"></select>
+
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2">User Name <span class="reqColor">*</span></label>
+
+                            <div class="col-sm-3">
+                                <input id="username" tooltip="Tooltip on top" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" autofocus="" focus-req="password"
+                                       name="username" ng-model="userObject.username"
+                                       data-placement="top" tooltip-trigger="focus" required="">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2">Password<span class="reqColor">*</span></label>
+
+                            <div class="col-sm-3">
+                                <input id="password" tooltip="Tooltip on top" type="password"
+                                       data-toggle="tooltip" focus-on="isAdmin" class="form-control input-sm"
+                                       name="city" ng-model="userObject.password"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-ng-show="orgShow">
+                            <label for="isAdmin" class="col-sm-2">Is Admin</label>
+
+                            <div class="col-sm-3">
+                                <input id="isAdmin" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="isClient"
+                                       name="isAdmin" ng-model="userObject.isAdmin"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="isClient" class="col-sm-2">Is Client</label>
+
+                            <div class="col-sm-3">
+                                <input id="isClient" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip"
+                                       focus-on="enable"
+                                       name="isClient" ng-model="userObject.isClient"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="enable" class="col-sm-2">Enable</label>
+
+                            <div class="col-sm-3">
+                                <input id="enable" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="useMultipleCompany"
+                                       name="enable" ng-model="userObject.enable"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-hide="true">
+                            <label for="useMultipleCompany" class="col-sm-2">Use Multiple Company</label>
+
+                            <div class="col-sm-3">
+                                <input id="useMultipleCompany" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="financialFrom"
+                                       name="enable" ng-model="userObject.useMultipleCompany"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <button id="save" type="button" valid class="btn btn-line-info"
+                                        ng-hide="buttonShow" data-ng-click="save()">Save
+                                </button>
+                                <button id="update" type="button" class="btn btn-line-info" ng-show="buttonShow"
+                                        data-ng-click="update()">
+                                    Update
+                                </button>
+                                <!--         <button id="delete" type="button" class="btn btn-line-danger" ng-show="buttonShow"
+                                                 data-ng-click="delete()">
+                                             Delete
+                                         </button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- end Modal -->
+
+        </div>
+    </div>
+
+</div>

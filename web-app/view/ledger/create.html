@@ -1,0 +1,705 @@
+<div class="page page-dashboard" data-ng-controller="AccountLedgerCtrl" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Account Ledger
+                    <a class="pull-right btn btn-default btn-xs" href="#/ledger/list">List</a>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-6">
+                            <!--<input type="text" id="name" ng-model="myForm.name" ng-pattern="/^\d+$/"> ffffff <br/>-->
+                            {{ALService.name}}
+                            <div class="form-group">
+                                <label for="name" class="col-sm-4">Name
+                                <span>*</span></label>
+
+                                <div class="col-sm-5">
+                                <input id="name" tooltip="Its Mandatory Field" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" autofocus="" focus-req="alias"
+                                       name="name" ng-model="ledgerObject.name"
+                                       data-placement="top" tooltip-trigger="focus" required="">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alias" class="col-sm-4">Alias</label>
+
+                            <div class="col-sm-5">
+                                <input id="alias" type="text" tooltip="Tooltip on top"
+                                       class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="note"
+                                       name="alias" ng-model="ledgerObject.alias"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="note" class="col-sm-4">Note</label>
+
+                            <div class="col-sm-5">
+                                <input id="note" type="text" tooltip="Tooltip on top" 
+                                       class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="underGroup"
+                                       name="note" ng-model="ledgerObject.note"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                            <div class="form-group">
+                                <label for="note" class="col-sm-4">Use Primary Group</label>
+
+                                <div class="col-sm-5">
+                                    <input id="usePrimaryGroup" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="Use Primary Group"
+                                           name="usePrimaryGroup" ng-model="ledgerObject.usePrimaryGroup"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-change="changeGroupList(ledgerObject.usePrimaryGroup)">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                            <label for="underGroup" class="col-sm-4">Under</label>
+
+                            <div class="col-sm-5">
+                                <select id="underGroup" tooltip="Tooltip on top"
+                                        class="form-control input-sm"
+                                        data-toggle="tooltip" focus-on="doesIsAffectOnGrossProfit"
+                                        name="underGroup" ng-model="ledgerObject.underGroup"
+                                        data-placement="top" tooltip-trigger="focus"
+                                        data-ng-change="changeUnder(ledgerObject.underGroup)"
+                                        ng-options="g.id as g.name for g in nonPrimaryList"></select>
+                            </div>
+                        </div>
+
+                            <div class="form-group" data-ng-show="ledgerObject.showReconciliationDate">
+                                <label for="reconciliationDate" class="col-sm-4">Reconciliation Date</label>
+
+                                <div class="col-sm-5">
+                                    <input id="reconciliationDate" type="date" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="reconciliationDate"
+                                           ng-model="ledgerObject.reconciliationDate"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group" data-ng-show="ledgerObject.showTypeOfDuty">
+                                <label for="typeOfDuty" class="col-sm-4">Type Of Duty/Tax</label>
+
+                                <div class="col-sm-5">
+                                    <select id="typeOfDuty" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="typeOfDuty" ng-model="ledgerObject.typeOfDuty"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-change="getAllChilds(ledgerObject.typeOfDuty)"
+                                           ng-options="t.id as t.name for t in typeOfDutyList"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-ng-show="dutyHeadList.length">
+                                <label for="dutyHead" class="col-sm-4">Duty Head</label>
+
+                                <div class="col-sm-5">
+                                    <select id="dutyHead" tooltip="Tooltip on top"
+                                            class="form-control input-sm"
+                                            data-toggle="tooltip" focus-on="underGroup"
+                                            name="dutyHead" ng-model="ledgerObject.dutyHead"
+                                            data-placement="top" tooltip-trigger="focus"
+                                            data-ng-change="getDutyHeadChild(ledgerObject.dutyHead)"
+                                            ng-options="t.id as t.name for t in dutyHeadList"></select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group" data-ng-show="ledgerObject.showPercentageOfCalculation">
+                                <label for="percentageOfCalculation" class="col-sm-4">Percentage Of Calculation</label>
+
+                                <div class="col-sm-5">
+                                    <input id="percentageOfCalculation" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="percentageOfCalculation"
+                                           ng-change="ledgerObject.percentageOfCalculation=isNumber(ledgerObject.percentageOfCalculation)"
+                                           ng-model="ledgerObject.percentageOfCalculation"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.percentageOfCalculation > 0">
+                                <label for="methodOfCalculation" class="col-sm-4">Method Of Calculation</label>
+
+                                <div class="col-sm-5">
+                                    <select id="methodOfCalculation" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="methodOfCalculation" ng-model="ledgerObject.methodOfCalculation"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="t.id as t.name for t in methodOfCalculationList"></select>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group" data-ng-show="ledgerObject.percentageOfCalculation > 0">-->
+                            <!--<label for="roundMethod" class="col-sm-4">Round Method</label>-->
+
+                            <!--<div class="col-sm-5">-->
+                            <!--<select id="roundMethod" tooltip="Tooltip on top"-->
+                            <!--class="form-control input-sm"-->
+                            <!--data-toggle="tooltip" focus-on="underGroup"-->
+                            <!--name="roundMethod" ng-model="ledgerObject.roundMethod"-->
+                            <!--data-placement="top" tooltip-trigger="focus"-->
+                            <!--ng-options="t.id as t.name for t in roundMethodList"></select>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;
+                            {{"ledgerObject.showActiveIntersetCalculation "+ledgerObject.showActiveIntersetCalculation}}-->
+                            <div class="form-group" data-ng-show="ledgerObject.showActiveIntersetCalculation">
+                                <label for="activeInterestCalculation" class="col-sm-4">Active Interest
+                                    Calculation</label>
+
+                                <div class="col-sm-5">
+                                    <input id="activeInterestCalculation" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="activeInterestCalculation"
+                                           ng-change="openInterestModal(ledgerObject.activeInterestCalculation)"
+                                           ng-model="ledgerObject.activeInterestCalculation"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-12 well" data-ng-show="ledgerObject.activeInterestCalculation">-->
+                            <!--<div class="panel panel-default">-->
+                            <!--&lt;!&ndash;<div class="panel-heading" ><strong><span class="glyphicon glyphicon-th"></span>Bill-Wise Details</strong></div>&ndash;&gt;-->
+                            <!--<table class="table">-->
+                            <!--<tr>-->
+                            <!--<th class="col-md-1"><a href="" data-ng-click="addRow()">-->
+                            <!--<span class="glyphicon glyphicon-plus"></span></a>Action-->
+                            <!--</th>-->
+                            <!--&lt;!&ndash;<th class="col-md-1 text-center"></th>&ndash;&gt;-->
+                            <!--<th class="col-md-1 text-center">Rate(%)<span-->
+                            <!--class="reqColor glyphicon glyphicon-star"></span></th>-->
+                            <!--<th class="col-md-1 text-center">Per</th>-->
+                            <!--<th class="col-md-3 text-center">From</th>-->
+                            <!--<th class="col-md-3 text-center">To</th>-->
+                            <!--</tr>-->
+                            <!--</table>-->
+                            <!--<div data-slim-scroll="" data-scroll-height="150px"-->
+                            <!--style="overflow: hidden; width: auto; height: 150px;">-->
+                            <!--<table class="table-bordered">-->
+                            <!--<tr ng-repeat="child in interestPara track by $index">-->
+                            <!--<td class="col-md-1">-->
+                            <!--&lt;!&ndash;<a href="" data-ng-click="updateChild($index)"><span class="glyphicon glyphicon-edit"></span></a>&ndash;&gt;-->
+                            <!--<a href="" data-ng-click="deleteRow($index)"><span-->
+                            <!--class="glyphicon glyphicon-trash"></span></a>-->
+                            <!--</td>-->
+                            <!--<td class="col-md-2"><input type="text" class="form-control input-sm"-->
+                            <!--ng-model="child.rate">-->
+                            <!--</td>-->
+                            <!--<td class="col-md-3"><select ng-model="child.rateper"-->
+                            <!--class="form-control input-sm"-->
+                            <!--ng-options="tr for tr in ratePerList"></select>-->
+                            <!--</td>-->
+                            <!--<td class="col-md-3"><input type="date" class="form-control input-sm"-->
+                            <!--ng-model="child.applicableDateFrom"></td>-->
+                            <!--<td class="col-md-3"><input type="date" class="form-control input-sm"-->
+                            <!--ng-model="child.applicableDateTo"></td>-->
+                            <!--</tr>-->
+                            <!--</table>-->
+                            <!--</div>-->
+                            <!--<div class="panel-bottom">-->
+                            <!--<table class="table">-->
+                            <!--<tr>-->
+                            <!--<td class="col-md-2"></td>-->
+                            <!--<td class="col-md-1"></td>-->
+                            <!--<td class="col-md-1"></td>-->
+                            <!--<td class="col-md-1"><span class="col-md-8 label label-success">{{vObject.amount}}</span>-->
+                            <!--</td>-->
+                            <!--<td class="col-md-1"><span-->
+                            <!--class="col-md-8 label label-success">{{totalAmt}}</span></td>-->
+
+                            <!--</tr>-->
+                            <!--</table>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+
+
+                            <div data-ng-show="ledgerObject.showIsServiceTax || ledgerObject.showIsTdsDeductee || ledgerObject.showIsTcsApplicable">
+                                <h4>---------------------------<u> Statutory </u>--------------------------</h4>
+                            </div>
+                            <!--================ start service Tax area ========================================-->
+
+                            <div class="form-group" data-ng-show="ledgerObject.showIsServiceTax">
+                                <label for="isServiceTax" class="col-sm-4">Is Service Tax Applicable</label>
+
+                                <div class="col-sm-5">
+                                    <input id="isServiceTax" type="checkbox" tooltip="Tooltip on top" 
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="isServiceTax" ng-model="ledgerObject.isServiceTax"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isServiceTax && !isClassification">
+                                <label for="category" class="col-sm-4">Category Name</label>
+
+                                <div class="col-sm-5">
+                                    <select id="category" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="category" ng-model="ledgerObject.category"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="t.id as t.name for t in categoryNameList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isServiceTax && isClassification">
+                                <label for="category" class="col-sm-4">Type Of Classification</label>
+
+                                <div class="col-sm-5">
+                                    <select id="category" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="category" ng-model="ledgerObject.category"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="t.id as t.name for t in classificationList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isServiceTax && isClassification">
+                                <label for="notificationNo" class="col-sm-4">Notification No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="notificationNo" tooltip="Tooltip on top"
+                                           class="form-control input-sm" type="text"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="notificationNo" ng-model="ledgerObject.notificationNo"
+                                           data-placement="top" tooltip-trigger="focus">
+
+                                </div>
+                            </div>
+                            <!--============================================== end service Tax area ========================================-->
+                            <!--============================================== start TDS area ========================================-->
+
+                            <div class="form-group"
+                                 data-ng-show="ledgerObject.showIsTdsDeductee && !ledgerObject.isTcsApplicable">
+                                <label for="isTdsDeductee" class="col-sm-4">Is TDS Deductable</label>
+
+                                <div class="col-sm-5">
+                                    <input id="isTdsDeductee" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="isTdsDeductee" ng-model="ledgerObject.isTdsDeductee"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isTdsDeductee && isNOPtrue_DTfalse">
+                                <label for="deducteeType" class="col-sm-4">Default Name of Payment</label>
+
+                                <div class="col-sm-5">
+                                    <select id="deducteeType" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="deducteeType" ng-model="ledgerObject.deducteeType"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="t.id as t.name for t in nopList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isTdsDeductee && !isNOPtrue_DTfalse">
+                                <label for="deducteeType" class="col-sm-4">Deductee Type</label>
+
+                                <div class="col-sm-5">
+                                    <select id="deducteeType" tooltip="Tooltip on top"
+                                            class="form-control input-sm"
+                                            data-toggle="tooltip" focus-on="underGroup"
+                                            name="deducteeType" ng-model="ledgerObject.deducteeType"
+                                            data-placement="top" tooltip-trigger="focus"
+                                            ng-options="t.id as t.name for t in dtList"></select>
+                                </div>
+                            </div>
+                            <!--============================================== end TDS area ========================================-->
+                            <!--============================================== Start TCS area ========================================-->
+
+                            <div class="form-group"
+                                 data-ng-show="ledgerObject.showIsTcsApplicable && !ledgerObject.isTdsDeductee">
+                                <label for="isTcsApplicable" class="col-sm-4">Is TCS Applicable</label>
+
+                                <div class="col-sm-5">
+                                    <input id="isTcsApplicable" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="isTcsApplicable" ng-model="ledgerObject.isTcsApplicable"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isTcsApplicable">
+                                <label for="buyerLessee" class="col-sm-4">Buyer/Lessee</label>
+
+                                <div class="col-sm-5">
+                                    <select id="buyerLessee" tooltip="Tooltip on top"
+                                            data-toggle="tooltip" focus-on="underGroup" class="form-control input-sm"
+                                            name="buyerLessee" ng-model="ledgerObject.buyerLessee"
+                                            data-placement="top" tooltip-trigger="focus"
+                                            ng-options="t.id as t.name for t in dtList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isTcsApplicable">
+                                <label for="noCollectionApplicable" class="col-sm-4">is Lower/No Collection
+                                    Applicable</label>
+
+                                <div class="col-sm-5">
+                                    <input id="noCollectionApplicable" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="noCollectionApplicable" ng-model="ledgerObject.noCollectionApplicable"
+                                           data-placement="top" tooltip-trigger="focus">
+
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.noCollectionApplicable">
+                                <label for="sectionNumber" class="col-sm-4">Section Number</label>
+
+                                <div class="col-sm-5">
+                                    <input id="sectionNumber" type="text" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup" class="form-control input-sm"
+                                           name="sectionNumber" ng-model="ledgerObject.sectionNumber" ng-readonly="true"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-init="ledgerObject.sectionNumber='206C'">
+
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.noCollectionApplicable">
+                                <label for="tcsLowerRate" class="col-sm-4">TCS Lower Rate %</label>
+
+                                <div class="col-sm-5">
+                                    <input id="tcsLowerRate" type="text" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup" class="form-control input-sm"
+                                           name="tcsLowerRate" ng-model="ledgerObject.tcsLowerRate"
+                                           data-placement="top" tooltip-trigger="focus">
+
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isTcsApplicable">
+                                <label for="ignoreSurchargeExceptionLimit" class="col-sm-4">Ignore Surcharge Exemption
+                                    Limit</label>
+
+                                <div class="col-sm-5">
+                                    <input id="ignoreSurchargeExceptionLimit" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="ignoreSurchargeExceptionLimit"
+                                           ng-model="ledgerObject.ignoreSurchargeExceptionLimit"
+                                           data-placement="top" tooltip-trigger="focus">
+
+                                </div>
+                            </div>
+                            <!--============================================== end TCS area ========================================-->
+
+                            <!--============================================== Start VAT area ========================================-->
+
+                            <div class="form-group" data-ng-show="ledgerObject.showIsVat">
+                                <label for="isVat" class="col-sm-4">Used in Vat returns</label>
+
+                                <div class="col-sm-5">
+                                    <input id="isVat" type="checkbox" tooltip="Tooltip on top" 
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="isVat" ng-model="ledgerObject.isVat"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group" data-ng-show="ledgerObject.isVat">
+                                <label for="taxClass" class="col-sm-4">VAT/TAX Class</label>
+
+                                <div class="col-sm-5">
+                                    <input id="taxClass" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="taxClass" ng-model="ledgerObject.taxClass"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <!--============================================== End VAT area ========================================-->
+
+
+                        </div>
+                        <!--==================================== separator (Account Info Bank Related)=====================================================-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="accountNo" class="col-sm-4">A/C No.</label>
+
+                                <div class="col-sm-5">
+                                    <input id="accountNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="accountNo" ng-model="ledgerObject.accountNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="accountName" class="col-sm-4">A/c Holder Name</label>
+
+                                <div class="col-sm-5">
+                                    <input id="accountName" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="accountName" ng-model="ledgerObject.accountName"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="branchName" class="col-sm-4">Branch Name</label>
+
+                                <div class="col-sm-5">
+                                    <input id="branchName" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="branchName" ng-model="ledgerObject.branchName"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bsrCode" class="col-sm-4">BSR Code</label>
+
+                                <div class="col-sm-5">
+                                    <input id="bsrCode" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="bsrCode" ng-model="ledgerObject.bsrCode"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ifscCode" class="col-sm-4">IFSC Code</label>
+
+                                <div class="col-sm-5">
+                                    <input id="ifscCode" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="ifscCode" ng-model="ledgerObject.ifscCode"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mailingName" class="col-sm-4">Mailing Name</label>
+
+                                <div class="col-sm-5">
+                                    <input id="mailingName" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="mailingName" ng-model="ledgerObject.mailingName"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address" class="col-sm-4">Address</label>
+
+                                <div class="col-sm-5">
+                                    <input id="address" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="address" ng-model="ledgerObject.address"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="state" class="col-sm-4">State</label>
+
+                                <div class="col-sm-5">
+                                    <select id="state" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="state" ng-model="ledgerObject.state"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="s.id as s.name for s in stateList"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pinCode" class="col-sm-4">Pincode</label>
+
+                                <div class="col-sm-5">
+                                    <input id="pinCode" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="pinCode" ng-model="ledgerObject.pinCode"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPerson" class="col-sm-4">Contact Person</label>
+
+                                <div class="col-sm-5">
+                                    <input id="contactPerson" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="contactPerson" ng-model="ledgerObject.contactPerson"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="telephoneNo" class="col-sm-4">telephoneNo</label>
+
+                                <div class="col-sm-5">
+                                    <input id="telephoneNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="telephoneNo" ng-model="ledgerObject.telephoneNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobileNo" class="col-sm-4">Mobile No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="mobileNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="mobileNo" ng-model="ledgerObject.mobileNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="faxNo" class="col-sm-4">Fax No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="faxNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="faxNo" ng-model="ledgerObject.faxNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-4">Email</label>
+
+                                <div class="col-sm-5">
+                                    <input id="email" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="email" ng-model="ledgerObject.email"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="panNo" class="col-sm-4">Pan No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="panNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="panNo" ng-model="ledgerObject.panNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="salesTaxNo" class="col-sm-4">Sales Tax No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="salesTaxNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="salesTaxNo" ng-model="ledgerObject.salesTaxNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cstNo" class="col-sm-4">CST No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="cstNo" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="cstNo" ng-model="ledgerObject.cstNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="eccNo" class="col-sm-4">Ecc No</label>
+
+                                <div class="col-sm-5">
+                                    <input id="eccNo" type="text" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="eccNo" ng-model="ledgerObject.eccNo"
+                                           data-placement="top" tooltip-trigger="focus">
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--================================ Last =======================================-->
+                        <div class="col-md-12">
+
+                            <div class="form-group">
+                                <label for="openingBalance" class="col-sm-4">Opening Balance</label>
+
+                                <div class="col-sm-5">
+                                    <div class="col-sm-6">
+                                    <input id="openingBalance" type="text" tooltip="Tooltip on top" 
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           ng-change="ledgerObject.openingBalance=isNumber(ledgerObject.openingBalance)"
+                                           name="openingBalance" ng-model="ledgerObject.openingBalance"
+                                           data-placement="top" tooltip-trigger="focus">
+                                    </div>
+                                    <div class="col-sm-6">
+                                    <select id="status" type="text" tooltip="Tooltip on top"
+                                            class="input-group-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="status" ng-model="ledgerObject.status"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-options="tr for tr in statusList"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-ng-show="ledgerObject.showMaintainBill">
+                                <label for="maintainBill" class="col-sm-4">Maintain Bill By Bill</label>
+
+                                <div class="col-sm-5">
+
+                                    <input id="maintainBill" type="checkbox" tooltip="Tooltip on top"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="maintainBill" ng-model="ledgerObject.maintainBill"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           ng-change="checkValue(ledgerObject.maintainBill);openMaintainBillModal(ledgerObject.maintainBill,ledgerObject.openingBalance);fillOpeningAmount(ledgerObject.openingBalance,ledgerObject.status)">
+                                </div>
+                            </div>
+
+                            <div class="form-group" data-ng-show="ledgerObject.maintainBill">
+                                <label for="creditDays" class="col-sm-4">Default Credit Days</label>
+
+                                <div class="col-sm-5">
+                                    <input id="creditDays" type="text" tooltip="Tooltip on top"
+                                           class="form-control input-sm"
+                                           data-toggle="tooltip" focus-on="underGroup"
+                                           name="creditDays" ng-model="ledgerObject.creditDays"
+                                           data-placement="top" tooltip-trigger="focus"
+                                           data-ng-change="ledgerObject.creditDays=isNumber(ledgerObject.creditDays)">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="save" type="button" class="btn btn-line-info"
+                                        data-ng-click="save()" data-ng-hide="buttonShow">Save
+                                </button>
+                                <button id="update" type="button" data-ng-click="update()" data-ng-show="buttonShow"
+                                        class="btn btn-line-info">Update
+                                </button>
+                                <button id="delete" type="button" data-ng-click="delete()"
+                                        class="btn btn-line-danger" data-ng-show="buttonShow">Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+</div>

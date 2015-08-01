@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="trailBalanceReport_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="cdcebed2-e23c-44bd-9fc6-c7345745594c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="amountStatus" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="7c0c05b3-d49b-4365-b508-0246e1a9ff86" x="657" y="0" width="145" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="4d2b1fb1-3797-4a37-9856-90cf60d37b9d" x="520" y="0" width="137" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="324a6f46-7472-4d7a-9629-e235f318ccb9" x="0" y="0" width="520" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="cda09bac-9fe3-4d80-aca4-4b08926744cf" x="657" y="0" width="142" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amountStatus}=="Dr"?$F{amount}:0]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3fde82da-0b2d-4b22-a597-e42cd6f86358" x="11" y="0" width="509" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fa10a38c-d9e5-43e0-b547-1ad329987b0c" x="520" y="0" width="134" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{amountStatus}=="Cr"?$F{amount}:0]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

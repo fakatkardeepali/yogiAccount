@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="outstandingReport_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0c915bc6-0a0b-4643-a4a6-d6158a66335a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="date" class="java.lang.String"/>
+	<field name="particulars" class="java.lang.String"/>
+	<field name="vType" class="java.lang.String"/>
+	<field name="vNo" class="java.lang.String"/>
+	<field name="refNo" class="java.lang.String"/>
+	<field name="openingAmount" class="java.lang.String"/>
+	<field name="pendingAmount" class="java.lang.String"/>
+	<field name="dueOn" class="java.lang.String"/>
+	<field name="overDue" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="eb4a2cb2-f8d2-429f-9c15-b861ffb1b251" stretchType="RelativeToBandHeight" x="0" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="d6a9d2ab-79f4-4814-ad8f-ab5f771e8165" stretchType="RelativeToBandHeight" x="67" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="415a88fa-8105-43d8-bed4-9e8c93171aef" stretchType="RelativeToBandHeight" x="134" y="0" width="200" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="abe149f4-b5ec-48b0-822d-21b025257483" stretchType="RelativeToBandHeight" x="334" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="09ef4763-6c14-4b82-b080-ddb69b1b0913" stretchType="RelativeToBandHeight" x="401" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="fa65e7b9-0344-471d-a1ea-2d23bb6e6962" stretchType="RelativeToBandHeight" x="468" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="500b67f5-837f-4c5a-8e2b-d4de079294a2" stretchType="RelativeToBandHeight" x="568" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="66b65443-2a67-49a7-a760-51baa7c10170" stretchType="RelativeToBandHeight" x="668" y="0" width="67" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="1c948a6f-c377-45e7-b01a-cb1e4bc19bac" stretchType="RelativeToBandHeight" x="735" y="0" width="67" height="20"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="2e68432e-17aa-46cf-b670-2204ee60df76" stretchType="RelativeToBandHeight" x="0" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="acef5c79-a090-496a-a0bd-c5c6c708b91b" stretchType="RelativeToTallestObject" x="134" y="0" width="200" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{particulars}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cbf50f4b-eeac-4869-b0ff-e4e27ffb87ca" stretchType="RelativeToBandHeight" x="67" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{refNo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="996ad97d-1c6a-4bd3-99fb-98ddde287825" stretchType="RelativeToTallestObject" x="334" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3cfdddfe-b30b-45f5-9ac7-2a80663c9783" stretchType="RelativeToBandHeight" x="401" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e4e20b60-24f6-4d2b-84ee-d8a909ca7c0f" stretchType="RelativeToBandHeight" x="468" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{openingAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8e0c490d-e4fd-49f1-b6e5-2f58f0558742" stretchType="RelativeToBandHeight" x="568" y="0" width="95" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pendingAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="acea4a7a-84aa-496f-a9be-9d7ad7e62bf5" stretchType="RelativeToBandHeight" x="668" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dueOn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6eee7719-1da8-42bf-8fbe-f1b7665125db" stretchType="RelativeToBandHeight" x="735" y="0" width="67" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{overDue}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

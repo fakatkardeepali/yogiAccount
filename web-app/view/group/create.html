@@ -1,0 +1,144 @@
+<div class="page page-dashboard" data-ng-controller="AccountGroupCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"> </span>Account Group
+                    <span> <a href="#group/list" class="pull-right btn btn-default btn-xs">List</a></span><span>
+                        <a href="#group/create" class="pull-right btn btn-default btn-xs"
+                           ng-show="buttonShow">New</a></span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3">Name
+                                <span class="reqColor">*</span></label>
+                            <div class="col-sm-6">
+                                <input id="name" tooltip="Its Mandatory Field" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" autofocus="" focus-req="alias"
+                                       name="name" ng-model="groupObject.name" autofocus=""
+                                       data-placement="top" tooltip-trigger="focus" required="">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="alias" class="col-sm-3">Alias</label>
+
+                            <div class="col-sm-3">
+                                <input id="alias" type="text" tooltip="Tooltip on top" rows="4"
+                                       class="form-control input-sm"
+                                          data-toggle="tooltip" focus-on="isGroupUnderPrimary"
+                                          name="alias" ng-model="groupObject.alias"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="isGroupUnderPrimary" class="col-sm-3">Is Group under primary </label>
+
+                            <div class="col-sm-3">
+                                <input id="isGroupUnderPrimary" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="underGroup" data-ng-change="checkChange()"
+                                       name="isGroupUnderPrimary" ng-model="groupObject.isGroupUnderPrimary"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-ng-hide="groupObject.isGroupUnderPrimary">
+                            <label for="underGroup" class="col-sm-3">Under <span class="reqColor">*</span></label>
+
+                            <div class="col-sm-3">
+                                <select id="underGroup" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="doesIsAffectOnGrossProfit"
+                                       name="underGroup" ng-model="groupObject.underGroup"
+                                       data-placement="top" tooltip-trigger="focus"
+                                       data-ng-change="setProperty(groupObject.underGroup)"
+                                       ng-options="g.id as g.name for g in nonPrimaryList"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" data-ng-show="groupObject.isGroupUnderPrimary">
+                            <label for="underGroup" class="col-sm-3">Nature of Group<span
+                                    class="reqColor">*</span></label>
+
+                            <div class="col-sm-3">
+                                <select id="underGroup" tooltip="Tooltip on top" type="text"
+                                        class="form-control input-sm"
+                                        data-toggle="tooltip" focus-on="doesIsAffectOnGrossProfit"
+                                        name="underGroup" ng-model="groupObject.underGroup"
+                                        data-placement="top" tooltip-trigger="focus" data-ng-change="checkChange()"
+                                        ng-options="g.id as g.name for g in primaryList"></select>
+                            </div>
+                            </div>
+
+                        <div class="form-group" data-ng-show="doesEffect">
+                            <label for="doesIsAffectOnGrossProfit" class="col-sm-3">Does is affect on gross
+                                profit</label>
+
+                            <div class="col-sm-3">
+                                <input id="doesIsAffectOnGrossProfit" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="isLikeSubgroup"
+                                       name="doesIsAffectOnGrossProfit" ng-model="groupObject.doesIsAffectOnGrossProfit"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="isLikeSubgroup" class="col-sm-3">Group behaves like a Sub-Ledger</label>
+
+                            <div class="col-sm-3">
+                                <input id="isLikeSubgroup" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="isNetDrCrBalForReport"
+                                       name="isLikeSubgroup" ng-model="groupObject.isLikeSubgroup"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group" data-ng-hide="true">
+                            <label for="isNetDrCrBalForReport" class="col-sm-3">Net Debit/Credit Balance for
+                                Reporting</label>
+
+                            <div class="col-sm-3">
+                                <input id="isNetDrCrBalForReport" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="isUsedForCalculationsInInvoice"
+                                       name="isNetDrCrBalForReport" ng-model="groupObject.isNetDrCrBalForReport"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="isUsedForCalculationsInInvoice" class="col-sm-3">Used for Calculation(taxs,
+                                discounts) (for sales invoice Entry)</label>
+
+                            <div class="col-sm-3">
+                                <input id="isUsedForCalculationsInInvoice" tooltip="Tooltip on top" type="checkbox"
+                                       data-toggle="tooltip" focus-on="save"
+                                       name="isUsedForCalculationsInInvoice"
+                                       ng-model="groupObject.isUsedForCalculations"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="save" type="button" class="btn btn-line-info"
+                                        data-ng-click="save()" data-ng-hide="buttonShow">Save
+                                </button>
+                                <button id="update" type="button" data-ng-click="update()" data-ng-show="buttonShow"
+                                        class="btn btn-line-info">Update
+                                </button>
+                                <button id="delete" type="button" data-ng-click="delete()"
+                                        class="btn btn-line-danger" data-ng-show="buttonShow">Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- end Modal -->
+
+        </div>
+    </div>
+
+</div>

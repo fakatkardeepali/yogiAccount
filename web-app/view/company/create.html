@@ -1,0 +1,249 @@
+<div class="page page-dashboard" data-ng-controller="CompanyCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon glyphicon-th"></span>Company Setting
+                    <a href="#company/list" class="pull-right btn btn-default btn-xs">List</a>
+                    <a href="#company/create" class="pull-right btn btn-default btn-xs" ng-show="buttonShow">New</a>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" ng-show="orgShow">
+                            <label for="country" class="col-sm-2">Organization</label>
+
+                            <div class="col-sm-3">
+                                <!--<div class="ui-select">-->
+                                <select id="organization" name="organization.id" ng-model="companyObject.organization"
+                                        class="form-control input-sm" tooltip="Tooltip on top"
+                                        data-placement="top" tooltip-trigger="focus" focus-req="name"
+                                        ng-options="cl.id as cl.name for cl in orgList"></select>
+
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2">Name<span class="reqColor">*</span></label>
+
+                            <div class="col-sm-6">
+                                <input id="name" tooltip="Tooltip on top" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" autofocus="" focus-req="address"
+                                       name="name" ng-model="companyObject.name"
+                                       data-placement="top" tooltip-trigger="focus" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2">Address</label>
+
+                            <div class="col-sm-3">
+                                <textarea id="address" tooltip="Tooltip on top" rows="4" class="form-control input-sm"
+                                          data-toggle="tooltip" focus-on="city"
+                                          name="address" ng-model="companyObject.address"
+                                          data-placement="top" tooltip-trigger="focus"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="city" class="col-sm-2">City</label>
+
+                            <div class="col-sm-3">
+                                <input id="city" tooltip="Tooltip on top" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="pincode"
+                                       name="city" ng-model="companyObject.city"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                            <label for="pincode" class="col-sm-2">Pincode</label>
+
+                            <div class="col-sm-3">
+                                <input id="pincode" tooltip="Tooltip on top" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="country"
+                                       name="pincode" ng-model="companyObject.pincode"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country" class="col-sm-2">Country</label>
+
+                            <div class="col-sm-3">
+                                <!--<div class="ui-select">-->
+                                <select id="country" name="country.id" ng-model="companyObject.country"
+                                        class="form-control input-sm" tooltip="Tooltip on top"
+                                        data-placement="top" tooltip-trigger="focus"
+                                        ng-options="cl.id as cl.name for cl in countryList"
+                                        ng-change="getState(companyObject.country)"></select>
+
+                                <!--</div>-->
+                            </div>
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <label for="state" class="col-sm-2">State</label>
+
+                            <div class="col-sm-3">
+                                <!--<div class="ui-select">-->
+                                <select id="state" name="state.id" ng-model="companyObject.state"
+                                        class="form-control input-sm" tooltip="Tooltip on top"
+                                        data-placement="top" tooltip-trigger="focus"
+                                        ng-options="sl.id as sl.name for sl in stateList"></select>
+                                <!--</div>-->
+                            </div>
+                        </div>
+                        <!--{{stateList}}-->
+
+                        <div class="form-group">
+                            <label for="telephoneNo" class="col-sm-2">Telephone No</label>
+
+                            <div class="col-sm-3">
+                                <input id="telephoneNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip"
+                                       focus-on="email"
+                                       name="telephoneNo" ng-model="companyObject.telephoneNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <label for="email" class="col-sm-2">E-mail</label>
+
+                            <div class="col-sm-3">
+                                <input id="email" tooltip="Tooltip on top" type="text" class="form-control input-sm"
+                                       data-toggle="tooltip" focus-on="financialFrom" required=""
+                                       name="email" ng-model="companyObject.email"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="financialFrom" class="col-sm-2">Financial From</label>
+
+                            <div class="col-sm-3">
+                                <input id="financialFrom" tooltip="Tooltip on top" type="date"
+                                       class="form-control input-sm" data-toggle="tooltip"
+                                       focus-on="booksBeginigFrom"
+                                       ng-change="checkValidateDate(companyObject.financialFrom)"
+                                       name="financialFrom" ng-model="companyObject.financialFrom"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <label for="booksBeginigFrom" class="col-sm-2">Books Beginig From</label>
+
+                            <div class="col-sm-3">
+                                <input id="booksBeginigFrom" tooltip="Tooltip on top" type="date"
+                                       focus-on="currencySymbol"
+                                       ng-change="checkValidateDate(companyObject.booksBeginigFrom)"
+                                       class="form-control input-sm" data-toggle="tooltip"
+                                       name="booksBeginigFrom" ng-model="companyObject.booksBeginigFrom"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="currencySymbol" class="col-sm-2">Currency Symbol</label>
+
+                            <div class="col-sm-3">
+                                <input id="currencySymbol" tooltip="Tooltip on top" type="text"
+                                       focus-on="numberForDecimalPlace"
+                                       class="form-control input-sm" data-toggle="tooltip"
+                                       name="currencySymbol" ng-model="companyObject.currencySymbol"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <label for="numberForDecimalPlace" class="col-sm-2">Number For Decimal Place</label>
+
+                            <div class="col-sm-3">
+                                <input id="numberForDecimalPlace" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="registrationNo"
+                                       name="numberForDecimalPlace" ng-model="companyObject.numberForDecimalPlace"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="registrationNo" class="col-sm-2">Registration No</label>
+
+                            <div class="col-sm-3">
+                                <input id="registrationNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="isSymbolsSuffix"
+                                       name="registrationNo" ng-model="companyObject.registrationNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                            <label for="isSymbolsSuffix" class="col-sm-2">Is Symbols Suffix</label>
+
+                            <div class="col-sm-3">
+                                <input type="checkbox" id="isSymbolsSuffix" focus-on="save"
+                                       name="isSymbolsSuffix" ng-model="companyObject.isSymbolsSuffix"
+                                       data-placement="top">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="taxNo" class="col-sm-2">Tax No</label>
+
+                            <div class="col-sm-3">
+                                <input id="taxNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="isSymbolsSuffix"
+                                       name="taxNo" ng-model="companyObject.taxNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+
+                                <label for="vatNo" class="col-sm-2">Vat No</label>
+
+                            <div class="col-sm-3">
+                                <input id="vatNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="isSymbolsSuffix"
+                                       name="vatNo" ng-model="companyObject.vatNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cstNo" class="col-sm-2">CST No</label>
+
+                            <div class="col-sm-3">
+                                <input id="cstNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="isSymbolsSuffix"
+                                       name="cstNo" ng-model="companyObject.cstNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+
+                            <label for="eccNo" class="col-sm-2">ECC No</label>
+
+                            <div class="col-sm-3">
+                                <input id="eccNo" tooltip="Tooltip on top" type="text"
+                                       class="form-control input-sm" data-toggle="tooltip" focus-on="isSymbolsSuffix"
+                                       name="eccNo" ng-model="companyObject.eccNo"
+                                       data-placement="top" tooltip-trigger="focus">
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="save" type="button" valid class="btn btn-line-info"
+                                        ng-hide="buttonShow" data-ng-click="save()">Save
+                                </button>
+                                <button id="update" type="button" class="btn btn-line-info" ng-show="buttonShow"
+                                        data-ng-click="update()">
+                                    Update
+                                </button>
+                                <!--<button id="delete" type="button" class="btn btn-line-danger" ng-show="buttonShow"
+                                        data-ng-click="delete()">
+                                    Delete
+                                </button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- end Modal -->
+
+        </div>
+    </div>
+
+</div>

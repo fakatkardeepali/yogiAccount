@@ -1,0 +1,162 @@
+<div class="page page-dashboard" data-ng-controller="LedgerReportCtrl" xmlns="http://www.w3.org/1999/html">
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Modal -->
+            <section class="panel panel-dark">
+                <div class="panel-heading"><span class="glyphicon"></span>Ledger Summary</div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-1">Ledger<span class="reqColor">*</span></label>
+
+                                <div class="col-sm-4">
+                                    <select id="name" name="name.id" ng-model="ledgerObject.id"
+                                            class="form-control input-sm" tooltip="Tooltip on top"
+                                            data-placement="top" tooltip-trigger="focus" focus-req="partyName"
+                                            ng-options="cl.id as cl.name for cl in ledgerList"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="fromDate" class="col-sm-1">From Date</label>
+
+                                <div class="col-sm-2">
+                                    <input type="date" name="fromDate" class="form-control input-sm"
+                                           ng-model="ledgerObject.fromDate">
+                                </div>
+                                <label for="toDate" class="col-sm-1">To Date</label>
+
+                                <div class="col-sm-2">
+                                    <input type="date" name="toDate" class="form-control input-sm"
+                                           ng-model="ledgerObject.toDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!--<div class="col-sm-1"><input type="checkbox" name="byMonth" ng-model="ledgerObject.toDate"><label>By Month</label></div>-->
+                                <!--<div class="col-sm-2">-->
+                                <!--<select type="date" name="toDate" class="form-control input-sm" ng-model="ledgerObject.toDate"-->
+                                <!--ng-options="c for c in monthList"></select>-->
+                                <!--</div>-->
+                                <button id="save" type="button" class="btn btn-line-primary"
+                                        data-ng-click="findReport(ledgerObject)">Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--<div ng-include src="'../view/templates/ledgerReportTemplate.html'"></div>-->
+            <!-- end Modal -->
+            <section class="panel panel-dark" ng-if="reportParent.companyName">
+                <!--<div class="panel-heading"><span class="glyphicon"></span>Group Summary</div>-->
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-12">
+                            <div class="invoice-inner" id="summary">
+                                <table class="table table-bordered table-striped ">
+                                    <tr>
+                                        <th class="size-h3 text-center col-xs-12" colspan="12">
+                                            {{reportParent.companyName}}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left col-xs-8" colspan="8">{{reportParent.reportName}}</th>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="2">From:
+                                            {{reportParent.fromDate}}
+                                        </th>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="2">To:
+                                            {{reportParent.toDate}}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center col-xs-8" style="font-size:small;" colspan="8">Group
+                                            Name: {{reportParent.partyName}}
+                                        </th>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="2">Opening
+                                            Balance
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.openBalCr|number:2}}
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.openBalDr|number:2}}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="1">Date</th>
+                                        <th class="text-center col-xs-6" style="font-size:small;" colspan="7">
+                                            Particulars
+                                        </th>
+                                        <th class="text-center col-xs-1" style="font-size:small;" colspan="1">Vch.Type
+                                        </th>
+                                        <th class="text-center col-xs-1" style="font-size:small;" colspan="1">Vch.No
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">Credit</th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">Debit</th>
+                                    </tr>
+                                    <!--ng-reapet-->
+                                    <tr ng-repeat="child in reportChild track by $index">
+                                        <td class="text-center col-xs-2" style="font-size:small;" colspan="1">
+                                            {{child.date}}
+                                        </td>
+                                        <td class="text-left col-xs-6" style="font-size:small;" colspan="7"><a
+                                                ng-href="#voucher/create/{{child.id}}">{{child.particulars}}</a></td>
+                                        <td class="text-left col-xs-1" style="font-size:small;" colspan="1">
+                                            {{child.vType}}
+                                        </td>
+                                        <td class="text-left col-xs-1" style="font-size:small;" colspan="1">
+                                            {{child.vNo}}
+                                        </td>
+                                        <td class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{child.credit|number:2}}
+                                        </td>
+                                        <td class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{child.debit|number:2}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center col-xs-8" style="font-size:small;" colspan="8"></th>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="2">Current
+                                            Total:
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.crAmount|number:2}}
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.drAmount|number:2}}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-center col-xs-8" style="font-size:small;" colspan="8"></th>
+                                        <th class="text-center col-xs-2" style="font-size:small;" colspan="2">Closing
+                                            Balance
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.totalCr|number:2}}
+                                        </th>
+                                        <th class="text-right col-xs-1" style="font-size:small;" colspan="1">
+                                            {{reportParent.totalDr|number:2}}
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--<button id="delete" type="button" class="btn btn-line-primary"-->
+                            <!--data-ng-click="printInvoice()">-->
+                            <!--Print-->
+                            <!--</button>-->
+                            <a ng-href="../ledgerReport/ledgerSummaryReport?ledgerObject={{ledgerObject}}"
+                               class="btn btn-line-primary">Print</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</div>
