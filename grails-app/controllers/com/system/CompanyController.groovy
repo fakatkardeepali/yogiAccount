@@ -3,11 +3,15 @@ package com.system
 import com.annotation.ParentScreen
 import com.common.AccountFeature
 import com.common.StatutoryInfo
+import com.common.TaxSetting
+import com.master.AccountGroup
+import com.master.AccountLedger
 import com.master.MasterService
+import com.master.VoucherType
 import grails.converters.JSON
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 @ParentScreen(name = "Utilities", fullName = "Company", sortList = 1, link = "/company/create")
 @Transactional(readOnly = true)
@@ -113,6 +117,12 @@ class CompanyController {
             notFound()
             return
         }
+        AccountGroup.findAllByCompany(companyInstance,[sort:'id',order: 'desc']).each { d-> d.delete(flush: true)}
+        TaxSetting.findAllByCompany(companyInstance,[sort:'id',order: 'desc']).each { d-> d.delete(flush: true)}
+        StatutoryInfo.findByCompany(companyInstance).delete(flush: true)
+        AccountFeature.findByCompany(companyInstance).delete(flush: true)
+        AccountLedger.findAllByCompany(companyInstance,[sort:'id',order: 'desc']).each { d-> d.delete(flush: true)}
+        VoucherType.findAllByCompany(companyInstance,[sort:'id',order: 'desc']).each { d-> d.delete(flush: true)}
 
         if (companyInstance.delete(flush: true)) {
             render ""
@@ -253,12 +263,14 @@ class CompanyController {
         ;
 
 //
-        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
-                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
-
+//        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+//                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
+//                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
+        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#company/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+                '<button id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
                 '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
-
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
+                '<a tabindex=\"-1\" ng-href=\"#company/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
 
         def linkCellTemplate = '<div class="ngCellText" ng-class="col.colIndex()">' +
                 '  <a href="http://{{row.getProperty(col.field)}}" ng-bind="row.getProperty(col.field)" target="_blank"></a>' +

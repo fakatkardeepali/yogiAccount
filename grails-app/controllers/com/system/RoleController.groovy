@@ -2,8 +2,6 @@ package com.system
 
 import com.annotation.ParentScreen
 import grails.converters.JSON
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
 @ParentScreen(name = "Utilities", fullName = "Role", sortList = 1, link = "/role/create")
@@ -131,7 +129,12 @@ class RoleController {
             return
         }
 
-        roleInstance.delete flush: true
+//        roleInstance.delete flush: true
+        if (roleInstance.delete(flush: true)) {
+            render 1
+        } else {
+            render roleInstance.errors;
+        }
 
 //        request.withFormat {
 //            form multipartForm {
@@ -341,13 +344,18 @@ class RoleController {
         ;
 
 //
-        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
-                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
-/*
+//        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+//                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
+///*
+//                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
+//*/
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
+
+        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#role/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+                '<button id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
                 '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
-*/
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
+                '<a tabindex=\"-1\" ng-href=\"#role/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
 
 //                    '<webcam:webcamAnchor/>'+
 //            '<a id="webCamDiv" href=\"/'+grailsApplication.config.erpName+'/static/plugins/web-snap-0.1/swf/WebCam.swf\"><img src=\"/'+ grailsApplication.config.erpName+'/images/webcam_icon.jpg\" border="0" width="40" height="40"/></a>';

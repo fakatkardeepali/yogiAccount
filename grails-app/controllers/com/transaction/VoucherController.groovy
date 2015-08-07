@@ -99,6 +99,7 @@ class VoucherController {
             voucherInstance.save()
             Voucher.saveAll(voucher);
             Voucher.parametersInsert(voucherInstance.voucherType, voucherInstance.date);
+
             render true;
         }
     }
@@ -638,16 +639,21 @@ class VoucherController {
                 '<div ng-class="{ ngPinnedIcon: col.pinned, ngUnPinnedIcon: !col.pinned }" ng-click="togglePin(col)" ng-show=\"(col.pinnable && !showSearch)\"></div>' +
                 '</div>' +
                 '<div ng-show="col.resizable" class="ngHeaderGrip" ng-click="col.gripClick($event)" ng-mousedown="col.gripOnMouseDown($event)"></div>'
-        ;
+
 
 //
-        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
-                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
-/*
+//        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+//                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
+///*
+//                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
+//*/
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
+
+        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#voucher/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+                '<button id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
                 '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
-*/
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
+                '<a tabindex=\"-1\" ng-href=\"#voucher/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
 
 //                    '<webcam:webcamAnchor/>'+
 //            '<a id="webCamDiv" href=\"/'+grailsApplication.config.erpName+'/static/plugins/web-snap-0.1/swf/WebCam.swf\"><img src=\"/'+ grailsApplication.config.erpName+'/images/webcam_icon.jpg\" border="0" width="40" height="40"/></a>';

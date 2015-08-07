@@ -12,7 +12,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class AccountLedgerController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     MasterService masterService
     SystemService systemService
@@ -268,8 +268,8 @@ class AccountLedgerController {
 //            return
         } else {
             try {
+                PartyAccount.findByPartyName(accountLedgerInstance).delete(flush: true)
                 accountLedgerInstance.delete flush: true
-
                 render 1
             }catch (Exception e){
                 e.printStackTrace();

@@ -64,8 +64,8 @@ angular.module('myapp.directives', ['ngGrid', 'ui.utils'])
 
                 $scope.totalServerItems = 0;
                 $scope.pagingOptions = {
-                    pageSizes: [5, 20, 30],
-                    pageSize: 5,
+                    pageSizes: [20,30,50],
+                    pageSize: 20,
                     currentPage: 1
                 };
 

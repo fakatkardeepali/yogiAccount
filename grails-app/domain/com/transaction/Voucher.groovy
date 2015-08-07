@@ -105,7 +105,7 @@ class Voucher {
                 def data = VoucherType.findById(voucherType.id);
                 if (data) {
                     data.lastNumber = data.lastNumber + 1;
-                    data.save();
+                    data.save(flush: true);
                 }
             }
         }
@@ -118,7 +118,7 @@ class Voucher {
                 if (data.useAdavanceConfiguration) {
                     return Parameters.findByVoucherTypeAndApplicableFromGreaterThanEqualsAndApplicableToLessThanEquals(data, date, date).latestNumber + 1;
                 } else {
-                    return data.lastNumber ? (data.lastNumber + 1) : 0;
+                    return (data.lastNumber>=0) ? (data.lastNumber + 1) : 0;
                 }
             } else {
                 return no;

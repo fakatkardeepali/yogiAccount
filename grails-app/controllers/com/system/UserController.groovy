@@ -3,9 +3,9 @@ package com.system
 import com.annotation.ParentScreen
 import com.master.MasterService
 import grails.converters.JSON
-
-import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+
+import static org.springframework.http.HttpStatus.NOT_FOUND
 
 @ParentScreen(name = "Utilities", fullName = "User", sortList = 1, link = "/user/create")
 @Transactional(readOnly = true)
@@ -191,16 +191,20 @@ class UserController {
         ;
 
 //
-        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
-                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
-/*
-                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
-*/
-                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
+//        def editDeleteButton = '<form method="post" action="/' + grailsApplication.config.projectName + '/' + controllerName + '/list?scrid="  style="padding: 5px; page-break-before: avoid; page-break-after: avoid; margin: 0px" >' +
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+//                '<button type="submit" id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
+///*
+//                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
+//*/
+//                '<a tabindex=\"-1\" ng-href=\"#' + controllerName + '/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a></form>'
 
 //                    '<webcam:webcamAnchor/>'+
 //            '<a id="webCamDiv" href=\"/'+grailsApplication.config.erpName+'/static/plugins/web-snap-0.1/swf/WebCam.swf\"><img src=\"/'+ grailsApplication.config.erpName+'/images/webcam_icon.jpg\" border="0" width="40" height="40"/></a>';
+        def editDeleteButton = '<a tabindex=\"-1\" ng-href=\"#user/create/{{row.entity.id}}"><span class=\"ti-pencil-alt\"></span></a>' +
+                '<button id="{{row.entity.id}}" ng-click="deleteData(row.entity.id)" style="border: none; background: transparent">' +
+                '<img src="/' + grailsApplication.config.projectName + '/images/delete1.png"></button> ' +
+                '<a tabindex=\"-1\" ng-href=\"#user/print/{{row.entity.id}}"><i class=\"ti-printer\"></i></span></a>'
 
         def linkCellTemplate = '<div class="ngCellText" ng-class="col.colIndex()">' +
                 '  <a href="http://{{row.getProperty(col.field)}}" ng-bind="row.getProperty(col.field)" target="_blank"></a>' +

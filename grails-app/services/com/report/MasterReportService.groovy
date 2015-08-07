@@ -51,7 +51,7 @@ class MasterReportService {
         }
 
         if (data) {
-            data.each { d ->
+            data?.sort{it?.date}?.each { d ->
                 def credit = 0;
                 def debit = 0;
 
@@ -137,6 +137,7 @@ class MasterReportService {
                         projections {
                             sum('amount')
                         }
+                        order("date", "asc")
                     } ?: 0)
 
                     voucherCr = voucherCr + (Voucher.createCriteria().get {
@@ -151,6 +152,7 @@ class MasterReportService {
                         projections {
                             sum('amount')
                         }
+                        order("date", "asc")
                     } ?: 0)
 
                     openingBalCr = openingBalCr + (AccountLedger.createCriteria().get {
@@ -192,6 +194,7 @@ class MasterReportService {
                             between("date", company.booksBeginigFrom, new Date())
                         }
                         eq('partyName', c)
+                        order("date", "asc")
                     }
 
                     def voucherCr = 0, voucherDr = 0, openingBalCr = 0, openingBalDr = 0
@@ -381,7 +384,7 @@ class MasterReportService {
             }
 
             if (voucherParent) {
-                voucherParent.each { c ->
+                voucherParent?.sort{it?.date}?.each { c ->
                     child.push([id          : c?.voucherNo ? c?.id : c?.voucher?.id,
                                 vNo         : c?.voucherNo ? c?.voucherNo : c?.voucher?.voucherNo,
                                 date        : c.date ? c.date.format("yyyy-MM-dd") : "",
@@ -469,7 +472,7 @@ class MasterReportService {
             }
 
             if (salesData) {
-                salesData.each { s ->
+                salesData?.sort{it?.date}?.each { s ->
                     def debit = 0;
                     def credit = 0;
 
@@ -535,7 +538,7 @@ class MasterReportService {
             }
 
             if (partyAccountData) {
-                partyAccountData.each { s ->
+                partyAccountData?.sort{it?.billDate}?.each { s ->
                     def dueDate = s?.billDate ? (s?.billDate) + (s?.crDays ? s.crDays.intValue() : 0) : ""
                     totalPendingAmount = totalPendingAmount + (s?.remainAmount ?: 0)
 
@@ -652,7 +655,7 @@ class MasterReportService {
 
         def child = PartyAccount.findAllByPartyName(accountLedger);
         if (child) {
-            child.each { c ->
+            child?.sort{it?.billDate}?.each { c ->
                 def dueDate = (c?.billDate?:0) + (c?.crDays ? c.crDays.intValue() : 0)
                 parentChild.push(date: c?.billDate?.format("yyyy-MM-dd") ?: "",
                         refNo: c?.billNo ?: "", vType: c?.voucher?.voucherType?.name ?: "",
@@ -697,7 +700,7 @@ class MasterReportService {
 //       def party = PartyAccount.findAllByPartyName(accountLedger);
         if (accountLedger.size() > 0) {
             accountLedger.each { d ->
-                def child = PartyAccount.findAllByPartyName(d);
+                def child = PartyAccount.findAllByPartyName(d)?.sort{it?.billDate};
                 if (child) {
                     amountCr = 0;
                     amountDr = 0;
@@ -842,6 +845,7 @@ class MasterReportService {
                     projections {
                         sum('amount')
                     }
+                    order("date","asc")
                 } ?: 0)
 
                 voucherDr = voucherDr + (Voucher.createCriteria().get {
@@ -856,6 +860,7 @@ class MasterReportService {
                     projections {
                         sum('amount')
                     }
+                    order("date","asc")
                 } ?: 0)
             }
             child = ([id          : acc?.id ?: "",
