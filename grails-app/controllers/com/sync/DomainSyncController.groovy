@@ -1,45 +1,37 @@
 package com.sync
 
+import com.master.AccountLedger
+import utils.JSONUtils
+
 class DomainSyncController {
     DomainSyncService domainSyncService
-    def index() {}
 
-    def save(def params){
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def save(){
         //make hash table here
+        println "Called save of domain sync controller"
 
-        def partyJson=[]
-        partyJson.push(
-                className:"Party",
-                name:"Yogi Systems",
-                creditDays:"9",
-                officeAddress:"Pune",
-                telephoneNo1:"9890937123",
-                faxNo:"1245-4567",
-                company:1,
-                lastUpdatedBy:1,
-                status:"Dr",
-                underGroup:1
-        )
+        //println "params: ${params}"
+        //println "request : ${request.getJSON().getClass()}"
 
-        domainSyncService.save(partyJson[0].className,partyJson)
+        def domainInstanceProperties = request.getJSON()
+        domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
+        println "ledger count : ${AccountLedger.count()}"
+        println "ledger properties : ${AccountLedger.last().properties}"
     }
-    def update(int id,def params){
-        def partyJson=[]
-        partyJson.push(
-                className:"Party",
-                name:"Yogi Systems",
-                creditDays:"9",
-                officeAddress:"Pune",
-                telephoneNo1:"9890937123",
-                faxNo:"1245-4567",
-                company:1,
-                lastUpdatedBy:1,
-                status:"Dr",
-                underGroup:1
-        )
-        domainSyncService.update(partyJson[0].className,partyJson)
-    }
-    def delete(int id){
-        domainSyncService.delete(id)
+
+    def update() {
+
+        println "Called update of domain sync controller"
+        //println "params: ${params}"
+        //println "request : ${request.getJSON().getClass()}"
+
+        def domainInstanceProperties = request.getJSON()
+        domainSyncService.update(domainInstanceProperties.className, domainInstanceProperties)
+
+        println "ledger count : ${AccountLedger.count()}"
+        println "ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}"
+        //println "ledger properties : ${AccountLedger.last().properties.partyId}"
     }
 }

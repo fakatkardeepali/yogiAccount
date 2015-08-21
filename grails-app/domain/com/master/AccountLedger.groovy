@@ -49,6 +49,7 @@ class AccountLedger {
     String status
     boolean activeInterestCalculation = false
     String eccNo
+    Long partyId
 
 // statutory form members
     // statutory tds
@@ -107,6 +108,7 @@ class AccountLedger {
         reconciliationDate nullable: true
         state nullable: true
         sectionNumber nullable: true
+        partyId nullable: true
     }
 
     static hasMany = [interestParameter: InterestParameters]
