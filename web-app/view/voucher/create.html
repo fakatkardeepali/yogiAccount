@@ -199,12 +199,13 @@
                                         <tr ng-repeat="child in childJSON track by $index">
                                             <td class="col-md-1">
                                                 <!--<a href="" data-ng-click="updateChild($index)"><span class="glyphicon glyphicon-edit"></span></a>-->
-                                                <a href="" data-ng-click="deleteChild($index)"><span
+                                                <a href="" data-ng-click="deleteChild($index);getSaleCalculation();checkSaleValid();"><span
                                                         class="glyphicon glyphicon-trash"></span></a>
                                             </td>
                                             <!--<td class="col-md-1" ng-bind="child.status"></td>-->
                                             <td class="col-md-4"><select ng-model="child.ledger"
                                                                          class="form-control input-sm"
+                                                                         ng-change="calculateAmount(child.ledger,vObject.amount,$index);getSaleCalculation();checkSaleValid();"
                                                                          ng-options="tr.id as tr.name for tr in AccountLedger"></select>
                                             </td>
                                             <td class="col-md-1"><input type="text" class="form-control input-sm"

@@ -365,7 +365,8 @@ class MasterReportService {
 
 
         def company = systemService.getCompanyObjectById(companyId);
-        def ledger = AccountLedger.findByIdAndCompany(id, company);
+        def ledger = AccountLedger.findByUnderGroupAndCompany(AccountGroup.findById(id), company);
+
         if (ledger) {
             if (ledger.status == "Cr") {
                 openingCr = openingCr + (ledger.openingBalance ?: 0)
@@ -864,6 +865,7 @@ class MasterReportService {
                 } ?: 0)
             }
             child = ([id          : acc?.id ?: "",
+                      uniqueKey   : acc?.uniqueKey ?: "",
                       isGroup     : isGroup,
                       template    : template,
                       name        : acc?.name ?: "",
@@ -921,9 +923,10 @@ class MasterReportService {
                   totalCrAmountStatus: ((totalPurchase - totalSale) > 0) ? "Net Loss" : "",
                   totalDrAmount      : ((totalSale - totalPurchase) > 0) ? (totalSale - totalPurchaseDr) : "",
                   totalDrAmountStauts: ((totalSale - totalPurchase) > 0) ? "Net Profit" : "",
-                  reportName         : "Profit And Loss A/C",
-                  purchaseChild      : purchaseChild,
-                  saleChild          : saleChild]
+                  reportName         :  "Purchase Account",
+                  reportName1         : "Sale Account",
+                  purchaseChild      : purchaseChild.sort{it.uniqueKey},
+                  saleChild          : saleChild.sort{it.uniqueKey}]
 
         if (parent) {
             return parent;

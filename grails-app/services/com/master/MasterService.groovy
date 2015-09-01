@@ -106,7 +106,9 @@ class MasterService {
 
     def getAllTaxByCompanyAndIsDisplayTrue(Company company) {
         def result = []
-        def data = TaxSetting.findAllByCompanyAndIsDisplay(company, true);
+        //this line was commented all data is showing for particular company
+        //def data = TaxSetting.findAllByCompanyAndIsDisplay(company, true);
+        def data = TaxSetting.findAllByCompany(company);
         if (data) {
             data.each { d ->
                 result.push([
