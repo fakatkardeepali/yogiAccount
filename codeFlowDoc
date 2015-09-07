@@ -1,0 +1,78 @@
+This Document refers till date coding practices done in API task :
+
+Flow :
+
+       |ERP| <=> DomainSyncController <=> DomainSyncService <=> DomainUtils <=> | Account |
+                |_______________________________________________________|
+                                           |
+                                           |
+                                          API
+
+ DomainSyncController :
+                                  ERP application will communicate to Account application through DomainSyncController.
+                                  On the basis of parameters we get from ERP, we will call the related curd operation (save/update/delete)
+                                  method in DomainSyncController.
+
+
+ DomainSyncService  :
+                                  DomainSyncService will be handling intermediate calls between DomainSyncController and DomainUtils
+                                  As per standard flow controller should not directly communicate to Domain class. So for single instance
+                                  at each time we have designed DomainSyncService service.
+
+ DomainUtils :
+                                  All the actual operations are done in DomainUtils class. It contains the static methods needed for
+                                  manupulating operations in the API.
+
+ createDomainInstance Method :
+                                  This method creates the domain instance of the domainclass for which domain class name
+                                  is provided as an arguement.This Method takes 3 parameters as an input i.e.
+                                  1.domainName(String)
+                                  2.domainProperties(def)
+                                  3.isUpdate(boolean)
+                                  -where domainName is the name of Domain class for which we are going to create instance of.
+                                  -domainProperties is the set of attributes along with their values passed form ERP to Account and
+                                   those properties needs to be matched with the properties of destination Domain Class.
+                                  -isUpdate is the flag that differentiates between Save And Update method.
+
+ getPropertiesForDomainInstance Method :
+                                  This method returns the Map for the destination Domain class.
+                                  This method takes 3 parameters as input i.e.
+                                  1.domainName(String)
+                                  2.domainProperties(def)
+                                  3.destinationProperties(Map)
+                                  -where domainName is the name of Domain class for which we are going to create instance of.
+                                  -domainProperties is the set of attributes along with their values passed form ERP to Account and
+                                   those properties needs to be matched with the properties of destination Domain Class.
+                                  -destinationProperties is the Map of destination Domain class attributes.
+
+ getSimilarDestinationDomainPropertiesMap :
+                                  This method returns the properties that are similar in both source and destination domain class.
+                                  This method checks whether the source and destination class attributes are same and if so it adds them
+                                  to the final Map.
+                                  This method takes 2 parameters as input.
+                                  1.domainProperties(Map)
+                                  2.destinationProperties(Map)
+                                  -where domainProperties is the source Domain class attributes Map.
+                                  -destinationProperties is the Map for the Destination Domain class attributes.
+
+ getConfigMapForDomain :
+                                  This method takes domainName as an input and separates each domain class into switch cases.
+                                  In each case it maps the different property names of both the classes(source and destination).
+                                  Here there are 2 cases:
+                                  1.Simple Properies
+                                  2.Object Properties
+                                  -Simple properties are matched directly with the other properties.
+                                  -In case of an Object(i.e. foreign key of other domain class). it is a separate Map for those attributes.
+                                   So we make it ease by separating values as follows :
+                                   i)domainClass : Destination Domain class for the object
+                                   ii)scrPropName : Source domain class property name for the object.
+                                   iii)queryMap :  this defines the unique property name by which we will get an unique instance of Destination
+                                                   domain class.
+
+ populateDiffProperties  :
+                                  There are other properties that are not matched with the destination domain class attributes. So for them
+                                  We have to maintain them in separate set.
+                                  This methos takes 2 parameters as input.
+                                  1.configMap
+                                  2.srcMap
+                                  3.destMap
