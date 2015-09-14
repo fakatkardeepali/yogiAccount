@@ -1,0 +1,39 @@
+This document will guide what test entries are necessary from ERP application to Account Application for saving Data.
+
+Party Master => Account Ledger :
+
+Party : Party is a domain class with having one child class named as PartyContactDetails
+AccountLedger : AccountLedger is having one child class named as InterestParameters
+
+Data to be matched on From Party :
+1.regNo - CompanySetting in Party should have this field which will be matched up with "registrationNo" in Company of
+          Account Ledger
+2.mailId - User in Party should have this field which will be matched up with "username" in User of Account Ledger
+3.partyType - PartyType is having 2 choices (Customer/Supplier). If PartyType is Customer then Account Ledger
+              type(underGroup) should be Sundry Debtors. If PartyType is Customer then Account Ledger type(underGroup)
+              should be Sundry Creditors.
+
+Party required fields :
+
+1.name(String)
+2.partyType(PartyType)
+3.exportOrDomestic(ExportEnum)
+4.creditDays(String)
+5.company(CompanySetting)
+6.lastUpdatedBy(User)
+7.lastUpdated(Date)
+8.dateCreated(Date)
+9.isActive(boolean)
+10.financialYear(String)
+
+AccountLedger Required Fields :
+
+1.name(String)
+2.underGroup(AccountGroup)
+3.reconciliationDate(Date)
+4.company(Company)
+5.lastUpdatedBy(User)
+6.dateCreated(Date)
+7.lastUpdated(Date)
+8.openingBalance(BigDecimal)
+9.status(String)

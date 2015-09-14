@@ -1,12 +1,92 @@
 package com.sync
 
+import com.helpers.DomainHelpers
 import com.master.AccountLedger
-import utils.JSONUtils
+
+//import utils.JSONUtils
 
 class DomainSyncController {
     DomainSyncService domainSyncService
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def index(){
+      Map domainInstanceProperties = [
+              domainClass:"Party",
+              partyType:"Customer",
+              lastUpdatedBy:[
+                      mailId:"ravi@gmail.com"
+                           ],
+                company: [
+                attachment: null,
+                locationNo: null,
+                workAddress: null,
+                stcNo: null,
+                ifscCode: null,
+                weekAlert1: null,
+                weekAlert3: null,
+                weekAlert2: null,
+                weekAlert5: null,
+                weekAlert4: null,
+                weekAlert7: null,
+                weekAlert6: null,
+                vattin: null,
+                dateCreated: null,
+                bankBranch: null,
+                regNo: "123",
+                certificationNo: null,
+                address: null,
+                exciseQuaterly: false,
+                csttin: null,
+                companyStandard: null,
+                branchNameId: 1,
+                webHosting: false,
+                division: null,
+                isActive: true,
+                commissionerate: null,
+                bankName: null,
+                accountNo: null,
+                lastUpdated: null,
+                country: null,
+                localHosting: false,
+                telephoneNo: null,
+                faxNo: null,
+                panNo: null,
+                pLANo: null,
+                exciseMonthly: false,
+                email: null,
+                lbtNo: null,
+                stockOpBalanceDate: null,
+                eCCNo: null,
+                ecNo: null,
+                organizationNameId: 1,
+                serviceTaxNo: null,
+                alert3: null,
+                alert2: null,
+                rangeNew: null,
+                alert1: null,
+                bankAccountName: null,
+                days: 0,
+                createdDate: null,
+                place: null,
+                bstNo: null,
+                alert5: null,
+                currentYear: null,
+                alert4: null
+        ]]
+
+        Map configMap = DomainHelpers.getConfigMapForDomain("Party")
+
+//        print configMap
+        //Object companyInstance = DomainHelpers.getDomainInstanceByQuery("company",configMap,domainInstanceProperties)
+//        Object companyInstance = DomainHelpers.getDomainInstanceByQuery("underGroup",configMap,domainInstanceProperties)
+        //println AccountGroup.findByPartyType.call("Customer");
+//        Object companyInstance = DomainHelpers.findDomainInstanceByMethod(configMap.underGroup,domainInstanceProperties)
+//        Map diffProperties = DomainHelpers.populateDiffProperties(configMap,domainInstanceProperties)
+          def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
+          print domainInstance
+
+    }
 
     def save(){
         //make hash table here
@@ -15,10 +95,26 @@ class DomainSyncController {
         //println "params: ${params}"
         //println "request : ${request.getJSON().getClass()}"
 
-        def domainInstanceProperties = request.getJSON()
-        domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
-        println "ledger count : ${AccountLedger.count()}"
-        println "ledger properties : ${AccountLedger.last().properties}"
+
+
+        Map domainInstanceProperties = request.getJSON()
+//        Object destinationProperties = AccountLedger.get(1)
+        Map configMap = DomainHelpers.getConfigMapForDomain("Party")
+        println configMap
+//        DomainHelpers.getDomainInstanceByQuery("company",configMap,domainInstanceProperties)
+
+//        println domainInstanceProperties
+
+       def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
+//        println "ledger count : ${AccountLedger.count()}"
+//        println "ledger properties : ${AccountLedger.last().properties}"
+
+//        def res=[1:true]
+//        res.success = "rest call successfull"
+
+//        respond res,[formats:['json']]
+        respond ""
+
     }
 
     def update() {

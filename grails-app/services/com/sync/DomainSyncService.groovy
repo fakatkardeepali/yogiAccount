@@ -1,14 +1,15 @@
 package com.sync
 
+import com.helpers.DomainHelpers
 import grails.transaction.Transactional
-import utils.DomainUtils
 
 @Transactional
 class DomainSyncService {
 
    def save(String domainName,def hashMap){
 
-        def domainInstance = DomainUtils.createDomainInstance(domainName,hashMap)
+        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
+//       println hashMap
         return domainInstance.save()
 
        /*
@@ -23,13 +24,12 @@ class DomainSyncService {
     }
 
    def update(String domainName,def hashMap){
-        def domainInstance = DomainUtils.createDomainInstance(domainName,hashMap,true/*find existing instead of create new instance*/)
+        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap,true/*find existing instead of create new instance*/)
        if(domainInstance){
            return domainInstance.save()
        }else{
            println "failed to update domain : ${domainName}"
            false
        }
-
    }
 }
