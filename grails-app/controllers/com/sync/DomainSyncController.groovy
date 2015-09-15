@@ -13,10 +13,13 @@ class DomainSyncController {
     def index(){
       Map domainInstanceProperties = [
               domainClass:"Party",
-              partyType:"Customer",
+              name :"ABC",
               lastUpdatedBy:[
                       mailId:"ravi@gmail.com"
                            ],
+              partyType:[
+                      enumDescription:"Supplier"
+              ],
                 company: [
                 attachment: null,
                 locationNo: null,
@@ -78,13 +81,15 @@ class DomainSyncController {
         Map configMap = DomainHelpers.getConfigMapForDomain("Party")
 
 //        print configMap
-        //Object companyInstance = DomainHelpers.getDomainInstanceByQuery("company",configMap,domainInstanceProperties)
+//        Object companyInstance = DomainHelpers.getDomainInstanceByQuery("company",configMap,domainInstanceProperties)
 //        Object companyInstance = DomainHelpers.getDomainInstanceByQuery("underGroup",configMap,domainInstanceProperties)
         //println AccountGroup.findByPartyType.call("Customer");
-//        Object companyInstance = DomainHelpers.findDomainInstanceByMethod(configMap.underGroup,domainInstanceProperties)
+
 //        Map diffProperties = DomainHelpers.populateDiffProperties(configMap,domainInstanceProperties)
-          def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
-          print domainInstance
+//          def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
+          def sourceProperties = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,domainInstanceProperties)
+          Object domainInstanceByMethod = DomainHelpers.findDomainInstanceByMethod(configMap.underGroup,domainInstanceProperties,sourceProperties)
+          print domainInstanceByMethod
 
     }
 

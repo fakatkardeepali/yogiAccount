@@ -44,6 +44,16 @@ class AccountGroup implements Serializable {
 //        property = underGroup?underGroup.property:""
     }
 
+    static def findByPartyTypeAndCompany = { map ->   //add second parameter here separated by comma
+        if(map.partyType=="Customer"){
+            return AccountGroup.findByNameAndCompany("Sundry Debtors",map.company)
+        }
+        else{
+            return AccountGroup.findByNameAndCompany("Sundry Creditors",map.company)
+        }
+
+    }
+
 //    static mapping = {
 //        id generator: 'assigned',composite: ['id','company']
 //    }

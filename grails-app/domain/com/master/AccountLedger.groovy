@@ -46,7 +46,7 @@ class AccountLedger {
     Date dateCreated
     Date lastUpdated
     BigDecimal openingBalance = 0
-    String status
+    String status="Dr"
     boolean activeInterestCalculation = false
     String eccNo
     Long partyId
@@ -109,6 +109,8 @@ class AccountLedger {
         state nullable: true
         sectionNumber nullable: true
         partyId nullable: true
+
+
     }
 
     static hasMany = [interestParameter: InterestParameters]
@@ -116,6 +118,7 @@ class AccountLedger {
 
     static mapping = {
         reconciliationDate type: 'date'
+//        status defaultValue: "'Dr'"
     }
 
     def beforeInsert() {
