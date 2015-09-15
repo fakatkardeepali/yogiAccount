@@ -45,13 +45,13 @@ class AccountGroup implements Serializable {
     }
 
     static def findByPartyTypeAndCompany = { map ->   //add second parameter here separated by comma
-        if(map.partyType=="Customer"){
-            return AccountGroup.findByNameAndCompany("Sundry Debtors",map.company)
+        def queryMap=[:]
+        if(map.name=="Customer"){
+            queryMap["name"] = "Sundry Debtors"
+        }else{
+            queryMap["name"] = "Sundry Creditors"
         }
-        else{
-            return AccountGroup.findByNameAndCompany("Sundry Creditors",map.company)
-        }
-
+        return findWhere(queryMap)
     }
 
 //    static mapping = {
