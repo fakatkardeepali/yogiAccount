@@ -58,7 +58,6 @@ class Company {
     static mapping = {
         financialFrom type: 'date'
         booksBeginigFrom type: "date"
-
     }
 
     def beforeInsert() {

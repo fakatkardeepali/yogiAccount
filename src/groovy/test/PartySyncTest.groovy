@@ -20,7 +20,6 @@ class PartySyncTest {
     static def checkPrerequisites(){
 
         createTestData()
-
         checkQueryMapProperties()
         testGetDomainInstanceByQueryMap()
         testFindDomainInstanceByMethod()
@@ -30,7 +29,6 @@ class PartySyncTest {
         AssertUtils.assertNotNull(company)
         //assert company.registrationNo.equalsIgnoreCase("123")
         AssertUtils.equals(company.registrationNo,"123")
-
         clearTestData()
     }
 
@@ -84,7 +82,17 @@ class PartySyncTest {
     }
 
     static def clearTestData(){
+        def user  =  User.findByUsername(userName)
+        user.company = null
+        user.delete()
+        user  =  User.findByUsername(userName)
+        AssertUtils.assertNull(user)
+
         def company = Company.findByName(companyName)
-        company.delete()
+        company.lastUpdatedBy=null
+        company.delete(flush: true)
+        company =Company.findByName(companyName)
+
+        AssertUtils.assertNull(company)
     }
 }

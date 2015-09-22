@@ -1,10 +1,9 @@
 package com.sync
 
 import com.helpers.DomainHelpers
-import com.master.AccountGroup
 import com.master.AccountLedger
 import com.system.Company
-import test.PartySyncTest
+import grails.converters.JSON
 import utils.TestData
 
 //import utils.JSONUtils
@@ -15,9 +14,8 @@ class DomainSyncController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index(){
-        PartySyncTest.checkPrerequisites()
-      Map domainInstanceProperties = TestData.domainInstanceProperties
-
+//        PartySyncTest.checkPrerequisites()
+        Map domainInstanceProperties = TestData.domainInstanceProperties
         Map configMap = DomainHelpers.getConfigMapForDomain("Party")
 
 //        print configMap
@@ -76,5 +74,18 @@ class DomainSyncController {
         println "ledger count : ${AccountLedger.count()}"
         println "ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}"
         //println "ledger properties : ${AccountLedger.last().properties.partyId}"
+    }
+
+    def findAccountLedgersByMailId(){
+        def getData = request.getJSON()
+        Company compObj = Company.findByEmail(getData.mailId)
+//        def accountData = AccountLedger.findAllByCompany(compObj)
+        def accountData = AccountLedger.createCriteria().list{
+            projections {
+                property("id")
+                property("name")
+            }
+        }
+        render accountData as JSON
     }
 }

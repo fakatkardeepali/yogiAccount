@@ -7,15 +7,7 @@ import com.common.VoucherStatus
 import com.master.AccountGroup
 import com.master.AccountLedger
 import com.master.VoucherType
-import com.system.Company
-import com.system.Country
-import com.system.Organization
-import com.system.Role
-import com.system.RoleChild
-import com.system.Screen
-import com.system.State
-import com.system.User
-import com.system.UserRole
+import com.system.*
 import grails.transaction.Transactional
 
 @Transactional
@@ -157,12 +149,13 @@ class DataFeedService {
             groupArray2.add(new AccountGroup(name: "Capital Account", underGroup: AccountGroup.findByName("Liabilities"), uniqueKey: 12, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Capital Account"));
             groupArray2.add(new AccountGroup(name: "Current Liabilities", underGroup: AccountGroup.findByName("Liabilities"), uniqueKey: 13, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Current Liabilities"));
             groupArray2.add(new AccountGroup(name: "Suspense A/c", underGroup: AccountGroup.findByName("Liabilities"), uniqueKey: 14, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Suspense A/c"));
-            groupArray2.add(new AccountGroup(name: "Direct Expenses", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 15, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Direct Expenses"));
-            groupArray2.add(new AccountGroup(name: "Indirect Expenses", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 16, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Indirect Expenses"));
-            groupArray2.add(new AccountGroup(name: "Purchase Accounts", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 17, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Purchase Accounts"));
-            groupArray2.add(new AccountGroup(name: "Direct Income", underGroup: AccountGroup.findByName("Income"), uniqueKey: 18, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Direct Income"));
-            groupArray2.add(new AccountGroup(name: "Indirect Income", underGroup: AccountGroup.findByName("Income"), uniqueKey: 19, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Indirect Income"));
-            groupArray2.add(new AccountGroup(name: "Sales Accounts", underGroup: AccountGroup.findByName("Income"), uniqueKey: 20, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Sales Accounts"));
+            groupArray2.add(new AccountGroup(name: "Purchase Accounts", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 15, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Purchase Accounts"));
+            groupArray2.add(new AccountGroup(name: "Direct Expenses", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 16, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Direct Expenses"));
+            groupArray2.add(new AccountGroup(name: "Indirect Expenses", underGroup: AccountGroup.findByName("Expenses"), uniqueKey: 17, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Indirect Expenses"));
+            groupArray2.add(new AccountGroup(name: "Sales Accounts", underGroup: AccountGroup.findByName("Income"), uniqueKey: 18, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Sales Accounts"));
+            groupArray2.add(new AccountGroup(name: "Direct Income", underGroup: AccountGroup.findByName("Income"), uniqueKey: 19, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Direct Income"));
+            groupArray2.add(new AccountGroup(name: "Indirect Income", underGroup: AccountGroup.findByName("Income"), uniqueKey: 20, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Indirect Income"));
+
             AccountGroup.saveAll(groupArray2);
             List<AccountGroup> groupArray3 = new ArrayList<AccountGroup>();
             groupArray3.add(new AccountGroup(name: "Bank Accounts", underGroup: AccountGroup.findByName("Current Assets"), uniqueKey: 21, lastUpdatedBy: userObject, company: companyObject, isDisplay: true, property: "Bank Accounts"));
@@ -270,6 +263,17 @@ class DataFeedService {
             accountFlagArray3.add(new AccountFlag(name: "On Total Sales", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Others")));
             accountFlagArray3.add(new AccountFlag(name: "Surcharge on Tax", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Others")));
             accountFlagArray3.add(new AccountFlag(name: "Tax based on Item rate", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Others")));
+
+            //added by Rakesh while testing done by Ravi Sir
+            accountFlagArray3.add(new AccountFlag(name: "Additional Duty", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray3.add(new AccountFlag(name: "On Total Sales", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray3.add(new AccountFlag(name: "Surcharge on Tax", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray3.add(new AccountFlag(name: "Tax based on Item rate", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray3.add(new AccountFlag(name: "Additional Duty", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Excise")));
+            accountFlagArray3.add(new AccountFlag(name: "On Total Sales", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Excise")));
+            accountFlagArray3.add(new AccountFlag(name: "Surcharge on Tax", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Excise")));
+            accountFlagArray3.add(new AccountFlag(name: "Tax based on Item rate", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("Excise")));
+
             AccountFlag.saveAll(accountFlagArray3);
 
             List<AccountFlag> accountFlagArray4 = new ArrayList<AccountFlag>();
@@ -472,16 +476,17 @@ class DataFeedService {
             accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 1%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 12.5%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 20%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
-            accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 4%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 5%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Input VAT @ 8% on Works Contract", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 1%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 12.5%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 20%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
-            accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 4%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+            accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 5%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Output VAT @ 8% on Works Contract", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Purchase – Capital Goods @ 12.5%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "Purchase – Capital Goods @ 4%", description: "Vat/Tax class", remark: "VTC", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
             accountFlagArray4.add(new AccountFlag(name: "On VAT Rate", description: "", remark: "", uniqueKey: ++uniqueCounter, parent: AccountFlag.findByName("VAT")));
+
             AccountFlag.saveAll(accountFlagArray4);
         }
     }

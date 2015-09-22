@@ -11,4 +11,8 @@ class AssertUtils {
     static def equals(src,dest){
         assert src.equals(dest)
     }
+
+    static  def assertNull(object){
+        assert object == null
+    }
 }
