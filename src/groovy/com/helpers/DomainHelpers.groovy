@@ -25,7 +25,7 @@ class DomainHelpers {
                         salesTaxNo   : "serviceTaxNo",
                         company      : [domainClass: Company, srcPropName: ["company.regNo":"registrationNo"],queryMap: true],
                         lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true],
-                        underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enummDescription": "name", "company": [depends:"QM"]], method: AccountGroup.findByPartyTypeAndCompany]
+                        underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends:"QM"]], method: AccountGroup.findByPartyTypeAndCompany]
                 ]
                 break
             case "Tax":
@@ -98,12 +98,13 @@ class DomainHelpers {
         }
     }
 
-    static def createDomainInstance(String domainName, def domainProperties, boolean isUpdate = false) {
+    static def createDomainInstance(String domainName, def domainProperties, boolean isUpdate = false, boolean isDelete = false) {
         switch (domainName) {
             case 'Party':
 
-
-                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new AccountLedger().properties)
+                Map targetDomainProperties=[:]
+                if(!isDelete)
+                targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new AccountLedger().properties)
                 def domainInstance;
                 if (isUpdate) {
                     println "finding party by id ${domainProperties.id}"
@@ -113,7 +114,11 @@ class DomainHelpers {
                     } else {
                         println "could not find party by id : ${domainProperties.id}"
                     }
-                } else {
+                }
+                else if(isDelete){
+                    domainInstance = AccountLedger.findByPartyId(domainProperties.id)
+                }
+                else {
                     domainInstance = new AccountLedger(targetDomainProperties)
                     // here domain name should provide full package name for the class(e.g. com.master.AccountLedger)
 

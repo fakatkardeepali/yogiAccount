@@ -32,4 +32,14 @@ class DomainSyncService {
            false
        }
    }
+
+    def delete(String domainName,def hashMap){
+        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap,false,true/*find existing instance*/)
+        if(domainInstance){
+            return domainInstance.delete()
+        }else{
+            println "failed to delete"
+            false
+        }
+    }
 }

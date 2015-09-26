@@ -44,8 +44,8 @@ class DomainSyncController {
 
         Map domainInstanceProperties = request.getJSON()
 //        Object destinationProperties = AccountLedger.get(1)
-        Map configMap = DomainHelpers.getConfigMapForDomain("Party")
-        println configMap
+//        Map configMap = DomainHelpers.getConfigMapForDomain("Party")
+//        println configMap
 //        DomainHelpers.getDomainInstanceByQueryMap("company",configMap,domainInstanceProperties)
 
 //        println domainInstanceProperties
@@ -74,6 +74,12 @@ class DomainSyncController {
         println "ledger count : ${AccountLedger.count()}"
         println "ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}"
         //println "ledger properties : ${AccountLedger.last().properties.partyId}"
+    }
+
+    def delete(){
+        println "Called delete of domain sync controller"
+        def domainInstanceProperties = request.getJSON()
+        domainSyncService.delete(domainInstanceProperties.className, domainInstanceProperties)
     }
 
     def findAccountLedgersByMailId(){
