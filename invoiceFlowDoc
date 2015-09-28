@@ -29,3 +29,24 @@ e.g. Yogi Wires is selling their wires as product to customers.
      New voucher entries will be created against Net Amount,Excise Duty Amount,Freight And VAT but they will not be
      having any Voucher No and they will be having Voucher(against Grand Total) as parent.
 
+     Fields Needed to be sent from Invoice To Account Project :
+     1.lastUpdatedBy(User)
+     2.Company(CompanySetting)
+     3.dateCreated(Date)
+     4.partyId
+     5.grandTotal
+     6.netAmount
+     7.netAmountLedgerId
+     8.taxInstance(for matching ledger Id's)
+
+     Voucher Required Fields
+     1.Voucher Type(String)
+     2.Date(date)
+     3.VoucherNo(String)
+     4.partyName(Account Ledger)
+     5.amount(BigDecimal)
+
+
+
+
+
