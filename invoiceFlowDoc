@@ -1,0 +1,23 @@
+========================================================================================================================
+
+Invoice Issue => Account Voucher
+
+Invoice Issue is the process of billing against the sale we are doing.
+e.g. Yogi Wires is selling their wires as product to customers.
+     Essar Auto needs Wires for their product manufacturing. So they purchase wires from Yogi Wires.
+     Yogi Wires send Invoice to Essar Auto for the sale done. It is as Follows:
+
+     Essar Auto purchased 3 items with following quantitites:
+     Item Name             Quantity    Rate   Amount
+     ===============================================
+     Wire Rod 1.0            10        100    1000
+     Wire Rod 2.0            20        200    4000
+     Wire Rod 3.0            50        10     500
+     ===============================================
+                                 Net Amount   4500            => this should go to Sale Ledger
+
+     Excise Duty 12.5% (562.5) is applied against Net Amount  => this should go to Excise Duty Ledger
+     Freight of Rs.100 is added                               => this should go to Freight Ledger
+     VAT 5% (258.1) is applied against the taxable amount     => this should go to VAT Ledger
+
+     Grand Total = 5420.6                                     => this should go against Essar Auto Ledger
