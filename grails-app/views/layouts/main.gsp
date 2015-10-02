@@ -1366,7 +1366,7 @@
                             </th>
                         </tr>
                         <tr>
-                            <th class="text-left col-xs-4" colspan="4">{{parentData.reportName}}</th>
+                            <th class="text-left col-xs-4" colspan="4">{{parentData.reportName1}}</th>
                             <th class="text-center col-xs-4" style="font-size:small;" colspan="4">From:
                             {{parentData.fromDate}}
                             </th>
