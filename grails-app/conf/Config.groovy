@@ -117,6 +117,8 @@ log4j.main = {
             'org.springframework',
             'org.hibernate',
             'net.sf.ehcache.hibernate'
+
+    debug "com.helpers.DomainHelpers"
 }
 
 //grails.assets.includes = ["**/_*.*"]

@@ -15,4 +15,8 @@ class AssertUtils {
     static  def assertNull(object){
         assert object == null
     }
+
+    static Object equalsLong(src,dest) {
+        assert src==dest
+    }
 }

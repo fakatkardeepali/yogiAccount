@@ -8,6 +8,22 @@ angular.module("app.VoucherCtrl", [])
 
         function init() {
             $scope.vObject = {};
+            $scope.tryChild=[
+                {
+                    "className": "Voucher",
+                    "status": "",
+                    "ledger": 43,
+                    "debit": "1200",
+                    "narration": ""
+                },
+                {
+                    "className": "AccountLedger",
+                    "status": "",
+                    "ledger": 43,
+                    "debit": "1200",
+                    "narration": ""
+                }
+            ];
             $scope.billChildJSON = [];
             $scope.childJSON = [];
             $scope.billShow = false;
@@ -101,7 +117,6 @@ angular.module("app.VoucherCtrl", [])
 
             httpService.callURL(params3).then(function (data) {
                 $scope.AccountLedger = data;
-                debugger
                 //$scope.setChildren($scope.vObject.saleChild,$scope.vObject.billChild);
             }, function (error) {
                 alert("data not found");
@@ -190,6 +205,7 @@ angular.module("app.VoucherCtrl", [])
                 $scope.billNoList = [];
                 $scope.billShow = false;
             }
+
         }
 
         $scope.findAmountAgstBill = function (id, index) {
@@ -201,26 +217,25 @@ angular.module("app.VoucherCtrl", [])
         };
 
         $scope.addBillChild = function () {
-            debugger;
+            var creditDays=0;
             if (!$scope.vObject.partyName) {
                 $("#partyName").focus();
-                logger.logError("please first select Party Ledger");
+                logger.logError("please select Party Ledger");
                 return false;
             } else if (!$scope.vObject.date) {
                 $("#date").focus();
-                logger.logError("please first select date");
+                logger.logError("please select date");
                 return false;
             } else if (!$scope.vObject.amount) {
                 $("#amount").focus();
                 logger.logError("please first fill Amount");
                 return false;
             }
-
-            debugger;
+            creditDays = $scope.vObject.partyName?_.find($scope.ledgerList,{id:$scope.vObject.partyName}).creditDays:0;
             $scope.billChildJSON.push({
                 typeRef: "",
                 billNo: "",
-                crDays: 0,
+                crDays: creditDays,
                 amount: 0,
                 billDate: $scope.vObject.date,
                 amountStatus: $scope.voucherStatus.parentStatus
@@ -246,13 +261,21 @@ angular.module("app.VoucherCtrl", [])
                 if ($scope.data.property === "Contra") {
                     getLedgerList(["Bank Accounts", "Cash-in-Hand"]);
                     getAccountLedgerList(["Bank Accounts", "Cash-in-Hand"]);
+                    if($scope.ledgerList.length<=0)alert("No Cash/Bank Created");
                 } else if ($scope.data.property === "Journal") {
                     getLedgerListNotInProperty(["Bank Accounts", "Cash-in-Hand", "Bank OD A/c"]);
+                    //getLedgerListNotInProperty(["Direct Expenses","Indirect Expenses", "Purchase Accounts","Sales Accounts","Direct Income","Indirect Income","Capital Account"]);
                     getParticulatsListNotInProperty(["Bank Accounts", "Cash-in-Hand", "Bank OD A/c"]);
-                } else if (($scope.data.property === "Receipt") || ($scope.data.property === "Payment")) {
-                    getLedgerList(["Sundry Debtors", "Sundry Creditors"]);
-                    getAccountLedgerList(["Bank Accounts", "Cash-in-Hand"]);
-                } else {
+                    //getParticulatsListNotInProperty(["Direct Expenses","Indirect Expenses", "Purchase Accounts","Sales Accounts","Direct Income","Indirect Income","Capital Account"]);
+                } else if (($scope.data.property === "Payment")) {
+                    getLedgerList(["Sundry Debtors", "Sundry Creditors","Capital Account","Indirect Expenses","Direct Expenses","Duties & Taxes","Provisions"]);
+                    getAccountLedgerList(["Bank Accounts", "Cash-in-Hand","Direct Expenses","Indirect Expenses","Duties & Taxes","Provisions"]);
+                } else if(($scope.data.property === "Receipt")){
+                    //getLedgerList(["Sundry Debtors", "Sundry Creditors","Capital Account","Indirect Income","Direct Income"]);
+                    getLedgerList(["Sundry Debtors", "Sundry Creditors","Capital Account","Indirect Income","Direct Income"]);
+                    //getAccountLedgerList(["Bank Accounts", "Cash-in-Hand","Direct Income","Indirect Income","Capital Account"]);
+                    getAccountLedgerList(["Bank Accounts", "Cash-in-Hand","Direct Income","Indirect Income","Capital Account"]);
+                }else {
                     getLedgerList(["Sundry Debtors", "Sundry Creditors"]);
                     getAccountLedgerList(["Sales Accounts", "Purchase Accounts", "Duties & Taxes"]);
                 }
@@ -358,7 +381,7 @@ angular.module("app.VoucherCtrl", [])
                 var params = {
                     method: httpInfo.save,
                     url: "../voucher/save",
-                    data: httpService.toParams($scope.vObject) + "&child=" + angular.toJson($scope.childJSON) + "&billChild=" + angular.toJson($scope.billChildJSON),
+                    data: httpService.toParams($scope.vObject) + "&child=" + angular.toJson($scope.childJSON) + "&billChild=" + angular.toJson($scope.billChildJSON)+"&tryChild="+angular.toJson($scope.tryChild),
                     headers: {'Content-Type': httpInfo.urlEncoded}
                 };
 
@@ -461,8 +484,14 @@ angular.module("app.VoucherCtrl", [])
             angular.forEach($scope.childJSON, function (obj) {
                 $scope.saleTotal = parseFloat($scope.saleTotal) + parseFloat(obj.debit)
             });
-        }
+        };
 
+        $scope.calculateAmount = function(ledgerId,totalAmount,index){
+               var ledgerObj = _.find($scope.AccountLedger,{id:ledgerId});
+               if(ledgerObj.percentageOfCalculation>0){
+                   $scope.childJSON[index].debit=(totalAmount*(ledgerObj.percentageOfCalculation/100));
+               }
+        };
         //print functionallity
         $scope.printInvoice = function () {
             debugger;

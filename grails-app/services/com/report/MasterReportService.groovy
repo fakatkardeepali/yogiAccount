@@ -64,10 +64,10 @@ class MasterReportService {
                 }
 
                 child.push([
-                        id          : d.id,
+                        id          : d?.voucher?.id ? d?.voucher?.id :d.id,
                         particulars : d?.partyName?.name ?: "",
-                        vType       : d?.voucherType?.name ?: "",
-                        vNo         : d?.voucherNo ?: "",
+                        vType       : d?.voucherType?.name ? d?.voucherType?.name : (d.voucherType?.name?:""),
+                        vNo         : d?.voucherNo?d?.voucherNo:(d.voucher?.voucherNo?:""),
                         date        : d?.date?.format("dd-MM-yyyy") ?: "",
                         credit      : credit,
                         debit       : debit,
@@ -365,7 +365,8 @@ class MasterReportService {
 
 
         def company = systemService.getCompanyObjectById(companyId);
-        def ledger = AccountLedger.findByUnderGroupAndCompany(AccountGroup.findById(id), company);
+//        def ledger = AccountLedger.findByUnderGroupAndCompany(AccountGroup.findById(id), company);
+        def ledger = getLedgerById(id);
 
         if (ledger) {
             if (ledger.status == "Cr") {

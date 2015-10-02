@@ -32,10 +32,17 @@ class AccountLedgerController {
 
     @Transactional
     def save(AccountLedger accountLedgerInstance) {
+
+//          DomainSyncController domainSyncController = new DomainSyncController()
+//          domainSyncController.save(params)
+//        grailsApplication.getDomainClass("Account").properties
+
         if (accountLedgerInstance == null) {
             notFound()
             return
         }
+
+
 
         def childs = JSON.parse(params.interestPara)
         def billArray = JSON.parse(params.billJson)
@@ -344,7 +351,8 @@ class AccountLedgerController {
         def results = searchResult.result.sort{it.name}.collect {
             [
                     id  : it.id,
-                    name: it.name
+                    name: it.name,
+                    underGroup:it.underGroup
             ]
         }
         def respo = [data: results, total: searchResult.count];
@@ -424,6 +432,7 @@ class AccountLedgerController {
         columns = [
                 [field: '', displayName: 'Action', width: '70', cellTemplate: editDeleteButton, pinned: true, headerCellTemplate: actionName],
                 [field: 'name', displayName: 'Account Name', width: "600", headerCellTemplate: headerT1 + elemnt + headerT2],
+                [field: 'underGroup.name', displayName: 'Under Group', width: "600", headerCellTemplate: headerT1 + elemnt + headerT2]
 //                    [field: 'accountGroup.accountName', displayName: 'Account Group', width: "600", headerCellTemplate: headerT1 + elemnt + headerT2],
         ];
 //        }

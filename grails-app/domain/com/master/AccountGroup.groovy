@@ -8,6 +8,9 @@ import grails.rest.Resource
 //class AccountGroup implements Serializable{
 class AccountGroup implements Serializable {
 
+    static String SUNDRY_CREDITORS="Sundry Creditors"
+    static String SUNDRY_DEBTORS="Sundry Debtors"
+
     String name
     String alias
     AccountGroup underGroup // parent group
@@ -45,11 +48,12 @@ class AccountGroup implements Serializable {
     }
 
     static def findByPartyTypeAndCompany = { map ->   //add second parameter here separated by comma
-        def queryMap=[:]
+        //here map should have properties: 'name' and 'company'
+        def queryMap=map.clone()
         if(map.name=="Customer"){
-            queryMap["name"] = "Sundry Debtors"
+            queryMap["name"] = SUNDRY_DEBTORS
         }else{
-            queryMap["name"] = "Sundry Creditors"
+            queryMap["name"] = SUNDRY_CREDITORS
         }
         return findWhere(queryMap)
     }

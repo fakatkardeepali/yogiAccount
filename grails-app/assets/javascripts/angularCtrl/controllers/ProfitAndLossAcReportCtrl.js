@@ -33,21 +33,20 @@ angular.module("app.ProfitAndLossAcReportCtrl", [])
         }
 
         $scope.getInfoGroupAndLedger = function (child) {
-            debugger;
+
             $scope.obj = {};
             $scope.obj.id = child.id;
-            $scope.obj.form = $scope.groupObject ? $scope.groupObject.fromDate : ""
-            $scope.obj.to = $scope.groupObject ? $scope.groupObject.toDate : ""
+            $scope.obj.form = $scope.groupObject ? $scope.groupObject.fromDate : "";
+            $scope.obj.to = $scope.groupObject ? $scope.groupObject.toDate : "";
             $scope.templatePath = child.template;
             $scope.groupObject = $scope.obj;
-
             $scope.findLedgerReport($scope.obj)
         }
 
         $scope.findLedgerReport = function (child) {
             var params = {
                 method: httpInfo.get,
-                url: "../voucher/generateGroupVoucherReport",
+                url: "../voucher/generateGroupVoucherReportByLedgerId",
                 data: httpService.toParams(child),
                 headers: {'Content-Type': httpInfo.urlEncoded}
             };
@@ -61,7 +60,6 @@ angular.module("app.ProfitAndLossAcReportCtrl", [])
         }
 
         $scope.getGroupAndLedger = function (child) {
-            debugger;
             $scope.groupObject.id = child.id
             var params = {
                 method: httpInfo.get,

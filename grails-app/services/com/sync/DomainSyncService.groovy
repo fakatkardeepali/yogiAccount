@@ -9,7 +9,7 @@ class DomainSyncService {
    def save(String domainName,def hashMap){
 
         def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
-//       println hashMap
+        log.debug("Final Domain Instance To Be Saved....${domainInstance}" )
         return domainInstance.save()
 
        /*
@@ -28,7 +28,7 @@ class DomainSyncService {
        if(domainInstance){
            return domainInstance.save()
        }else{
-           println "failed to update domain : ${domainName}"
+           log.debug("failed to update domain : ${domainName}")
            false
        }
    }
@@ -38,8 +38,10 @@ class DomainSyncService {
         if(domainInstance){
             return domainInstance.delete()
         }else{
-            println "failed to delete"
+            log.debug("failed to delete")
             false
         }
     }
+
+
 }

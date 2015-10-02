@@ -36,8 +36,15 @@ class VoucherController {
 
     @Transactional
     def save(Voucher voucherInstance) {
-        ArrayList<Voucher> voucher = [];
 
+//        def data=JSON.parse(params.tryChild)
+//        data.each {d->
+//            print(d.className)
+//        }
+
+//        def vNewInstance=this.class.classLoader.loadClass("Voucher",true,false)?.newInstance()
+
+        ArrayList<Voucher> voucher = [];
         bindData(voucherInstance, params, [exclude: ['lastUpdatedBy', 'company', 'date']])
 
         voucherInstance.lastUpdatedBy = systemService.getUserById(session['activeUser'].user.id as Long);
@@ -379,6 +386,19 @@ class VoucherController {
 
     def generateGroupVoucherReport() {
         if (params?.id) {
+            def data = masterReportService.getGroupVoucherByCompanyAndgroupId(session["company"].id, params?.id as Long, params?.fromDate, params?.toDate);
+//            def data = masterReportService.getGroupVoucherByCompanyAndLedgerId(session["company"].id, params?.id as Long, params?.fromDate, params?.toDate);
+            if (data) {
+                render data as JSON;
+            } else {
+                render "[]";
+            }
+        }
+    }
+
+    //new method by Rakesh for separating group voucher report from ledger report
+    def generateGroupVoucherReportByLedgerId() {
+        if (params?.id) {
 //            def data = masterReportService.getGroupVoucherByCompanyAndgroupId(session["company"].id, params?.id as Long, params?.fromDate, params?.toDate);
             def data = masterReportService.getGroupVoucherByCompanyAndLedgerId(session["company"].id, params?.id as Long, params?.fromDate, params?.toDate);
             if (data) {
@@ -574,16 +594,17 @@ class VoucherController {
         String compId = session['company'].id;
         String year = session['financialYear'];
         if (hqxl.size() > 0) {
-            hqxlTxt = 'from Voucher as u where u.company = ' + compId + " and u.voucherNo IS NOT NULL " + " and " + hqxl.join(' and ') + " order by u.id desc";
+            hqxlTxt = 'from Voucher as u where u.company = ' + compId + " and u.voucherNo IS NOT NULL " + " and " + hqxl.join(' and ') + " order by u.date desc";
         } else {
-            hqxlTxt = "from Voucher as u where u.company = " + compId + " and u.voucherNo IS NOT NULL " + " order by u.id desc";
+            hqxlTxt = "from Voucher as u where u.company = " + compId + " and u.voucherNo IS NOT NULL " + " order by u.date desc";
         }
         def results = Voucher.findAll(hqxlTxt, [max: pageSize, offset: (page - 1) * pageSize]).collect {
             [
                     id         : it.id,
                     voucherType: it?.voucherType,
                     voucherNo  : it?.voucherNo,
-                    date       : it?.date
+                    date       : it?.date,
+                    partyName  : it?.partyName
             ]
         };
         def respo = [data: results, total: Voucher.findAll(hqxlTxt).size()];
@@ -670,9 +691,10 @@ class VoucherController {
 
         columns = [
                 [field: '', displayName: 'Action', width: '70', cellTemplate: editDeleteButton, pinned: true, headerCellTemplate: actionName],
-                [field: 'voucherType.name', displayName: 'Voucher Type', width: "600", headerCellTemplate: headerT1 + elemnt + headerT2],
+                [field: 'voucherType.name', displayName: 'Voucher Type', width: "200", headerCellTemplate: headerT1 + elemnt + headerT2],
                 [field: 'voucherNo', displayName: 'Voucher No', width: "200", headerCellTemplate: headerT1 + elemnt + headerT2],
-                [field: 'date', displayName: 'Date', width: "200", headerCellTemplate: headerT1 + elemntDate + headerT2, cellFilter: 'date:\'dd-MM-yyyy\'']
+                [field: 'date', displayName: 'Date', width: "200", headerCellTemplate: headerT1 + elemntDate + headerT2, cellFilter: 'date:\'dd-MM-yyyy\''],
+                [field: 'partyName.name', displayName: 'Ledger Name', width: "500", headerCellTemplate: headerT1 + elemnt + headerT2],
 //                    [field: 'accountGroup.accountName', displayName: 'Account Group', width: "600", headerCellTemplate: headerT1 + elemnt + headerT2],
         ];
 //        }

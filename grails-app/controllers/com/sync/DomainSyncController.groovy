@@ -4,7 +4,7 @@ import com.helpers.DomainHelpers
 import com.master.AccountLedger
 import com.system.Company
 import grails.converters.JSON
-import utils.TestData
+import test.PartySyncTest
 
 //import utils.JSONUtils
 
@@ -14,14 +14,16 @@ class DomainSyncController {
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index(){
-//        PartySyncTest.checkPrerequisites()
-        Map domainInstanceProperties = TestData.domainInstanceProperties
+        PartySyncTest.checkPrerequisites()
+
+//        Map domainInstanceProperties = TestData.domainInstanceProperties
+//        Map domainInstanceProperties = TestData.updatedDomainInstanceProperties
         Map configMap = DomainHelpers.getConfigMapForDomain("Party")
 
 //        print configMap
-        //Object companyInstance = DomainHelpers.getDomainInstanceByQueryMap("company",configMap,domainInstanceProperties)
+//        Object companyInstance = DomainHelpers.getDomainInstanceByQueryMap("company",configMap,domainInstanceProperties)
 //        Object companyInstance = DomainHelpers.getDomainInstanceByQueryMap("underGroup",configMap,domainInstanceProperties)
-        //println AccountGroup.findByPartyType.call("Customer");
+//        println AccountGroup.findByPartyType.call("Customer");
 
         Map diffProperties = DomainHelpers.populateDiffProperties(configMap,domainInstanceProperties)
           //def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
@@ -35,7 +37,7 @@ class DomainSyncController {
 
     def save(){
         //make hash table here
-        println "Called save of domain sync controller"
+        log.debug("Called save of domain sync controller")
 
         //println "params: ${params}"
         //println "request : ${request.getJSON().getClass()}"
@@ -71,13 +73,13 @@ class DomainSyncController {
         def domainInstanceProperties = request.getJSON()
         domainSyncService.update(domainInstanceProperties.className, domainInstanceProperties)
 
-        println "ledger count : ${AccountLedger.count()}"
-        println "ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}"
+        log.debug("ledger count : ${AccountLedger.count()}")
+        log.debug("ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}")
         //println "ledger properties : ${AccountLedger.last().properties.partyId}"
     }
 
     def delete(){
-        println "Called delete of domain sync controller"
+        log.debug("Called delete of domain sync controller")
         def domainInstanceProperties = request.getJSON()
         domainSyncService.delete(domainInstanceProperties.className, domainInstanceProperties)
     }

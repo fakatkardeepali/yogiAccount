@@ -76,7 +76,7 @@ angular.module("app.BalanceSheetReportCtrl", [])
             debugger;
             var params = {
                 method: httpInfo.get,
-                url: "../voucher/generateGroupVoucherReport",
+                url: "../voucher/generateGroupVoucherReportByLedgerId",
                 data: httpService.toParams(child),
                 headers: {'Content-Type': httpInfo.urlEncoded}
             };
