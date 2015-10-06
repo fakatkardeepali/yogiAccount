@@ -119,6 +119,8 @@ log4j.main = {
             'net.sf.ehcache.hibernate'
 
     debug "com.helpers.DomainHelpers"
+    debug "grails.app.services.com.sync.DomainSyncService"
+    debug "grails.app.controllers.com.sync.DomainSyncController"
 }
 
 //grails.assets.includes = ["**/_*.*"]

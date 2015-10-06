@@ -28,7 +28,7 @@ class DomainSyncService {
        if(domainInstance){
            return domainInstance.save()
        }else{
-           log.debug("failed to update domain : ${domainName}")
+           log.debug("Failed to update domain : ${domainName}")
            false
        }
    }

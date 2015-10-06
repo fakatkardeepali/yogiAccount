@@ -37,3 +37,21 @@ AccountLedger Required Fields :
 7.lastUpdated(Date)
 8.openingBalance(BigDecimal)
 9.status(String)
+
+In the data to be saved/updated from Party to Account Ledger there are 2 variations :
+1.Simple String
+2.Domain Instance
+  i.Domain Instance having QueryMap
+  ii.Domain Instance having Method
+
+  e.g.
+
+  "Mahindra Heavy Engines" is Party from ERP having Party Type "Customer". We want to save a new Account Ledger of type "Sundry Debtors"("Sundry Creditors
+  in case of Party Type "Supplier")
+  So we will send a parameter "name" with value "Mahindra Heavy Engines".
+  For Party Type, we set config map having property "method".
+  And according to method we will find to which "UnderGroup" this ledger should be assigned.
+  And also we have to find the "Company" and "User" properties from account side based on "Company(Registration No)" and "lastUpdatedBy(email)".
+  So for "Company" and "User" we set config map having property "queryMap". According to query map we will find related "Company" and "User"
+  instance of Account.
+

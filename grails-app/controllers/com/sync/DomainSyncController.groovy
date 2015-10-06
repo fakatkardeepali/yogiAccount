@@ -51,7 +51,7 @@ class DomainSyncController {
 //        DomainHelpers.getDomainInstanceByQueryMap("company",configMap,domainInstanceProperties)
 
 //        println domainInstanceProperties
-
+        log.debug("Got properties from ERP to save : ${domainInstanceProperties}")
        def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
 //        println "ledger count : ${AccountLedger.count()}"
 //        println "ledger properties : ${AccountLedger.last().properties}"
@@ -71,16 +71,18 @@ class DomainSyncController {
         //println "request : ${request.getJSON().getClass()}"
 
         def domainInstanceProperties = request.getJSON()
+        log.debug("Got properties from ERP to update : ${domainInstanceProperties}")
         domainSyncService.update(domainInstanceProperties.className, domainInstanceProperties)
 
         log.debug("ledger count : ${AccountLedger.count()}")
-        log.debug("ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.partyId).properties}")
+        log.debug("ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.id).properties}")
         //println "ledger properties : ${AccountLedger.last().properties.partyId}"
     }
 
     def delete(){
         log.debug("Called delete of domain sync controller")
         def domainInstanceProperties = request.getJSON()
+        log.debug("Got properties from ERP to delete : ${domainInstanceProperties}")
         domainSyncService.delete(domainInstanceProperties.className, domainInstanceProperties)
     }
 

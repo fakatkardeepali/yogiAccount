@@ -19,7 +19,7 @@ class DomainHelpers {
 //    static Logger log = Logger.getLogger(getClass())
     static Map getConfigMapForDomain(String domainName) {
 
-        log.debug("getting config map for ERP domain : ${domainName}")
+        log.debug("Getting config map for ERP domain : ${domainName}")
         switch (domainName) {
             case "Party":
                 return [
@@ -31,13 +31,13 @@ class DomainHelpers {
                         company      : [domainClass: Company, srcPropName: ["company.regNo":"registrationNo"],queryMap: true],
                         lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true],
                         underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends:"QM"]], method: AccountGroup.findByPartyTypeAndCompany]
-                ]
+                       ]
                 break
             case "Tax":
                 return [
                         name: "taxName"
 //                        underGroup: here undergroup should be "Duties And Taxes"
-                ]
+                       ]
                 break
 
             case "InvoiceEntry":
@@ -50,7 +50,7 @@ class DomainHelpers {
                         narration   : "description",
                         amount      : "grandTotal",
                         amountStatus: "Dr",
-                ]
+                       ]
                 break
 
             case "InvoiceEntryLC":
@@ -62,7 +62,7 @@ class DomainHelpers {
 //                        partyName: object of Party (Ledger in Account)
                         amount      : "grandTotal",
                         amountStatus: "Dr",
-                ]
+                       ]
                 break
 
             case "ProFormaInvoice":
@@ -74,7 +74,7 @@ class DomainHelpers {
 //                        partyName: object of Party (Ledger in Account)
                         amount      : "grandTotal",
                         amountStatus: "Dr",
-                ]
+                       ]
                 break
             case "PurchaseReturn":
                 return [
@@ -85,7 +85,7 @@ class DomainHelpers {
 //                        partyName: object of Party (Ledger in Account)
                         amount      : "grandTotal",
                         amountStatus: "Dr",
-                ]
+                       ]
                 break
             case "BillPassing":
                 return [
@@ -96,7 +96,7 @@ class DomainHelpers {
 //                        partyName: object of Party (Ledger in Account)
                         amount      : "grandTotal",
                         amountStatus: "Cr",
-                ]
+                       ]
                 break
 
 
@@ -108,12 +108,16 @@ class DomainHelpers {
         switch (domainName) {
             case 'Party':
                 Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new AccountLedger().properties)
+                log.debug("Total populated target domain properties : ${targetDomainProperties}")
                 def domainInstance;
                 if (isUpdate) {
+                    log.debug("Updating domain instance : ${domainName}")
                     log.debug("Finding Party by id ${domainProperties.id}")
                     domainInstance = AccountLedger.findByPartyId(domainProperties.id)
                     if (domainInstance) {
+                        log.debug("Found domain instance from Account : ${domainInstance?.properties}")
                         domainInstance.properties = targetDomainProperties
+
                     } else {
                         log.debug("Could not find party by id : ${domainProperties.id}")
                     }
@@ -133,15 +137,19 @@ class DomainHelpers {
     }
 
     static Map getPropertiesForDomainInstance(String domainName, def domainProperties, Map destinationProperties) {
+        log.debug("In method getPropertiesForDomainInstance with domain name : ${domainName}")
         Map accountLedgerProperties = getSimilarDestinationDomainPropertiesMap(domainProperties, destinationProperties)
+        log.debug("Found similar destiantion domain properties : ${accountLedgerProperties}")
         Map configMap = getConfigMapForDomain(domainName)
         Map remainingPropMap = populateDiffProperties(configMap, domainProperties)
+        log.debug("Found different destination properties : ${remainingPropMap}")
         return accountLedgerProperties + remainingPropMap
     }
 
     static Map getSimilarDestinationDomainPropertiesMap(Map sourceDomainProperties, Map destinationDomainProperties) {
         log.debug("Checking similar Destination domain properties : ${destinationDomainProperties}")
         def propertyNames = destinationDomainProperties.keySet()
+
         return sourceDomainProperties.inject([:]) { map, entry ->
             if (propertyNames.contains(entry.key)) {
                 map[entry.key] = entry.value
@@ -154,6 +162,7 @@ class DomainHelpers {
     static Map populateDiffProperties(Map configMap, Map srcMap) {
         log.debug("Populating different domain properties..")
         def srcPropertiesByQueryMap = populateSourcePropertiesHavingQueryMap(configMap, srcMap)
+        log.debug("Found properties having query map : ${srcPropertiesByQueryMap}")
         def srcPropertiesByMethod = configMap.inject([:]) { dMap, entry ->
             //println "is instance if map ${dMap instanceof Map}"
             if (entry.value instanceof Map) {
@@ -173,7 +182,7 @@ class DomainHelpers {
     }
 
     static Map populateSourcePropertiesHavingQueryMap(Map configMap, Map srcMap) {
-        log.debug("Checking if source properties having query map...")
+        log.debug("Checking if source properties having query map..")
         return configMap.inject([:]) { dMap, entry ->
             //println "is instance if map ${dMap instanceof Map}"
             if (entry.value instanceof Map && entry.value.queryMap) {
@@ -185,32 +194,31 @@ class DomainHelpers {
     }
 
     static def findDomainInstanceByMethod(def configMapEntryValue, def srcMap, def srcPropertiesByQueryMap) {
-        log.debug("Checking if source properties having method ")
+        log.debug("Checking if source properties having method : ${configMapEntryValue}")
         def srcProp = configMapEntryValue[SRC_PROP_NAME];    // srcProp = ["partyType":"enumDescription"]
-        def queryMap = [:]
-        if (srcProp instanceof Map) { //check here if it is instance of List
+        def methodParams = [:]
+        if (srcProp instanceof Map) { //check here if it is instance of Map
+            // here value is domain instance property name
             srcProp.each { key, value ->
                 def propValue = MapUtils.getMapValueByDeepProperty(srcMap, key)
                 if(value instanceof Map){
                     def entry = value.entrySet().first()
                     if(entry.key.equals("depends") && entry.value.equals("QM")){
-                        queryMap[key] = MapUtils.getMapValueByDeepProperty(srcPropertiesByQueryMap, key)
+                        log.debug("Found a property that depends on query map : ${srcProp}")
+                        methodParams[key] = MapUtils.getMapValueByDeepProperty(srcPropertiesByQueryMap, key)
                     }else{
                         log.debug("Invalid config map entry: ${configMapEntryValue}")
-//                        throw new Exception("invalid config map entry: ${configMapEntryValue}")
                     }
                 }else{
-                    queryMap[value] = propValue  // PartyJson[partyType][enumDescription]  (e.g.supplier/customer) 
+                    methodParams[value] = propValue  // PartyJson[partyType][enumDescription]  (e.g.supplier/customer) 
                 }
             }
             // "partyType":"enumDescription"
         } else {
             log.debug("${srcProp} is not an instance of Map")
-//            throw new Exception("Not implemented")
-            //paramValue = srcMap[srcProp]
         }
-        //return configMapEntryValue["domainClass"].findWhere(queryMap)
-        return configMapEntryValue["method"].call(queryMap)
+        log.debug("calling method with params : ${methodParams}")
+        return configMapEntryValue["method"].call(methodParams)
     }
 
     /*
@@ -302,10 +310,11 @@ class DomainHelpers {
      */
 
     static Object getDomainInstanceByQueryMap(String propertyName, Map configMap, Map sourceDomainProperties) {
-        log.debug("Fetching first entryset record for configmap having property : ${propertyName} and source property : ${SRC_PROP_NAME}")
+        log.debug("In method getDomainInstanceByQueryMap.. ")
+        log.debug("Finding domain instance for property : ${propertyName} and source property : ${configMap[propertyName][SRC_PROP_NAME]}")
         def entry = configMap[propertyName][SRC_PROP_NAME].entrySet().first()
         Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties,entry.key) /*123*/
-
+        log.debug("Query property value : ${queryPropertyValue}")
         Map finalQueryMap = [:]
         finalQueryMap[entry.value] = queryPropertyValue
 
@@ -313,6 +322,7 @@ class DomainHelpers {
         //Company.findWhere([regNo:"123"])
         log.debug("Finding domainInstance with parameters : ${finalQueryMap}")
         Object domainInstance = domainClass.findWhere(finalQueryMap)
+        log.debug("Found domain instance by query map :${domainInstance.properties}")
         return domainInstance
     }
 
