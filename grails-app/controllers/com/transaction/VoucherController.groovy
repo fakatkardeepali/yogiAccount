@@ -88,8 +88,9 @@ class VoucherController {
                     child.each { c ->
                         def accountFlag = AccountFlag.get(c?.typeRef as Long);
                         if (accountFlag.name == "Agst Ref.") {
-                            PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
-                            def partyAccount = PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
+
+//                            PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
+                            def partyAccount = PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)   //maintain remaining amount in Party Account
                             partyAccount.save();
                         } else {
                             voucherInstance.addToPartyAccount(PartyAccount.buildFromJSON(c, session['company'], voucherInstance.partyName, voucherInstance.lastUpdatedBy));

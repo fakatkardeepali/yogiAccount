@@ -2,8 +2,10 @@ package com.helpers
 
 import com.master.AccountGroup
 import com.master.AccountLedger
+import com.master.VoucherType
 import com.system.Company
 import com.system.User
+import com.transaction.Voucher
 import com.utils.MapUtils
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
@@ -19,6 +21,7 @@ class DomainHelpers {
 //    static Logger log = Logger.getLogger(getClass())
     static Map getConfigMapForDomain(String domainName) {
 
+        //in config map, key is destination property whereas value is source property
         log.debug("Getting config map for ERP domain : ${domainName}")
         switch (domainName) {
             case "Party":
@@ -42,14 +45,16 @@ class DomainHelpers {
 
             case "InvoiceEntry":
                 return [
-                        voucherNo   : "invoiceNo",
+                        voucherNo   : "",
                         date        : "invoiceDate",
                         referenceNo : "challanNo",
-//                        voucherType: here voucherType should be "Sales"
-//                        partyName: object of Party (Ledger in Account)
                         narration   : "description",
                         amount      : "grandTotal",
                         amountStatus: "Dr",
+                        createNewInstance:true,
+                        partyName   : [domainClass: AccountLedger,srcPropName: ["customer.name":"name"],queryMap: true],
+                        company     : [domainClass: Company, srcPropName: ["company.regNo":"registrationNo"],queryMap: true],
+                        lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
                        ]
                 break
 
@@ -130,8 +135,41 @@ class DomainHelpers {
                 return domainInstance
                 break;
 
-            case 'Invoice':
-                return getMapForOutstanding(domainProperties)
+            case 'InvoiceEntry':
+                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+                log.debug("Total populated target domain properties : ${targetDomainProperties}")
+                targetDomainProperties.date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
+//                targetDomainProperties.voucherType = VoucherType.findBy
+                if(targetDomainProperties?.company?.id){
+                    targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company?.id,"Sale")
+                }
+                else{
+                    log.error("Could not determine Voucher type because could not get Company id not")
+                }
+                if(targetDomainProperties?.voucherType?.id && targetDomainProperties?.date){
+                    targetDomainProperties.voucherNo = Voucher.getVoucherNumber(targetDomainProperties?.voucherType?.id,targetDomainProperties?.date,null)
+                }
+                else{
+                    log.error("Could not get voucher number because could not get voucher type and date")
+                }
+                def domainInstance;
+                if (isUpdate) {
+                    log.debug("Updating domain instance : ${domainName}")
+                    log.debug("Finding Party by id ${domainProperties.id}")
+                    domainInstance = Voucher.findById(domainProperties.id)
+                    if (domainInstance) {
+                        log.debug("Found domain instance from Account : ${domainInstance?.properties}")
+                        domainInstance.properties = targetDomainProperties
+                    } else {
+                        log.debug("Could not find Voucher by id : ${domainProperties.id}")
+                    }
+                }
+                else {
+                    log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")
+                    domainInstance = new Voucher(targetDomainProperties)
+                    // here domain name should provide full package name for the class(e.g. com.master.AccountLedger)
+                }
+                return domainInstance
                 break;
         }
     }

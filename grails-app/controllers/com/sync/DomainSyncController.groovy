@@ -3,7 +3,6 @@ package com.sync
 import com.helpers.DomainHelpers
 import com.master.AccountLedger
 import com.system.Company
-import grails.converters.JSON
 import test.PartySyncTest
 
 //import utils.JSONUtils
@@ -88,14 +87,36 @@ class DomainSyncController {
 
     def findAccountLedgersByMailId(){
         def getData = request.getJSON()
-        Company compObj = Company.findByEmail(getData.mailId)
+        def result=[]
+        Company compObj = Company.findByRegistrationNo(getData.regNo)
 //        def accountData = AccountLedger.findAllByCompany(compObj)
-        def accountData = AccountLedger.createCriteria().list{
-            projections {
-                property("id")
-                property("name")
+//        if(accountData){
+//            accountData.each {d->
+//                result.push([
+//                        id:d?.id,
+//                        name:d?.name?:""
+//                ])
+//            }
+//
+//        }
+
+//        def accountData = AccountLedger.createCriteria().list{
+//            projections {
+//                property("id")
+//                property("name")
+//            }
+//        }
+
+        def accounts = AccountLedger.findAllByCompany(compObj)
+        render(contentType: "application/json") {
+            array {
+                accounts.each {
+                    account id: it.id, name: it.name
+                }
             }
         }
-        render accountData as JSON
+
+//        render result as JSON
     }
+
 }
