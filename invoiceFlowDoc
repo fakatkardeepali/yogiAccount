@@ -47,6 +47,36 @@ e.g. Yogi Wires is selling their wires as product to customers.
      5.amount(BigDecimal)
 
 
+Account Voucher Flow :
+
+1) Assign property values from Map we got for lastUpdatedBy,company,date,amountStatus,voucherNo
+2) For Voucher No get voucher no based on getVoucherNumber() method by passing paramters voucherTypeId,voucherDate and voucherNo
+3) Add data to PartyAccount(Child of Voucher) having following variables :
+
+                           company: Company object,
+                           partyName: AccountLedger object,
+                           typeOfRef: AccountFlag object which will be found from typeRef,
+                           billNo: invoiceNo,
+                           billDate: invoiceDate,
+                           crDays: AccountLedger creditDays,
+                           amount: grandTotal,
+                           amountStatus: "Dr",
+                           narration: description,
+                           remainAmount: grandTotal,
+                           lastUpdatedBy: User object
+
+4) Add data to VoucherBillDetails(Child of Voucher) having following variables :
+
+                           company: company,
+                           partyName: AccountLedger object,
+                           typeOfRef: AccountFlag object which will be found from typeRef,
+                           billNo: invoiceNo,
+                           billDate: invoiceDate,
+                           crDays: AccountLedger creditDays,
+                           amount: grandTotal,
+                           amountStatus: "Dr",
+                           narration: description,
+                           lastUpdatedBy: User object
 
 
-
+5) Save Last Number in Parameters frame
