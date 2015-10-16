@@ -1,10 +1,12 @@
 package com.helpers
 
+import com.common.AccountFlag
 import com.master.AccountGroup
 import com.master.AccountLedger
 import com.master.VoucherType
 import com.system.Company
 import com.system.User
+import com.transaction.PartyAccount
 import com.transaction.Voucher
 import com.utils.MapUtils
 import org.apache.commons.logging.LogFactory
@@ -50,11 +52,27 @@ class DomainHelpers {
                         referenceNo : "challanNo",
                         narration   : "description",
                         amount      : "grandTotal",
-                        amountStatus: "Dr",
+                        amountStatus: [$value: "Dr"],
                         createNewInstance:true,
                         partyName   : [domainClass: AccountLedger,srcPropName: ["customer.name":"name"],queryMap: true],
                         company     : [domainClass: Company, srcPropName: ["company.regNo":"registrationNo"],queryMap: true],
-                        lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
+                        lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true],
+                        partyAccount : [domainClass: PartyAccount,createNewInstance:true,
+                                        configMap:[
+                                                   partyName:[domainClass:AccountLedger,srcPropName: [partyName: [depends:"self"]]],
+                                                   typeOfRef:[domainClass: AccountFlag,srcPropName: [$methodParamValue:"New Ref.",method:AccountFlag.findByNameClosure]],
+                                                   billNo: "invoiceNo",
+                                                   billDate: "invoiceDate",
+                                                   crDays: [selfPropName: "partyName.creditDays"],
+                                                   amount: "grandTotal",
+                                                   amountStatus: [$value:"Dr"] ,
+                                                   narration: [$value:""],
+                                                   remainAmount: "grandTotal",
+                                                   lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
+                                                  ],
+                                       ],
+
+
                        ]
                 break
 
@@ -141,7 +159,7 @@ class DomainHelpers {
                 targetDomainProperties.date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
 //                targetDomainProperties.voucherType = VoucherType.findBy
                 if(targetDomainProperties?.company?.id){
-                    targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company?.id,"Sale")
+                    targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company,"Sale")
                 }
                 else{
                     log.error("Could not determine Voucher type because could not get Company id not")
@@ -152,6 +170,53 @@ class DomainHelpers {
                 else{
                     log.error("Could not get voucher number because could not get voucher type and date")
                 }
+
+                //make new instance of Party Account And Voucher Bill Details
+//                  targetDomainProperties?.addToPartyAccount(new PartyAccount(company: targetDomainProperties?.company,
+//                            partyName: targetDomainProperties?.partyName,
+//                            typeOfRef: AccountFlag.findByName("New Ref."),
+//                            billNo: domainProperties?.invoiceNo?:"",
+//                            billDate: targetDomainProperties?.date,
+//                            crDays: targetDomainProperties?.partyName?.creditDays?:0,
+//                            amount: targetDomainProperties?.amount,
+//                            amountStatus: "Dr",
+//                            narration: "",
+//                            remainAmount: targetDomainProperties?.amount,
+//                            lastUpdatedBy: targetDomainProperties?.lastUpdatedBy))
+
+//                log.debug("addToPartyAccount : ${targetDomainProperties}")
+//
+
+//                new VoucherBillDetails(company: targetDomainProperties?.company,
+//                        partyName: targetDomainProperties?.partyName,
+//                        typeOfRef: AccountFlag.findByName("New Ref."),
+//                        billNo: domainProperties?.invoiceNo?:"",
+//                        billDate: targetDomainProperties?.date,
+//                        crDays: targetDomainProperties?.partyName?.creditDays?:0,
+//                        amount: targetDomainProperties?.amount,
+//                        amountStatus: "Dr",
+//                        narration: "",
+//                        lastUpdatedBy: targetDomainProperties?.lastUpdatedBy)
+
+
+//                //make new instance of voucher against each ledger id
+//                //netAmountLedgerId:netAmount,packingLedgerId:packingAmount,freightLedgerId:freightAmount,insuranceLedgerId:insuranceAmount
+//                if(domainProperties?.netAmountLedgerId){
+//                    new Voucher(
+//                            partyName: AccountLedger.get(domainProperties?.netAmountLedgerId as Long),
+//                            amount: domainProperties.netAmount as BigDecimal,
+//                            rate: 0,
+//                            amountStatus: targetDomainProperties ? Voucher.childStatus(targetDomainProperties) : "",
+//                            narration: "",
+//                            lastUpdatedBy: targetDomainProperties?.lastUpdatedBy,
+//                            company: targetDomainProperties?.company,
+//                            voucher: targetDomainProperties as Voucher,
+//                            date: targetDomainProperties?.date)
+//                }
+
+
+            log.debug("PartyAccountDetails : ${targetDomainProperties?.partyAccount}")
+
                 def domainInstance;
                 if (isUpdate) {
                     log.debug("Updating domain instance : ${domainName}")
@@ -160,6 +225,46 @@ class DomainHelpers {
                     if (domainInstance) {
                         log.debug("Found domain instance from Account : ${domainInstance?.properties}")
                         domainInstance.properties = targetDomainProperties
+
+//                        //add party account instance
+//                        domainInstance.addToPartyAccount(new PartyAccount(company: targetDomainProperties?.company,
+//                                partyName: targetDomainProperties?.partyName,
+//                                typeOfRef: AccountFlag.findByName("New Ref."),
+//                                billNo: domainProperties?.invoiceNo?:"",
+//                                billDate: targetDomainProperties?.date,
+//                                crDays: targetDomainProperties?.partyName?.creditDays?:0,
+//                                amount: targetDomainProperties?.amount,
+//                                amountStatus: "Dr",
+//                                narration: "",
+//                                remainAmount: targetDomainProperties?.amount,
+//                                lastUpdatedBy: targetDomainProperties?.lastUpdatedBy))
+//
+//                        //add voucher bill details instance
+//                        domainInstance.addToVoucherBillDetails(new VoucherBillDetails(company: targetDomainProperties?.company,
+//                        partyName: targetDomainProperties?.partyName,
+//                        typeOfRef: AccountFlag.findByName("New Ref."),
+//                        billNo: domainProperties?.invoiceNo?:"",
+//                        billDate: targetDomainProperties?.date,
+//                        crDays: targetDomainProperties?.partyName?.creditDays?:0,
+//                        amount: targetDomainProperties?.amount,
+//                        amountStatus: "Dr",
+//                        narration: "",
+//                        lastUpdatedBy: targetDomainProperties?.lastUpdatedBy))
+//
+//                        //add voucher details Instance
+//
+//                        domainInstance.addToVoucherDetails(new Voucher(
+//                            partyName: AccountLedger.get(domainProperties?.netAmountLedgerId as Long),
+//                            amount: domainProperties.netAmount as BigDecimal,
+//                            rate: 0,
+//                            amountStatus: targetDomainProperties ? Voucher.childStatus(targetDomainProperties) : "",
+//                            narration: "",
+//                            lastUpdatedBy: targetDomainProperties?.lastUpdatedBy,
+//                            company: targetDomainProperties?.company,
+//                            voucher: targetDomainProperties as Voucher,
+//                            date: targetDomainProperties?.date)
+//                        )
+
                     } else {
                         log.debug("Could not find Voucher by id : ${domainProperties.id}")
                     }
