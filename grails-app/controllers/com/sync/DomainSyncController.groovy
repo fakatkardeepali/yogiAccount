@@ -52,6 +52,7 @@ class DomainSyncController {
 //        println domainInstanceProperties
         log.debug("Got properties from ERP to save : ${domainInstanceProperties}")
        def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
+        log.debug("After Saving Domain Class properties : ${res.properties}")
 //        println "ledger count : ${AccountLedger.count()}"
 //        println "ledger properties : ${AccountLedger.last().properties}"
 

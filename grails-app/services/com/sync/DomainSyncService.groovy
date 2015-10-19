@@ -10,7 +10,7 @@ class DomainSyncService {
 
         def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
         log.debug("Final Domain Instance To Be Saved....${domainInstance}" )
-        return domainInstance.save()
+        return domainInstance.save(flush:true)
 
        /*
         Our steps to save any map of class

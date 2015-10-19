@@ -23,4 +23,9 @@ class AccountFlag {
     def beforeInsert() {
         uniqueKey = (last()?.uniqueKey ?: 0) + 1;
     }
+
+    static def findByNameClosure={newRef->
+        return AccountFlag.findByName(newRef)
+
+    }
 }
