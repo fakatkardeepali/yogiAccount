@@ -19,6 +19,12 @@ class DomainHelpers {
     static def SRC_PROP_NAME="srcPropName"
     static def DOMAIN_CLASS="domainClass"
     static def QUERY_MAP="queryMap"
+    static def CREATE_NEW_INSTANCE="createNewInstance"
+    static def CONFIG_MAP="configMap"
+    static def PROPERTY_VALUE="\$value"
+    static def DEPENDS_PARENT_CONFIG="dependsParentConfig"
+    static def METHOD="method"
+    static def METHOD_PARAM_VALUE="methodParamValue"
     private static final log = LogFactory.getLog(this)
 //    static Logger log = Logger.getLogger(getClass())
     static Map getConfigMapForDomain(String domainName) {
@@ -59,8 +65,8 @@ class DomainHelpers {
                         lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true],
                         partyAccount : [domainClass: PartyAccount,createNewInstance:true,
                                         configMap:[
-                                                   partyName:[domainClass:AccountLedger,srcPropName: [partyName: [depends:"self"]]],
-                                                   typeOfRef:[domainClass: AccountFlag,srcPropName: [$methodParamValue:"New Ref.",method:AccountFlag.findByNameClosure]],
+                                                   partyName:[srcPropName:"partyName",$dependsParentConfig:true],
+                                                   typeOfRef:[method:AccountFlag.findByNameClosure,methodParamValue:"New Ref."],
                                                    billNo: "invoiceNo",
                                                    billDate: "invoiceDate",
                                                    crDays: [selfPropName: "partyName.creditDays"],
@@ -281,12 +287,12 @@ class DomainHelpers {
 
     static Map getPropertiesForDomainInstance(String domainName, def domainProperties, Map destinationProperties) {
         log.debug("In method getPropertiesForDomainInstance with domain name : ${domainName}")
-        Map accountLedgerProperties = getSimilarDestinationDomainPropertiesMap(domainProperties, destinationProperties)
-        log.debug("Found similar destiantion domain properties : ${accountLedgerProperties}")
+        Map similarProperties = getSimilarDestinationDomainPropertiesMap(domainProperties, destinationProperties)
+        log.debug("Found similar destiantion domain properties : ${similarProperties}")
         Map configMap = getConfigMapForDomain(domainName)
-        Map remainingPropMap = populateDiffProperties(configMap, domainProperties)
+        Map remainingPropMap = populatePropertiesByConfigMap(configMap, domainProperties)
         log.debug("Found different destination properties : ${remainingPropMap}")
-        return accountLedgerProperties + remainingPropMap
+        return similarProperties + remainingPropMap
     }
 
     static Map getSimilarDestinationDomainPropertiesMap(Map sourceDomainProperties, Map destinationDomainProperties) {
@@ -302,33 +308,28 @@ class DomainHelpers {
     }
 
 
-    static Map populateDiffProperties(Map configMap, Map srcMap) {
+    // domainProperties is Json came from ERP
+    static Map populatePropertiesByConfigMap(Map configMap, Map domainProperties) {
+
         log.debug("Populating different domain properties..")
-        def srcPropertiesByQueryMap = populateSourcePropertiesHavingQueryMap(configMap, srcMap)
+
+        // simple + direct value
+        def simpleProperties = populateSimpleProperties(configMap,domainProperties)
+
+        def srcPropertiesByQueryMap = populateSourcePropertiesHavingQueryMap(configMap, domainProperties)
         log.debug("Found properties having query map : ${srcPropertiesByQueryMap}")
-        def srcPropertiesByMethod = configMap.inject([:]) { dMap, entry ->
-            //println "is instance if map ${dMap instanceof Map}"
-            if (entry.value instanceof Map) {
-                if (entry.value.method) {
-                    dMap[entry.key] = findDomainInstanceByMethod(entry.value, srcMap, srcPropertiesByQueryMap)
-//                entry.value = [domainClass:AccountGroup,srcPropName:["partyType":"enumDescription"],method:AccountGroup.findByPartyType]
-//                srcMap = Party Json came form ERP
-                }
-            } else {
-                dMap[entry.key] = srcMap[entry.value]
-            }
 
-            return dMap
-        }
-        return srcPropertiesByQueryMap + srcPropertiesByMethod
+        def srcPropertiesByMethod = populatePropertiesByMethod(configMap,domainProperties,srcPropertiesByQueryMap)
 
+        def srcPropertiesWithChildDomainInstanceProperties = populateChildDomainInstanceProperties(configMap,domainProperties)
+
+        return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod + srcPropertiesWithChildDomainInstanceProperties
     }
 
     static Map populateSourcePropertiesHavingQueryMap(Map configMap, Map srcMap) {
         log.debug("Checking if source properties having query map..")
         return configMap.inject([:]) { dMap, entry ->
-            //println "is instance if map ${dMap instanceof Map}"
-            if (entry.value instanceof Map && entry.value.queryMap) {
+            if (entry.value instanceof Map && entry.value[QUERY_MAP]) {
                 log.debug("This entry is having query map : ${entry.value}")
                 dMap[entry.key] = getDomainInstanceByQueryMap(entry.key, configMap, srcMap)
             }
@@ -336,33 +337,151 @@ class DomainHelpers {
         }
     }
 
-    static def findDomainInstanceByMethod(def configMapEntryValue, def srcMap, def srcPropertiesByQueryMap) {
-        log.debug("Checking if source properties having method : ${configMapEntryValue}")
-        def srcProp = configMapEntryValue[SRC_PROP_NAME];    // srcProp = ["partyType":"enumDescription"]
-        def methodParams = [:]
-        if (srcProp instanceof Map) { //check here if it is instance of Map
-            // here value is domain instance property name
-            srcProp.each { key, value ->
-                def propValue = MapUtils.getMapValueByDeepProperty(srcMap, key)
-                if(value instanceof Map){
-                    def entry = value.entrySet().first()
-                    if(entry.key.equals("depends") && entry.value.equals("QM")){
-                        log.debug("Found a property that depends on query map : ${srcProp}")
-                        methodParams[key] = MapUtils.getMapValueByDeepProperty(srcPropertiesByQueryMap, key)
-                    }else{
-                        log.debug("Invalid config map entry: ${configMapEntryValue}")
+    static def populatePropertiesByMethod(Map configMap, def domainProperties, def srcPropertiesByQueryMap) {
+
+        return configMap.inject([:]){propertiesMap,entry->
+            log.debug("Checking if source properties having method : ${entry.key}")
+
+            if (entry.value instanceof Map && entry.value.keys().contains(METHOD)) {
+                def srcProp = entry.value[SRC_PROP_NAME];    // srcProp = ["partyType":"enumDescription"]
+                def methodParams = [:]
+                if (srcProp instanceof Map) { //check here if it is instance of Map
+                    // here value is domain instance property name
+                    srcProp.each { key, value ->
+                        def propValue = MapUtils.getMapValueByDeepProperty(domainProperties, key)
+                        if(value instanceof Map){
+                            def srcPropEntry = value.entrySet().first()
+                            if(srcPropEntry.key.equals("depends") && srcPropEntry.value.equals("QM")){
+                                log.debug("Found a property that depends on query map : ${srcProp}")
+                                methodParams[key] = MapUtils.getMapValueByDeepProperty(srcPropertiesByQueryMap, key)
+                            }else{
+                                log.debug("Invalid config map entry: ${entry.value}")
+                            }
+                        }else{
+                            methodParams[value] = propValue  // PartyJson[partyType][enumDescription]  (e.g.supplier/customer) 
+                        }
                     }
-                }else{
-                    methodParams[value] = propValue  // PartyJson[partyType][enumDescription]  (e.g.supplier/customer) 
+                    // "partyType":"enumDescription"
+
+                    log.debug("calling method with params : ${methodParams}")
+                    propertiesMap[entry.key] =  entry.value[METHOD].call(methodParams)
+
+                } else {
+                    // here expecting a method with param value
+                    log.debug("expecting a method with param value")
+                    def methodParamValue = entry.value[METHOD_PARAM_VALUE]
+                    def method = entry.value[METHOD]
+                    propertiesMap[entry.key] = method.call(methodParamValue)
                 }
             }
-            // "partyType":"enumDescription"
-        } else {
-            log.debug("${srcProp} is not an instance of Map")
+            return  propertiesMap
         }
-        log.debug("calling method with params : ${methodParams}")
-        return configMapEntryValue["method"].call(methodParams)
     }
+
+    static Object getDomainInstanceByQueryMap(String propertyName, Map configMap, Map sourceDomainProperties) {
+        log.debug("In method getDomainInstanceByQueryMap.. ")
+        log.debug("Finding domain instance for property : ${propertyName} and source property : ${configMap[propertyName][SRC_PROP_NAME]}")
+        def entry = configMap[propertyName][SRC_PROP_NAME].entrySet().first()
+        Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties,entry.key) /*123*/
+        log.debug("Query property value : ${queryPropertyValue}")
+        Map finalQueryMap = [:]
+        finalQueryMap[entry.value] = queryPropertyValue
+
+        Object domainClass = configMap[propertyName].domainClass
+        //Company.findWhere([regNo:"123"])
+        log.debug("Finding domainInstance with parameters : ${finalQueryMap}")
+        Object domainInstance = domainClass.findWhere(finalQueryMap)
+        log.debug("Found domain instance by query map :${domainInstance.properties}")
+        return domainInstance
+    }
+
+/*
+    Returns a Map of domain properties. If a property is domain instance then its properties are collected.
+    e.g. accountLedger.properties
+
+    This method is used instead of converting a domain instance into JSON.
+*/
+
+    static def buildPropertiesMap(Object domainInstance) {
+        return domainInstance.properties.inject([:]) { map, propEntry ->
+            log.debug("Processing entry ${propEntry},class  ${propEntry.value.class.name}")
+            map[propEntry.key] = propEntry.value
+            if (DomainClassArtefactHandler.isDomainClass(propEntry.value.class)) {
+                log.debug("${propEntry.value} is domain instance")
+                map[propEntry.key] = propEntry.value.properties
+            }
+            return map
+        }
+    }
+
+    static def createChildDomainInstance(Map configMap, Map.Entry configEntry, Map domainProperties){
+        log.debug("New domain instance is to be created for this property : ${entry.key}")
+        Map propertyConfigMap = configEntry.value[CONFIG_MAP]
+        def childDomainProperties = configMap.inject([:]) { resultMap, entry ->
+                def simpleProperties = populateSimpleProperties(propertyConfigMap,domainProperties)
+                def queryMapProperties = populateSourcePropertiesHavingQueryMap(propertyConfigMap,domainProperties)
+                def methodProperties = populatePropertiesByMethod(propertyConfigMap)
+                def parentConfigProperties = populatePropertiesDependsOnParentConfigMap(propertyConfigMap,configMap)
+
+                resultMap += simpleProperties + queryMapProperties + methodProperties + parentConfigProperties
+
+                return resultMap
+        }
+
+        def domainClass = configEntry[DOMAIN_CLASS]
+        return domainClass.class.newInstance(childDomainProperties)
+    }
+
+    static def populateChildDomainInstanceProperties(Map configMap,Map domainProperties){
+        log.debug("populating child domain instance properties.")
+        return configMap.inject([:]) { resultMap, entry ->
+            if (entry.value instanceof Map && entry.value[CREATE_NEW_INSTANCE]) {
+                log.debug("New domain instance is to be created for this property : ${entry.key}")
+                resultMap[entry.key] = createChildDomainInstance(configMap,entry,domainProperties)
+            }
+            return resultMap
+        }
+    }
+
+    static def populateSimpleProperties(Map configMap, Map domainProperties){
+        return configMap.inject([:]) { dMap, entry ->
+            if (!(entry.value instanceof Map)) {
+
+                log.debug("finding value of simple property : ${entry.key}")
+                dMap[entry.key] = domainProperties[entry.value]
+
+            }else if (entry.value instanceof Map && entry.value.keys().contains(PROPERTY_VALUE)) {
+                log.debug("finding value of simple property having direct value: ${entry.key}")
+                dMap[entry.key] = entry.value[PROPERTY_VALUE]
+            }
+            return dMap
+        }
+    }
+
+
+    static def populatePropertiesDependsOnParentConfigMap(Map configMap,Map parentConfigMap){
+        return configMap.inject([:]) { dMap, entry ->
+            if (entry.value instanceof Map && entry.value.keys().contains(DEPENDS_PARENT_CONFIG)) {
+                log.debug("finding value of property having dependency of parent config map: ${entry.key}")
+                def value = parentConfigMap[entry[SRC_PROP_NAME]]
+                dMap[entry.key] = value
+            }
+            return dMap
+        }
+    }
+
+    /*static def populatePropertiesByMethodWithParamValue(Map configMap){
+        return configMap.inject([:]) { dMap, entry ->
+            def properties = entry.value.keys()
+            if (entry.value instanceof Map && properties.contains(METHOD) && properties.contains(METHOD_PARAM_VALUE)) {
+                log.debug("finding value of property having method and param value: ${entry.key}")
+                def methodParamValue = entry.value[METHOD_PARAM_VALUE]
+                def method = entry.value[METHOD]
+                dMap[entry.key] = method.call(methodParamValue)
+            }
+            return dMap
+        }
+    }*/
 
     /*
     propertyName='comapany'
@@ -452,39 +571,4 @@ class DomainHelpers {
 
      */
 
-    static Object getDomainInstanceByQueryMap(String propertyName, Map configMap, Map sourceDomainProperties) {
-        log.debug("In method getDomainInstanceByQueryMap.. ")
-        log.debug("Finding domain instance for property : ${propertyName} and source property : ${configMap[propertyName][SRC_PROP_NAME]}")
-        def entry = configMap[propertyName][SRC_PROP_NAME].entrySet().first()
-        Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties,entry.key) /*123*/
-        log.debug("Query property value : ${queryPropertyValue}")
-        Map finalQueryMap = [:]
-        finalQueryMap[entry.value] = queryPropertyValue
-
-        Object domainClass = configMap[propertyName].domainClass
-        //Company.findWhere([regNo:"123"])
-        log.debug("Finding domainInstance with parameters : ${finalQueryMap}")
-        Object domainInstance = domainClass.findWhere(finalQueryMap)
-        log.debug("Found domain instance by query map :${domainInstance.properties}")
-        return domainInstance
-    }
-
-/*
-    Returns a Map of domain properties. If a property is domain instance then its properties are collected.
-    e.g. accountLedger.properties
-
-    This method is used instead of converting a domain instance into JSON.
-*/
-
-    static def buildPropertiesMap(Object domainInstance) {
-        return domainInstance.properties.inject([:]) { map, propEntry ->
-            log.debug("Processing entry ${propEntry},class  ${propEntry.value.class.name}")
-            map[propEntry.key] = propEntry.value
-            if (DomainClassArtefactHandler.isDomainClass(propEntry.value.class)) {
-                log.debug("${propEntry.value} is domain instance")
-                map[propEntry.key] = propEntry.value.properties
-            }
-            return map
-        }
-    }
 }

@@ -24,11 +24,11 @@ class DomainSyncController {
 //        Object companyInstance = DomainHelpers.getDomainInstanceByQueryMap("underGroup",configMap,domainInstanceProperties)
 //        println AccountGroup.findByPartyType.call("Customer");
 
-        Map diffProperties = DomainHelpers.populateDiffProperties(configMap,domainInstanceProperties)
+        Map diffProperties = DomainHelpers.populatePropertiesByConfigMap(configMap,domainInstanceProperties)
           //def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
           //print domainInstance
         def srcPropertiesByQueryMap = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,domainInstanceProperties)
-        //Object companyInstance = DomainHelpers.findDomainInstanceByMethod(configMap.underGroup,domainInstanceProperties,srcPropertiesByQueryMap)
+        //Object companyInstance = DomainHelpers.populatePropertiesByMethod(configMap.underGroup,domainInstanceProperties,srcPropertiesByQueryMap)
         //println companyInstance
         //println diffProperties
 
@@ -118,5 +118,4 @@ class DomainSyncController {
 
 //        render result as JSON
     }
-
 }

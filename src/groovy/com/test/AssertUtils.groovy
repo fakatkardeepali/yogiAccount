@@ -8,12 +8,12 @@ class AssertUtils {
         assert object != null
     }
 
-    static def equals(src,dest){
-        assert src.equals(dest)
+    static def assertNull(object){
+        assert object == null
     }
 
-    static  def assertNull(object){
-        assert object == null
+    static def equals(src,dest){
+        assert src.equals(dest)
     }
 
     static Object equalsLong(src,dest) {

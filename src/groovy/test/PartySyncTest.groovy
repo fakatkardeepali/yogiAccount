@@ -23,6 +23,7 @@ class PartySyncTest {
     static def checkPrerequisites(){
 
         createTestData()
+
         checkQueryMapProperties()
         testGetDomainInstanceByQueryMap()
         testFindDomainInstanceByMethod()
@@ -33,6 +34,7 @@ class PartySyncTest {
         AssertUtils.assertNotNull(company)
         //assert company.registrationNo.equalsIgnoreCase("123")
         AssertUtils.equals(company.registrationNo,"123")
+
         clearTestData()
     }
 
@@ -60,7 +62,7 @@ class PartySyncTest {
 
     static def testFindDomainInstanceByMethod(){
         def props = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,TestData.domainInstanceProperties)
-        def instance = DomainHelpers.findDomainInstanceByMethod(configMap.underGroup, TestData.domainInstanceProperties, props)
+        def instance = DomainHelpers.populatePropertiesByMethod(configMap.underGroup, TestData.domainInstanceProperties, props)
         AssertUtils.assertNotNull(instance)
         AssertUtils.assertNotNull(instance.company)
         AssertUtils.assertNotNull(instance.underGroup)
@@ -96,12 +98,17 @@ class PartySyncTest {
 
         def org = new Organization(name: organizationName)
         org.save()
+        createUser(org)
+        //createCompany(org,,User.findByUsername(userName))
+    }
 
-        def user = new User(username: userName,password: "u123",organization: org)
+    static def createUser(organization){
+        def user = new User(username: userName,password: "u123",organization: organization)
         user.save()
-
         AssertUtils.assertNotNull(User.findByUsername(userName))
+    }
 
+    static def createCompany(org,user){
         def company = new Company(name: companyName,registrationNo: "123",organization: org,financialFrom: new Date(),booksBeginigFrom: new Date(),lastUpdatedBy: user)
         company.save()
         AssertUtils.assertNotNull(Company.findByName(companyName))
