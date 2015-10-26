@@ -4,11 +4,11 @@ import com.common.AccountFlag
 import com.master.AccountGroup
 import com.master.AccountLedger
 import com.master.VoucherType
+import com.sync.ConfigMap
 import com.system.Company
 import com.system.User
 import com.transaction.PartyAccount
 import com.transaction.Voucher
-import com.transaction.VoucherBillDetails
 import com.utils.MapUtils
 import org.apache.commons.logging.LogFactory
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
@@ -26,8 +26,8 @@ class DomainHelpers {
     static def DEPENDS_PARENT_CONFIG="dependsParentConfig"
     static def METHOD="method"
     static def METHOD_PARAM_VALUE="methodParamValue"
-    static def ASSOCIATION="association"
-    static def ASSOCIATION_HASMANY="hasMany"
+    static def HAS_MANY="hasMany"
+
     private static final log = LogFactory.getLog(this)
 //    static Logger log = Logger.getLogger(getClass())
     static Map getConfigMapForDomain(String domainName) {
@@ -55,6 +55,7 @@ class DomainHelpers {
 
             case "InvoiceEntry":
                 return [
+                        voucherNo   : [$value: ""],
                         date        : "invoiceDate",
                         referenceNo : "challanNo",
                         narration   : "description",
@@ -63,36 +64,32 @@ class DomainHelpers {
                         partyName   : [domainClass: AccountLedger,srcPropName: ["customer.name":"name"],queryMap: true],
                         company     : [domainClass: Company, srcPropName: ["company.regNo":"registrationNo"],queryMap: true],
                         lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true],
-                        partyAccount : [domainClass: PartyAccount,createNewInstance:true,association:"hasMany",
-                                        configMap:[
-                                                   partyName:[srcPropName:"partyName",dependsParentConfig:true],
-                                                   company: [srcPropName:"company",dependsParentConfig:true],
-                                                   typeOfRef:[method:AccountFlag.findByNameClosure,methodParamValue:"New Ref."],
-                                                   billNo: "invoiceNo",
-                                                   billDate: [$value:""],
-                                                   crDays: [selfPropName: "partyName.creditDays"],
-                                                   amount: "grandTotal",
-                                                   amountStatus: [$value:"Dr"] ,
-                                                   narration: [$value:""],
-                                                   remainAmount: "grandTotal",
-                                                   lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
-                                                  ],
-                                       ],
+                        partyAccount : [
+                            domainClass: PartyAccount,
+                            createNewInstance:true,
+                            /*hasMany is list of maps*/
+                            hasMany:[[
+                                configMap:[
+                                    partyName:[srcPropName:"partyName",dependsParentConfig:true],
+                                    company: [srcPropName:"company",dependsParentConfig:true],
+                                    typeOfRef:[method:AccountFlag.findByNameClosure,methodParamValue:"New Ref."],
+                                    billNo: "invoiceNo",
+                                    billDate: "invoiceDate",
+                                    crDays: [selfPropName: "partyName.creditDays"],
+                                    amount: "grandTotal",
+                                    amountStatus: [$value:"Dr"] ,
+                                    narration: [$value:""],
+                                    remainAmount: "grandTotal",
+                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
+                                ]
+                            ]]
+                        ],
+                        vouchedetails:[hasmany:[
+                                0:["netamountledgerid","netamount"],
+                                1:["packingledgerid","packingamount"]],
+                                3:[]
 
-                        voucherBillDetails : [domainClass: VoucherBillDetails,createNewInstance:true,association:"hasMany",
-                                              configMap:[
-                                                      partyName:[srcPropName:"partyName",dependsParentConfig:true],
-                                                      company: [srcPropName:"company",dependsParentConfig:true],
-                                                      typeOfRef:[method:AccountFlag.findByNameClosure,methodParamValue:"New Ref."],
-                                                      billNo: "invoiceNo",
-                                                      billDate: [$value:""],
-                                                      crDays: [selfPropName: "partyName.creditDays"],
-                                                      amount: "grandTotal",
-                                                      amountStatus: [$value:"Dr"] ,
-                                                      narration: [$value:""],
-                                                      lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId":"username"],queryMap: true]
-                                                        ],
-                                             ],
+                        ]
 
 
                        ]
@@ -142,11 +139,12 @@ class DomainHelpers {
 
     static def createDomainInstance(String domainName, def domainProperties, boolean isUpdate = false) {
         log.debug("Domain Name from ERP is : ${domainName}")
+        def domainInstance;
         switch (domainName) {
             case 'Party':
-                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new AccountLedger().properties)
+                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties)
                 log.debug("Total populated target domain properties : ${targetDomainProperties}")
-                def domainInstance;
+
                 if (isUpdate) {
                     log.debug("Updating domain instance : ${domainName}")
                     log.debug("Finding Party by id ${domainProperties.id}")
@@ -168,10 +166,10 @@ class DomainHelpers {
                 break;
 
             case 'InvoiceEntry':
-                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+                Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties)
                 Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
                 targetDomainProperties.date = date
-//                targetDomainProperties.partyAccount.billDate = date
+                targetDomainProperties.partyAccount.billDate = date
 //                targetDomainProperties.voucherType = VoucherType.findBy
                 if(targetDomainProperties?.company?.id){
                     targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company,"Sale")
@@ -188,7 +186,7 @@ class DomainHelpers {
 
                 log.debug("Total populated target domain properties : ${targetDomainProperties}")
 
-                def domainInstance;
+
                 if (isUpdate) {
                     log.debug("Updating domain instance : ${domainName}")
                     log.debug("Finding Party by id ${domainProperties.id}")
@@ -203,23 +201,56 @@ class DomainHelpers {
                 }
                 else {
                     log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")
-                    domainInstance = new Voucher(targetDomainProperties)
+                    domainInstance = ConfigMap.getDestinationClassInstance(domainName)
+                    populateAssociationProperties(domainName,domainInstance,domainProperties)
                     // here domain name should provide full package name for the class(e.g. com.master.AccountLedger)
                 }
                 return domainInstance
                 break;
-
-
-
         }
     }
 
-    static Map getPropertiesForDomainInstance(String domainName, def domainProperties, Map destinationProperties) {
+    static def populateAssociationProperties(String domainName, Object domainInstance,Map domainProperties) {
+        def domainConfigMap = ConfigMap.getProperties(domainName)
+
+        domainConfigMap.each {propertyName,value->
+            if(value instanceof Map && value[CREATE_NEW_INSTANCE] && value[HAS_MANY]){
+                def childConfigMaps = value[HAS_MANY]
+                childConfigMaps.each {childConfigMap->
+                    Map actualConfigMap = childConfigMap[CONFIG_MAP]
+                    def childDomainInstance = createChildDomainInstance(actualConfigMap)
+                }
+            }
+        }
+
+    }
+
+    static def createNewChildDomainInstance(Map mainConfig, Map childConfig,Map domainProperties){
+        def childDomainProperties = childConfig.inject([:]){resultMap,entry->
+            def simpleProperties = populateSimpleProperties(childConfig,domainProperties)
+            def queryMapProperties = populateSourcePropertiesHavingQueryMap(childConfig,domainProperties)
+
+            def methodProperties = populatePropertiesByMethod(childConfig,domainProperties,queryMapProperties)
+
+            def parentConfigProperties = populatePropertiesDependsOnParentConfigMap(childConfig,mainConfig,parentDomainPropertiesByQueryMap)
+
+            resultMap += simpleProperties + queryMapProperties + methodProperties + parentConfigProperties
+            log.debug("Final instance for child domain class : ${resultMap}")
+            return resultMap
+        }
+
+    }
+
+    static Map getPropertiesForDomainInstance(String domainName, def domainProperties) {
         log.debug("In method getPropertiesForDomainInstance with domain name : ${domainName}")
+        //Map domainConfigMap = ConfigMap.config[domainName]
+
+        Map destinationProperties = ConfigMap.getDestinationDomainClassProperties(domainName)
+
         Map similarProperties = getSimilarDestinationDomainPropertiesMap(domainProperties, destinationProperties)
         log.debug("Found similar destiantion domain properties : ${similarProperties}")
-        Map configMap = getConfigMapForDomain(domainName)
-        Map remainingPropMap = populatePropertiesByConfigMap(configMap, domainProperties)
+
+        Map remainingPropMap = populatePropertiesByConfigMap(ConfigMap.getProperties(domainName), domainProperties)
         log.debug("Found different destination properties : ${remainingPropMap}")
         return similarProperties + remainingPropMap
     }
@@ -250,9 +281,10 @@ class DomainHelpers {
 
         def srcPropertiesByMethod = populatePropertiesByMethod(configMap,domainProperties,srcPropertiesByQueryMap)
 
-        def srcPropertiesWithChildDomainInstanceProperties = populateChildDomainInstanceProperties(configMap,domainProperties,srcPropertiesByQueryMap)
+        //def srcPropertiesWithChildDomainInstanceProperties = populateChildDomainInstanceProperties(configMap,domainProperties,srcPropertiesByQueryMap)
 
-        return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod + srcPropertiesWithChildDomainInstanceProperties
+        //return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod + srcPropertiesWithChildDomainInstanceProperties
+        return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod
     }
 
     static Map populateSourcePropertiesHavingQueryMap(Map configMap, Map srcMap) {
@@ -367,15 +399,9 @@ class DomainHelpers {
     static def populateChildDomainInstanceProperties(Map configMap,Map domainProperties,Map parentDomainPropertiesByQueryMap){
         log.debug("populating child domain instance properties.")
         def childDomainProperties = configMap.inject([:]) { resultMap, entry ->
-            if (entry.value instanceof Map && entry.value[CREATE_NEW_INSTANCE] && entry.value.containsKey(ASSOCIATION)) {
-                if(entry.value[ASSOCIATION].equals(ASSOCIATION_HASMANY)){
-
-                }
-                else{
-                    log.debug("New domain instance is to be created for this property : ${entry.key}")
-                    resultMap[entry.key] = createChildDomainInstance(configMap,entry,domainProperties,parentDomainPropertiesByQueryMap)
-                }
-
+            if (entry.value instanceof Map && entry.value[CREATE_NEW_INSTANCE]) {
+                log.debug("New domain instance is to be created for this property : ${entry.key}")
+                resultMap[entry.key] = createChildDomainInstance(configMap,entry,domainProperties,parentDomainPropertiesByQueryMap)
             }
 
             return resultMap
@@ -402,7 +428,8 @@ class DomainHelpers {
     }
 
 
-    static def populatePropertiesDependsOnParentConfigMap(Map configMap,Map parentDomainPropertiesByQueryMap){
+    static def populatePropertiesDependsOnParentConfigMap(Map configMap,Map mainConfigMap,Map parentDomainPropertiesByQueryMap){
+        Map parentDomainPropertiesByQueryMap = getDomainInstanceByQueryMap()
 
         def propertiesDependingOnParentMap = configMap.inject([:]) { dMap, entry ->
             if (entry.value instanceof Map && entry.value.containsKey(DEPENDS_PARENT_CONFIG)) {
