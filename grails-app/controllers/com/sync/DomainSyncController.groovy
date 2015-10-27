@@ -27,7 +27,7 @@ class DomainSyncController {
         Map diffProperties = DomainHelpers.populatePropertiesByConfigMap(configMap,domainInstanceProperties)
           //def domainInstance = DomainHelpers.createDomainInstance("Party",domainInstanceProperties)
           //print domainInstance
-        def srcPropertiesByQueryMap = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,domainInstanceProperties)
+        def srcPropertiesByQueryMap = DomainHelpers.getPropertiesByQueryMap(configMap,domainInstanceProperties)
         //Object companyInstance = DomainHelpers.populatePropertiesByMethod(configMap.underGroup,domainInstanceProperties,srcPropertiesByQueryMap)
         //println companyInstance
         //println diffProperties
@@ -51,7 +51,7 @@ class DomainSyncController {
 
 //        println domainInstanceProperties
         log.debug("Got properties from ERP to save : ${domainInstanceProperties}")
-       def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
+        def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
         log.debug("After Saving Domain Class properties : ${res.properties}")
 //        println "ledger count : ${AccountLedger.count()}"
 //        println "ledger properties : ${AccountLedger.last().properties}"
@@ -119,4 +119,119 @@ class DomainSyncController {
 
 //        render result as JSON
     }
+
+//    case InvoiceLC
+//    case 'InvoiceEntryLC':
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
+//    targetDomainProperties.date = date
+//    if(targetDomainProperties?.company?.id){
+//        targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company,"Sale")
+//    }
+//    else{
+//        log.error("Could not determine Voucher type because could not get Company id not")
+//    }
+//    if(targetDomainProperties?.voucherType?.id && targetDomainProperties?.date){
+//        targetDomainProperties.voucherNo = Voucher.getVoucherNumber(targetDomainProperties?.voucherType?.id,targetDomainProperties?.date,null)
+//    }
+//    else{
+//        log.error("Could not get voucher number because could not get voucher type and date")
+//    }
+//
+//    log.debug("Total populated target domain properties : ${targetDomainProperties}")
+//
+//    def domainInstance;
+//    if (isUpdate) {
+//        log.debug("Updating domain instance : ${domainName}")
+//        log.debug("Finding Party by id ${domainProperties.id}")
+//        domainInstance = Voucher.findById(domainProperties.id)
+//        if (domainInstance) {
+//            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
+//            domainInstance.properties = targetDomainProperties
+//
+//        } else {
+//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//        }
+//    }
+//    else {
+//        log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")
+//        domainInstance = new Voucher(targetDomainProperties)
+//    }
+//    return domainInstance
+//
+//    case 'ProFormaInvoice':
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
+//    targetDomainProperties.date = date
+//    if(targetDomainProperties?.company?.id){
+//        targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company,"Sale")
+//    }
+//    else{
+//        log.error("Could not determine Voucher type because could not get Company id not")
+//    }
+//    if(targetDomainProperties?.voucherType?.id && targetDomainProperties?.date){
+//        targetDomainProperties.voucherNo = Voucher.getVoucherNumber(targetDomainProperties?.voucherType?.id,targetDomainProperties?.date,null)
+//    }
+//    else{
+//        log.error("Could not get voucher number because could not get voucher type and date")
+//    }
+//
+//    log.debug("Total populated target domain properties : ${targetDomainProperties}")
+//
+//    def domainInstance;
+//    if (isUpdate) {
+//        log.debug("Updating domain instance : ${domainName}")
+//        log.debug("Finding Party by id ${domainProperties.id}")
+//        domainInstance = Voucher.findById(domainProperties.id)
+//        if (domainInstance) {
+//            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
+//            domainInstance.properties = targetDomainProperties
+//
+//        } else {
+//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//        }
+//    }
+//    else {
+//        log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")
+//        domainInstance = new Voucher(targetDomainProperties)
+//    }
+//    return domainInstance
+//
+//    case 'PurchaseReturn':
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
+//    targetDomainProperties.date = date
+//    if(targetDomainProperties?.company?.id){
+//        targetDomainProperties.voucherType = VoucherType.findByCompanyAndName(targetDomainProperties?.company,"Sale")
+//    }
+//    else{
+//        log.error("Could not determine Voucher type because could not get Company id not")
+//    }
+//    if(targetDomainProperties?.voucherType?.id && targetDomainProperties?.date){
+//        targetDomainProperties.voucherNo = Voucher.getVoucherNumber(targetDomainProperties?.voucherType?.id,targetDomainProperties?.date,null)
+//    }
+//    else{
+//        log.error("Could not get voucher number because could not get voucher type and date")
+//    }
+//
+//    log.debug("Total populated target domain properties : ${targetDomainProperties}")
+//
+//    def domainInstance;
+//    if (isUpdate) {
+//        log.debug("Updating domain instance : ${domainName}")
+//        log.debug("Finding Party by id ${domainProperties.id}")
+//        domainInstance = Voucher.findById(domainProperties.id)
+//        if (domainInstance) {
+//            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
+//            domainInstance.properties = targetDomainProperties
+//
+//        } else {
+//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//        }
+//    }
+//    else {
+//        log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")
+//        domainInstance = new Voucher(targetDomainProperties)
+//    }
+//    return domainInstance
 }

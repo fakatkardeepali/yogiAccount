@@ -2,6 +2,8 @@
 
 Invoice Issue => Account Voucher
 
+(Same case will be applicable for Proforma Invoice,Invoice LC and Purchase Return)
+
 Invoice Issue is the process of billing against the sale we are doing.
 e.g. Yogi Wires is selling their wires as product to customers.
      Essar Auto needs Wires for their product manufacturing. So they purchase wires from Yogi Wires.
@@ -33,11 +35,20 @@ e.g. Yogi Wires is selling their wires as product to customers.
      1.lastUpdatedBy(User)
      2.Company(CompanySetting)
      3.dateCreated(Date)
-     4.partyId
-     5.grandTotal
-     6.netAmount
-     7.netAmountLedgerId
+     4.partyId(long)
+     5.grandTotal(BigDecimal)
+     6.netAmount(BigDecimal)
+     7.netAmountLedgerId(long)
      8.taxInstance(for matching ledger Id's)
+     9.invoiceNo(String)
+     10.packingAmount(BigDecimal)
+     11.freightAmount(BigDecimal)
+     12.insuranceAmount(BigDecimal)
+
+     Fields Needed to be sent from AssignLedger Frame To Account Project :
+     1.packingLedgerId(long)
+     2.freightLedgerId(long)
+     3.insuranceLedgerId(long)
 
      Voucher Required Fields
      1.Voucher Type(String)
@@ -80,3 +91,23 @@ Account Voucher Flow :
 
 
 5) Save Last Number in Parameters frame
+
+
+========================================================================================================================
+
+TODO in invoice
+
+1)Save Voucher Details Instance according to Ledger id's and their related values
+2)Generate Unique Number according to defined function in Voucher
+3)Update operation
+
+
+========================================================================================================================
+
+TODO overAll in API
+
+1)Logging in remaining code
+2)Config map generation of other domain classes
+3)Response Generation from API to ERP
+4)Document Updation(Done)
+5)View Updation in Proforma,PurchaseReturn,InvoiceLC,Bill Passing

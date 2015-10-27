@@ -1,0 +1,49 @@
+========================================================================================================================
+
+Bill Passing(Purchase) => Account Voucher
+
+Bill Passing is the process of paying bill against the purchase we have done.
+e.g. Yogi Wires is purchasing raw material from their Suppliers
+     Yogi Wires need zinc and copper as raw material for manufacturing wires as their product.
+     So they purchase zinc and copper from Tata Steel. It is as follows :
+
+     Purchase of 2 items with following quantity:
+          Item Name             Quantity  unit      Rate   Amount
+          ========================================================
+          Zinc                     5       kg       100     500
+          Copper                  20       kg       200    4000
+          ========================================================
+                                               Net Amount  4500      => this should go to Purchase Ledger
+
+          Excise Duty 12.5% (562.5) is applied against Net Amount    => this should go to Excise Duty Against Purchase Ledger
+          Freight of Rs.100 is added                                 => this should go to Freight Against Purchase Ledger
+          VAT 5% (258.1) is applied against the taxable amount       => this should go to VAT Against Purchase Ledger
+
+          Grand Total = 5420.6                                       => this should go against Tata Steel Ledger
+
+     Against Each BillPassing a New Voucher is generated in Account Project.
+          e.g. In above Entry
+          Voucher No:22 will be created against Tata Steel for Purchase.
+          New voucher entries will be created against Net Amount,Excise Duty Amount,Freight And VAT but they will not be
+          having any Voucher No and they will be having Voucher(against Grand Total) as parent.
+
+          Fields Needed to be sent from BillPassing To Account Project :
+          1.lastUpdatedBy(User)
+          2.Company(CompanySetting)
+          3.dateCreated(Date)
+          4.supplierNameId(long)
+          5.grandTotal(BigDecimal)
+          6.netAmount(BigDecimal)
+          7.netAmountLedgerId(long)
+          8.taxInstance(for matching ledger Id's)
+          9.billNo(String)
+          10.packingAmount(BigDecimal)
+          11.freightAmount(BigDecimal)
+          12.insuranceAmount(BigDecimal)
+
+          Voucher Required Fields
+          1.Voucher Type(String)
+          2.Date(date)
+          3.VoucherNo(String)
+          4.partyName(Account Ledger)
+          5.amount(BigDecimal)

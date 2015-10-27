@@ -5,7 +5,7 @@ package com.utils
  */
 class MapUtils {
     static getMapValueByDeepProperty(Map map,String prop){
-        def deepKeys = prop.split("\\.")
+        def deepKeys = prop.split("\\.")                                   //e.g. lastUpdatedBy.mailId
         return deepKeys.inject (map){val,key->
             return val[key]
         }

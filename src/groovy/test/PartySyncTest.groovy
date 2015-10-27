@@ -54,14 +54,14 @@ class PartySyncTest {
     }
 
     static def checkQueryMapProperties(){
-        def props = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,TestData.domainInstanceProperties)
+        def props = DomainHelpers.getPropertiesByQueryMap(configMap,TestData.domainInstanceProperties)
         AssertUtils.assertNotNull(props)
         AssertUtils.assertNotNull(props.company)
         AssertUtils.assertNotNull(props.lastUpdatedBy)
     }
 
     static def testFindDomainInstanceByMethod(){
-        def props = DomainHelpers.populateSourcePropertiesHavingQueryMap(configMap,TestData.domainInstanceProperties)
+        def props = DomainHelpers.getPropertiesByQueryMap(configMap,TestData.domainInstanceProperties)
         def instance = DomainHelpers.populatePropertiesByMethod(configMap.underGroup, TestData.domainInstanceProperties, props)
         AssertUtils.assertNotNull(instance)
         AssertUtils.assertNotNull(instance.company)

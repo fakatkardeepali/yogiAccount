@@ -1,0 +1,11 @@
+========================================================================================================================
+
+Changes To Be Done In ERP view for adding Ledger Id :
+
+1.Add netAmountLedgerId(long) in Domain Class
+2.Add combobox in templatecalculation or form page
+3.Add http to get LedgerId's from Account in init() method
+4.add bindData condition in controller in Save method and update method
+
+
+========================================================================================================================

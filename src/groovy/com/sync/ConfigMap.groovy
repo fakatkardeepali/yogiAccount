@@ -15,6 +15,21 @@ class ConfigMap {
 
     static def DESTINATION_DOMAIN_CLASS = "destinationDomainClass"
     static def PROPERTIES = "properties"
+    static def SRC_PROP_NAME="srcPropName"
+    static def DOMAIN_CLASS="domainClass"
+    static def QUERY_MAP="queryMap"
+    static def CREATE_NEW_INSTANCE="createNewInstance"
+    static def CONFIG_MAP="configMap"
+    static def PROPERTY_VALUE="\$value"
+    static def DEPENDS_PARENT_CONFIG="dependsParentConfig"
+    static def METHOD="method"
+    static def METHOD_PARAM_VALUE="methodParamValue"
+    static def HAS_MANY="hasMany"
+
+    private String domainName
+    public ConfigMap(String domainName){
+        this.domainName = domainName
+    }
 
     static def config = [
             Party          : [
@@ -116,20 +131,29 @@ class ConfigMap {
 
     ]
 
-    static def getDomainConfigByName(String domainName) {
+     def getDomainConfigByName() {
         return config[domainName]
     }
 
-    static def getProperties(String domainName) {
-        return getDomainConfigByName(domainName)[PROPERTIES]
+     def getProperties() {
+        return getDomainConfigByName()[PROPERTIES]
     }
 
-    static def getDestinationClassInstance(String domainName) {
-        return (getDomainConfigByName(domainName)[DESTINATION_DOMAIN_CLASS]).newInstance()
+     def getDestinationClassInstance() {
+        return (getDomainConfigByName()[DESTINATION_DOMAIN_CLASS]).newInstance()
     }
 
-    static def getDestinationDomainClassProperties(String domainName) {
-        return getDestinationClassInstance(domainName).properties
+     def getDestinationDomainClassProperties() {
+        return getDestinationClassInstance().properties
+    }
+    def getPropertyValue(String propertyName){
+        return getProperties()[propertyName]
+    }
+    def getSourcePropertyValue(String propertyName){
+        return getPropertyValue(propertyName)[SRC_PROP_NAME]
+    }
+    def getDomainClass(String propertyName){
+        return getPropertyValue(propertyName)[DOMAIN_CLASS]
     }
 
 }
