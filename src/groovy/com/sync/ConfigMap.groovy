@@ -17,7 +17,7 @@ class ConfigMap {
     static def PROPERTIES = "properties"
 
     static def config = [
-            Party       : [
+            Party          : [
                     destinationDomainClass: AccountLedger,
                     properties            : [
                             address      : "officeAddress",
@@ -32,7 +32,7 @@ class ConfigMap {
 
             ], /*end of Party*/
 
-            InvoiceEntry: [
+            InvoiceEntry   : [
                     destinationDomainClass: Voucher,
                     properties            : [
                             voucherNo    : [$value: ""],
@@ -74,10 +74,49 @@ class ConfigMap {
 
                     ]
 
-            ]/*end of InvoiceEntry*/
+            ],/*end of InvoiceEntry*/
+
+            InvoiceEntryLC :
+                    [
+                            voucherNo   : "invoiceNo",
+                            date        : "invoiceDate",
+                            referenceNo : "challanNo",
+                            amount      : "grandTotal",
+                            amountStatus: "Dr",
+                    ],
+
+
+            ProFormaInvoice:
+                    [
+                            voucherNo   : "invoiceNo",
+                            date        : "invoiceDate",
+                            referenceNo : "challanNo",
+                            amount      : "grandTotal",
+                            amountStatus: "Dr",
+                    ],
+
+            PurchaseReturn :
+                    [
+                            voucherNo   : "invoiceNo",
+                            date        : "invoiceDate",
+                            referenceNo : "challanNo",
+                            amount      : "grandTotal",
+                            amountStatus: "Dr",
+                    ],
+
+            BillPassing    :
+                    [
+                            voucherNo   : "voucherNo",
+                            date        : "billDate",
+                            referenceNo : "billNo",
+                            amount      : "grandTotal",
+                            amountStatus: "Cr",
+                    ]
+
+
     ]
 
-    static def getDomainConfigByName(String domainName){
+    static def getDomainConfigByName(String domainName) {
         return config[domainName]
     }
 
@@ -85,7 +124,7 @@ class ConfigMap {
         return getDomainConfigByName(domainName)[PROPERTIES]
     }
 
-    static def getDestinationClassInstance(String domainName){
+    static def getDestinationClassInstance(String domainName) {
         return (getDomainConfigByName(domainName)[DESTINATION_DOMAIN_CLASS]).newInstance()
     }
 
