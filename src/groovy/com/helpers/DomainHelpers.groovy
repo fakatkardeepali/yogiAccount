@@ -149,6 +149,7 @@ class DomainHelpers {
                     log.debug("Updating domain instance : ${domainName}")
                     log.debug("Finding Party by id ${domainProperties.id}")
                     domainInstance = AccountLedger.findByPartyId(domainProperties.id)
+
                     if (domainInstance) {
                         log.debug("Found domain instance from Account : ${domainInstance?.properties}")
                         domainInstance.properties = targetDomainProperties
@@ -160,6 +161,8 @@ class DomainHelpers {
                 else {
                     log.debug("Creating new instance of Account Ledger with properties : ${targetDomainProperties}")
                     domainInstance = new AccountLedger(targetDomainProperties)
+                    getChildDomainInstances(domainName,domainProperties)
+                    //get child domain instance here in List
                     // here domain name should provide full package name for the class(e.g. com.master.AccountLedger)
                 }
                 return domainInstance
@@ -225,10 +228,11 @@ class DomainHelpers {
 
     }
 
-    static def createNewChildDomainInstance(Map mainConfig, Map childConfig,Map domainProperties){
+//    static def createNewChildDomainInstance(Map mainConfig, Map childConfig,Map domainProperties){
+    static def createNewChildDomainInstance(Map mainConfig, String childConfig,Map domainProperties){
         def childDomainProperties = childConfig.inject([:]){resultMap,entry->
             def simpleProperties = populateSimpleProperties(childConfig,domainProperties)
-            def queryMapProperties = populateSourcePropertiesHavingQueryMap(childConfig,domainProperties)
+            def queryMapProperties = getPropertiesByQueryMap(childConfig,domainProperties)
 
             def methodProperties = populatePropertiesByMethod(childConfig,domainProperties,queryMapProperties)
 
@@ -250,7 +254,7 @@ class DomainHelpers {
         Map similarProperties = getSimilarDestinationDomainPropertiesMap(domainProperties, destinationProperties)
         log.debug("Found similar destiantion domain properties : ${similarProperties}")
 
-        Map remainingPropMap = populatePropertiesByConfigMap(ConfigMap.getProperties(domainName), domainProperties)
+        Map remainingPropMap = populatePropertiesByConfigMap(domainName,domainProperties)
         log.debug("Found different destination properties : ${remainingPropMap}")
         return similarProperties + remainingPropMap
     }
@@ -269,37 +273,38 @@ class DomainHelpers {
 
 
     // domainProperties is Json came from ERP
-    static Map populatePropertiesByConfigMap(Map configMap, Map domainProperties) {
+    static Map populatePropertiesByConfigMap(String domainName, Map domainProperties) {
 
         log.debug("Populating different domain properties..")
 
         // simple + direct value
-        def simpleProperties = populateSimpleProperties(configMap,domainProperties)
+        def simpleProperties = populateSimpleProperties(domainName,domainProperties)
 
-        def srcPropertiesByQueryMap = populateSourcePropertiesHavingQueryMap(configMap, domainProperties)
+        def srcPropertiesByQueryMap = getPropertiesByQueryMap(domainName, domainProperties)
         log.debug("Found properties having query map : ${srcPropertiesByQueryMap}")
 
-        def srcPropertiesByMethod = populatePropertiesByMethod(configMap,domainProperties,srcPropertiesByQueryMap)
+        def srcPropertiesByMethod = populatePropertiesByMethod(domainName,domainProperties,srcPropertiesByQueryMap)
 
-        //def srcPropertiesWithChildDomainInstanceProperties = populateChildDomainInstanceProperties(configMap,domainProperties,srcPropertiesByQueryMap)
+        //def srcPropertiesWithChildDomainInstanceProperties = getChildDomainInstances(configMap,domainProperties,srcPropertiesByQueryMap)
 
         //return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod + srcPropertiesWithChildDomainInstanceProperties
         return simpleProperties + srcPropertiesByQueryMap + srcPropertiesByMethod
     }
 
-    static Map populateSourcePropertiesHavingQueryMap(Map configMap, Map srcMap) {
+    static Map getPropertiesByQueryMap(String domainName, Map srcMap) {
         log.debug("Checking if source properties having query map..")
+        Map configMap = ConfigMap.getDomainConfigByName(domainName)
         return configMap.inject([:]) { dMap, entry ->
             if (entry.value instanceof Map && entry.value[QUERY_MAP]) {
                 log.debug("This entry is having query map : ${entry.value}")
-                dMap[entry.key] = getDomainInstanceByQueryMap(entry.key, configMap, srcMap)
+                dMap[entry.key] = getDomainInstanceByQueryMap(entry.key, domainName, srcMap)
             }
             return dMap
         }
     }
 
-    static def populatePropertiesByMethod(Map configMap, def domainProperties, def srcPropertiesByQueryMap) {
-
+    static def populatePropertiesByMethod(String domainName, def domainProperties, def srcPropertiesByQueryMap) {
+        Map configMap = ConfigMap.getDomainConfigByName(domainName)
         return configMap.inject([:]){propertiesMap,entry->
             log.debug("Checking if source properties having method : ${entry.key}")
 
@@ -341,8 +346,9 @@ class DomainHelpers {
         }
     }
 
-    static Object getDomainInstanceByQueryMap(String propertyName, Map configMap, Map sourceDomainProperties) {
+    static Object getDomainInstanceByQueryMap(String propertyName, String domainName, Map sourceDomainProperties) {
         log.debug("In method getDomainInstanceByQueryMap.. ")
+        Map configMap = ConfigMap.getDomainConfigByName(domainName)
         log.debug("Finding domain instance for property : ${propertyName} and source property : ${configMap[propertyName][SRC_PROP_NAME]}")
         def entry = configMap[propertyName][SRC_PROP_NAME].entrySet().first()
         Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties,entry.key) /*123*/
@@ -377,14 +383,14 @@ class DomainHelpers {
         }
     }
 
-    static def createChildDomainInstance(Map configMap, Map.Entry configEntry, Map domainProperties,Map parentDomainPropertiesByQueryMap){
+    static def createChildDomainInstance(String domainName,Map configMap, Map.Entry configEntry, Map domainProperties){
         log.debug("New domain instance is to be created for this property : ")
         Map propertyConfigMap = configEntry.value[CONFIG_MAP]
         def childDomainProperties = configMap.inject([:]) { resultMap, entry ->
-                def simpleProperties = populateSimpleProperties(propertyConfigMap,domainProperties)
-                def queryMapProperties = populateSourcePropertiesHavingQueryMap(propertyConfigMap,domainProperties)
-                def methodProperties = populatePropertiesByMethod(propertyConfigMap,domainProperties,queryMapProperties)
-                def parentConfigProperties = populatePropertiesDependsOnParentConfigMap(propertyConfigMap,parentDomainPropertiesByQueryMap)
+                def simpleProperties = populateSimpleProperties(domainName,domainProperties)
+                def queryMapProperties = getPropertiesByQueryMap(domainName,domainProperties)
+                def methodProperties = populatePropertiesByMethod(domainName,domainProperties,queryMapProperties)
+                def parentConfigProperties = populatePropertiesDependsOnParentConfigMap(domainName,propertyConfigMap)
 
                 resultMap += simpleProperties + queryMapProperties + methodProperties + parentConfigProperties
                 log.debug("Final instance for child domain class : ${resultMap}")
@@ -396,21 +402,24 @@ class DomainHelpers {
         return domainClass.newInstance(childDomainProperties)
     }
 
-    static def populateChildDomainInstanceProperties(Map configMap,Map domainProperties,Map parentDomainPropertiesByQueryMap){
+    static def getChildDomainInstances(String domainName,Map domainProperties){
         log.debug("populating child domain instance properties.")
-        def childDomainProperties = configMap.inject([:]) { resultMap, entry ->
+        Map configMap=ConfigMap.getDomainConfigByName(domainName)
+        def childDomainProperties = configMap.inject([]) { resultList, entry ->
             if (entry.value instanceof Map && entry.value[CREATE_NEW_INSTANCE]) {
                 log.debug("New domain instance is to be created for this property : ${entry.key}")
-                resultMap[entry.key] = createChildDomainInstance(configMap,entry,domainProperties,parentDomainPropertiesByQueryMap)
+                resultList.add(createChildDomainInstance(domainName,configMap,entry,domainProperties))
             }
 
-            return resultMap
+            return resultList
+            //return list of child domain classes
         }
         log.debug("finally populated properties for child domain instance : ${childDomainProperties}")
         return childDomainProperties
     }
 
-    static def populateSimpleProperties(Map configMap, Map domainProperties){
+    static def populateSimpleProperties(String domainName, Map domainProperties){
+        Map configMap = ConfigMap.getDomainConfigByName(domainName)
         def simpleProperties = configMap.inject([:]) { dMap, entry ->
             if (!(entry.value instanceof Map)) {
 
@@ -428,9 +437,10 @@ class DomainHelpers {
     }
 
 
-    static def populatePropertiesDependsOnParentConfigMap(Map configMap,Map mainConfigMap,Map parentDomainPropertiesByQueryMap){
-        Map parentDomainPropertiesByQueryMap = getDomainInstanceByQueryMap()
-
+    static def populatePropertiesDependsOnParentConfigMap(String domainName,Map mainConfigMap){
+//        Map parentDomainPropertiesByQueryMap = getDomainInstanceByQueryMap()
+        Map parentDomainPropertiesByQueryMap = getPropertiesByQueryMap(domainName,mainConfigMap)
+        Map configMap = ConfigMap.getDomainConfigByName(domainName)
         def propertiesDependingOnParentMap = configMap.inject([:]) { dMap, entry ->
             if (entry.value instanceof Map && entry.value.containsKey(DEPENDS_PARENT_CONFIG)) {
                 log.debug("finding value of property having dependency of parent config map: ${entry.key}")
