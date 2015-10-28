@@ -155,5 +155,11 @@ class ConfigMap {
     def getDomainClass(String propertyName){
         return getPropertyValue(propertyName)[DOMAIN_CLASS]
     }
+    def getMethodPropertyValue(String propertyName){
+        return getPropertyValue(propertyName)[METHOD]
+    }
 
+    Object getMethodParamValue(String propertyName) {
+        return getPropertyValue(propertyName)[METHOD_PARAM_VALUE]
+    }
 }
