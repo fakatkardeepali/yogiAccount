@@ -39,7 +39,7 @@ class ConfigMap {
     static def config = [
             Party          : [
                     destinationDomainClass: AccountLedger,
-                    properties           : [
+                    properties            : [
                             address      : "officeAddress",
                             telephoneNo  : "telephoneNo1",
                             partyId      : "id",
@@ -47,14 +47,14 @@ class ConfigMap {
                             salesTaxNo   : "serviceTaxNo",
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                            underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends: "QM"]], method: AccountGroup.findByPartyTypeAndCompany]
-                                           ]
+                            underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends: "Self"]], method: AccountGroup.findByPartyTypeAndCompany]
+                    ]
 
-                             ], /*end of Party*/
+            ], /*end of Party*/
 
             InvoiceEntry   : [
                     destinationDomainClass: Voucher,
-                    properties           : [
+                    properties            : [
                             voucherNo    : [$value: ""],
                             date         : "invoiceDate",
                             referenceNo  : "challanNo",
@@ -70,8 +70,8 @@ class ConfigMap {
                                     /*hasMany is list of maps*/
                                     hasMany          : [
                                                                 properties: [
-                                                                        partyName    : [srcPropName: "partyName", dependsParentConfig: true],
-                                                                        company      : [srcPropName: "company", dependsParentConfig: true],
+                                                                        partyName    : [dependsParentConfig: true],
+                                                                        company      : [dependsParentConfig: true],
                                                                         typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
                                                                         billNo       : "invoiceNo",
                                                                         billDate     : "invoiceDate",
