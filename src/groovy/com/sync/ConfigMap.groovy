@@ -7,6 +7,7 @@ import com.system.Company
 import com.system.User
 import com.transaction.PartyAccount
 import com.transaction.Voucher
+import org.apache.commons.logging.LogFactory
 
 /**
  * Created by gvc on 25-10-2015.
@@ -25,16 +26,20 @@ class ConfigMap {
     static def METHOD="method"
     static def METHOD_PARAM_VALUE="methodParamValue"
     static def HAS_MANY="hasMany"
+    static def PARENT_PROP_NAME="parentPropName"
+    static def SUB_PROPERTY_NAME="srcPropName"
 
     private String domainName
     public ConfigMap(String domainName){
         this.domainName = domainName
     }
 
+    private static final log = LogFactory.getLog(this)
+
     static def config = [
             Party          : [
                     destinationDomainClass: AccountLedger,
-                    properties            : [
+                    properties           : [
                             address      : "officeAddress",
                             telephoneNo  : "telephoneNo1",
                             partyId      : "id",
@@ -43,13 +48,13 @@ class ConfigMap {
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                             underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends: "QM"]], method: AccountGroup.findByPartyTypeAndCompany]
-                    ]
+                                           ]
 
-            ], /*end of Party*/
+                             ], /*end of Party*/
 
             InvoiceEntry   : [
                     destinationDomainClass: Voucher,
-                    properties            : [
+                    properties           : [
                             voucherNo    : [$value: ""],
                             date         : "invoiceDate",
                             referenceNo  : "challanNo",
@@ -63,21 +68,21 @@ class ConfigMap {
                                     domainClass      : PartyAccount,
                                     createNewInstance: true,
                                     /*hasMany is list of maps*/
-                                    hasMany          : [[
-                                                                configMap: [
+                                    hasMany          : [
+                                                                properties: [
                                                                         partyName    : [srcPropName: "partyName", dependsParentConfig: true],
                                                                         company      : [srcPropName: "company", dependsParentConfig: true],
                                                                         typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
                                                                         billNo       : "invoiceNo",
                                                                         billDate     : "invoiceDate",
-                                                                        crDays       : [selfPropName: "partyName.creditDays"],
+                                                                        crDays       : [parentPropName: "partyName",subPropertyName:"creditDays"],   //getDomainSUbproperty  domain helpers
                                                                         amount       : "grandTotal",
                                                                         amountStatus : [$value: "Dr"],
                                                                         narration    : [$value: ""],
                                                                         remainAmount : "grandTotal",
                                                                         lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                                                 ]
-                                                        ]]
+                                                        ]
                             ],
                             vouchedetails: [hasmany: [
                                     0: ["netamountledgerid", "netamount"],
@@ -158,8 +163,11 @@ class ConfigMap {
     def getMethodPropertyValue(String propertyName){
         return getPropertyValue(propertyName)[METHOD]
     }
-
-    Object getMethodParamValue(String propertyName) {
+    def getMethodParamValue(String propertyName) {
         return getPropertyValue(propertyName)[METHOD_PARAM_VALUE]
     }
+    def getChildProperties(String propertyName){
+        return getPropertyValue(propertyName)[HAS_MANY][PROPERTIES]
+    }
+
 }
