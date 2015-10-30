@@ -14,32 +14,47 @@ import org.apache.commons.logging.LogFactory
  */
 class ConfigMap {
 
-    static def DESTINATION_DOMAIN_CLASS = "destinationDomainClass"
-    static def PROPERTIES = "properties"
-    static def SRC_PROP_NAME="srcPropName"
-    static def DOMAIN_CLASS="domainClass"
-    static def QUERY_MAP="queryMap"
-    static def CREATE_NEW_INSTANCE="createNewInstance"
-    static def CONFIG_MAP="configMap"
-    static def PROPERTY_VALUE="\$value"
-    static def DEPENDS_PARENT_CONFIG="dependsParentConfig"
-    static def METHOD="method"
-    static def METHOD_PARAM_VALUE="methodParamValue"
-    static def HAS_MANY="hasMany"
-    static def PARENT_PROP_NAME="parentPropName"
-    static def SUB_PROPERTY_NAME="srcPropName"
-
-    private String domainName
-    public ConfigMap(String domainName){
-        this.domainName = domainName
-    }
-
     private static final log = LogFactory.getLog(this)
 
-    static def config = [
+    static def DESTINATION_DOMAIN_CLASS = "destinationDomainClass"
+    static def PROPERTIES = "properties"
+    static def SRC_PROP_NAME = "srcPropName"
+    static def DOMAIN_CLASS = "domainClass"
+    static def QUERY_MAP = "queryMap"
+    static def CREATE_NEW_INSTANCE = "createNewInstance"
+    static def CONFIG_MAP = "configMap"
+    static def PROPERTY_VALUE = "\$value"
+    static def DEPENDS_PARENT_CONFIG = "dependsParentConfig"
+    static def METHOD = "method"
+    static def METHOD_PARAM_VALUE = "methodParamValue"
+    static def HAS_MANY = "hasMany"
+    static def PARENT_PROP_NAME = "parentPropName"
+    static def SUB_PROPERTY_NAME = "srcPropName"
+
+    private String propertyName
+    private Map propertyConfig
+
+    public ConfigMap(String propertyName, Map config=null) {
+        init(propertyName,config)
+    }
+
+    public void setPropertyNameAndConfig(String propertyName,Map config=null) {
+        init(propertyName,config)
+    }
+
+    private init(String propertyName, Map config){
+        this.propertyName = propertyName
+        if (config) {
+            this.propertyConfig = config
+        } else {
+            this.propertyConfig = this.config[propertyName]
+        }
+    }
+
+    private def config = [
             Party          : [
-                    destinationDomainClass: AccountLedger,
-                    properties            : [
+                    domainClass: AccountLedger,
+                    properties : [
                             address      : "officeAddress",
                             telephoneNo  : "telephoneNo1",
                             partyId      : "id",
@@ -53,8 +68,8 @@ class ConfigMap {
             ], /*end of Party*/
 
             InvoiceEntry   : [
-                    destinationDomainClass: Voucher,
-                    properties            : [
+                    domainClass: Voucher,
+                    properties : [
                             voucherNo    : [$value: ""],
                             date         : "invoiceDate",
                             referenceNo  : "challanNo",
@@ -67,22 +82,20 @@ class ConfigMap {
                             partyAccount : [
                                     domainClass      : PartyAccount,
                                     createNewInstance: true,
-                                    /*hasMany is list of maps*/
-                                    hasMany          : [
-                                                                properties: [
-                                                                        partyName    : [dependsParentConfig: true],
-                                                                        company      : [dependsParentConfig: true],
-                                                                        typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                                        billNo       : "invoiceNo",
-                                                                        billDate     : "invoiceDate",
-                                                                        crDays       : [parentPropName: "partyName",subPropertyName:"creditDays"],   //getDomainSUbproperty  domain helpers
-                                                                        amount       : "grandTotal",
-                                                                        amountStatus : [$value: "Dr"],
-                                                                        narration    : [$value: ""],
-                                                                        remainAmount : "grandTotal",
-                                                                        lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
-                                                                ]
-                                                        ]
+                                    hasMany          : true,
+                                    properties       : [
+                                            partyName    : [dependsParentConfig: true],
+                                            company      : [dependsParentConfig: true],
+                                            typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
+                                            billNo       : "invoiceNo",
+                                            billDate     : "invoiceDate",
+                                            crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSUbproperty  domain helpers
+                                            amount       : "grandTotal",
+                                            amountStatus : [$value: "Dr"],
+                                            narration    : [$value: ""],
+                                            remainAmount : "grandTotal",
+                                            lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
+                                    ]
                             ],
                             vouchedetails: [hasmany: [
                                     0: ["netamountledgerid", "netamount"],
@@ -133,46 +146,45 @@ class ConfigMap {
                             amountStatus: "Cr",
                     ]
 
-
     ]
 
-     def getDomainConfigByName() {
-        return config[domainName]
+    def getConfig() {
+        return propertyConfig[propertyName]
     }
 
-     def getProperties() {
-        return getDomainConfigByName()[PROPERTIES]
+    def getProperties() {
+        return getConfig()[PROPERTIES]
     }
 
-     def getDestinationClassInstance() {
-        return (getDomainConfigByName()[DESTINATION_DOMAIN_CLASS]).newInstance()
+    def getDomainClass() {
+        return getConfig()[DOMAIN_CLASS]
     }
 
-     def getDestinationDomainClassProperties() {
-        return getDestinationClassInstance().properties
+    def getDomainClassInstance() {
+        return getDomainClass().newInstance()
     }
-    def getPropertyValue(String propertyName){
+
+    def getDomainClassProperties() {
+        return getDomainClass().newInstance().properties
+    }
+
+    def getPropertyValue(String propertyName) {
         return getProperties()[propertyName]
     }
-    def getSourcePropertyValue(String propertyName){
-        return getPropertyValue(propertyName)[SRC_PROP_NAME]
-    }
-    def getDomainClass(String propertyName){
+
+    def getPropertyDomainClass(String propertyName){
         return getPropertyValue(propertyName)[DOMAIN_CLASS]
     }
-    def getMethodPropertyValue(String propertyName){
+
+    def getPropertySourceName(String propertyName) {
+        return getPropertyValue(propertyName)[SRC_PROP_NAME]
+    }
+
+    def getPropertyMethod(String propertyName) {
         return getPropertyValue(propertyName)[METHOD]
     }
-    def getMethodParamValue(String propertyName) {
+
+    def getPropertyMethodParameter(String propertyName) {
         return getPropertyValue(propertyName)[METHOD_PARAM_VALUE]
     }
-    def getChildProperties(String propertyName){
-        return getPropertyValue(propertyName)[HAS_MANY][PROPERTIES]
-    }
-
-    def getChildDomainInstance(propertyName){
-        def domainClass = getPropertyValue(propertyName)[DOMAIN_CLASS]
-        return domainClass.newInstance()
-    }
-
 }
