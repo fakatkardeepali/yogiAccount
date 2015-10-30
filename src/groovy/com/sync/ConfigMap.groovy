@@ -170,4 +170,9 @@ class ConfigMap {
         return getPropertyValue(propertyName)[HAS_MANY][PROPERTIES]
     }
 
+    def getChildDomainInstance(propertyName){
+        def domainClass = getPropertyValue(propertyName)[DOMAIN_CLASS]
+        return domainClass.newInstance()
+    }
+
 }
