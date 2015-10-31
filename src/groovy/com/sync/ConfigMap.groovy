@@ -7,6 +7,7 @@ import com.system.Company
 import com.system.User
 import com.transaction.PartyAccount
 import com.transaction.Voucher
+import com.transaction.VoucherDetails
 import org.apache.commons.logging.LogFactory
 
 /**
@@ -35,21 +36,15 @@ class ConfigMap {
     private Map propertyConfig
 
     public ConfigMap(String propertyName, Map config=null) {
-        init(propertyName,config)
-    }
-
-    public void setPropertyNameAndConfig(String propertyName,Map config=null) {
-        init(propertyName,config)
-    }
-
-    private init(String propertyName, Map config){
         this.propertyName = propertyName
         if (config) {
             this.propertyConfig = config
         } else {
             this.propertyConfig = this.config[propertyName]
         }
+
     }
+
 
     private def config = [
             Party          : [
@@ -63,7 +58,7 @@ class ConfigMap {
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                             underGroup   : [domainClass: AccountGroup, srcPropName: ["partyType.enumDescription": "name", "company": [depends: "Self"]], method: AccountGroup.findByPartyTypeAndCompany]
-                    ]
+                                 ]
 
             ], /*end of Party*/
 
@@ -97,12 +92,142 @@ class ConfigMap {
                                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                     ]
                             ],
-                            vouchedetails: [hasmany: [
-                                    0: ["netamountledgerid", "netamount"],
-                                    1: ["packingledgerid", "packingamount"]],
-                                            3      : []
+                            vouchedetails: [
+                                             domainClass:  VoucherDetails,
+                                             createNewInstance: true,
+                                             hasMany          : true,
+                                             properties: [
+                                                         [
+                                                            company     : [dependsParentConfig: true],
+                                                            particulars : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                            rate        : [$value: 0],
+                                                            amount      : "netAmount",          // amount against each ledger
+                                                            amountStatus: [$value:"Cr"],
+                                                            narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "packingAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "freightAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "insuranceAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["exciseId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "exciseAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["serviceTaxId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "serviceTaxAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["edCessId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "edCessAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["hsedCessId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "shEdCessAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["vatId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "vatAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["cstId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "cstAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["tcsId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "tcsAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["tdsId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "tdsAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["lbtId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "lbtAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                                         [
+                                                                 company     : [dependsParentConfig: true],
+                                                                 particulars : [domainClass: AccountLedger, srcPropName: ["othersId": "id"], queryMap: true],  // AccountLedger instance to be saved against each ledger
+                                                                 rate        : [$value: 0],
+                                                                 amount      : "othersAmount",          // amount against each ledger
+                                                                 amountStatus: [$value:"Cr"],
+                                                                 narration   : [$value:""]
+                                                         ],
+                                             ],
+
 
                             ]
+
+                            // same voucher details instance for packingLedgerId,packingAmount
+//                                                               freightLedgerId,freightAmount
+//                                                               insuranceLedgerId,insuranceAmount
+//                            exciseId nullable: true
+//                            serviceTaxId nullable: true
+//                            edCessId nullable: true
+//                            hsedCessId nullable: true
+//                            vatId nullable: true
+//                            cstId nullable: true
+//                            tcsId nullable: true
+//                            tdsId nullable: true
+//                            lbtId nullable: true
+//                            othersId nullable: true
+
 
 
                     ]
@@ -148,8 +273,8 @@ class ConfigMap {
 
     ]
 
-    def getConfig() {
-        return propertyConfig[propertyName]
+        def getConfig() {
+        return propertyConfig
     }
 
     def getProperties() {

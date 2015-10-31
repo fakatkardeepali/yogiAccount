@@ -6,9 +6,10 @@ import grails.transaction.Transactional
 @Transactional
 class DomainSyncService {
 
-   def save(String domainName,def hashMap){
+   def save(String domainName,Map domainProperties){
 
-        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
+//        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
+        def domainInstance = new DomainHelpers(domainName,domainProperties).initialiseDomainInstanceByDomainProperties()
         log.debug("Final Domain Instance To Be Saved....${domainInstance}" )
         return domainInstance.save()
 
