@@ -92,11 +92,7 @@ class ConfigMap {
                                     ]
                             ],
 
-
-
-
-
-                    ]
+                                ]
 
             ],/*end of InvoiceEntry*/
 
@@ -273,6 +269,42 @@ class ConfigMap {
 
                      ],
 
+            BillPassing    :
+                    [
+                            domainClass: Voucher,
+                            properties : [
+                                    voucherNo    : [$value: ""],
+                                    date         : "billDate",
+                                    referenceNo  : "billNo",
+                                    narration    : "description",
+                                    amount       : "grandTotal",
+                                    amountStatus : [$value: "Dr"],
+                                    partyName    : [domainClass: AccountLedger, srcPropName: ["supplierName.name": "name"], queryMap: true],
+                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                    partyAccount : [
+                                            domainClass      : PartyAccount,
+                                            createNewInstance: true,
+                                            hasMany          : true,
+                                            properties       : [
+                                                    partyName    : [dependsParentConfig: true],
+                                                    company      : [dependsParentConfig: true],
+                                                    typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
+                                                    billNo       : "billNo",
+                                                    billDate     : "billDate",
+                                                    crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSUbproperty  domain helpers
+                                                    amount       : "grandTotal",
+                                                    amountStatus : [$value: "Cr"],
+                                                    narration    : [$value: ""],
+                                                    remainAmount : "grandTotal",
+                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
+                                                               ]
+                                                   ],
+
+                                         ]
+                    ],
+
+
             InvoiceEntryLC :
                     [
                             voucherNo   : "invoiceNo",
@@ -299,16 +331,9 @@ class ConfigMap {
                             referenceNo : "challanNo",
                             amount      : "grandTotal",
                             amountStatus: "Dr",
-                    ],
-
-            BillPassing    :
-                    [
-                            voucherNo   : "voucherNo",
-                            date        : "billDate",
-                            referenceNo : "billNo",
-                            amount      : "grandTotal",
-                            amountStatus: "Cr",
                     ]
+
+
 
     ]
 
