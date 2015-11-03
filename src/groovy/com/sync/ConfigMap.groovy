@@ -119,7 +119,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate",
                                             ],
 
@@ -134,7 +134,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate",
                                             ],
 
@@ -149,7 +149,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate",
                                             ],
 
@@ -164,7 +164,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -179,7 +179,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ]
 
@@ -194,7 +194,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ]
 
@@ -209,7 +209,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate",
                                             ],
 
@@ -224,7 +224,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -239,7 +239,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate",
                                             ],
 
@@ -254,7 +254,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -269,7 +269,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -284,7 +284,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -299,7 +299,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
@@ -362,7 +362,7 @@ class ConfigMap {
                                                    ],
 
                                          ],
-                            afterInsert : [
+                            $afterInsert : [
                                     [
                                             domainClass   : Voucher,
                                             properties    : [
@@ -373,7 +373,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -388,7 +388,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -403,7 +403,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -418,7 +418,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -433,7 +433,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -448,7 +448,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -463,7 +463,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -478,7 +478,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -493,7 +493,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -508,7 +508,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -523,7 +523,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -538,7 +538,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -553,7 +553,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -568,7 +568,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -610,7 +610,7 @@ class ConfigMap {
                                             ]
                                     ]
                             ],
-                            afterInsert : [
+                            $afterInsert : [
                                     [
                                             domainClass   : Voucher,
                                             properties    : [
@@ -621,7 +621,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -636,7 +636,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -651,7 +651,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -666,7 +666,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -681,7 +681,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -696,7 +696,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -711,7 +711,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -726,7 +726,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -741,7 +741,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -756,7 +756,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -771,7 +771,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -786,7 +786,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -801,7 +801,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -816,7 +816,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -858,7 +858,7 @@ class ConfigMap {
                                             ]
                                     ]
                             ],
-                            afterInsert : [
+                            $afterInsert : [
                                     [
                                             domainClass   : Voucher,
                                             properties    : [
@@ -869,7 +869,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -884,7 +884,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -899,7 +899,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -914,7 +914,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -929,7 +929,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -944,7 +944,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -959,7 +959,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -974,7 +974,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -989,7 +989,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1004,7 +1004,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1019,7 +1019,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1034,7 +1034,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1049,7 +1049,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1064,7 +1064,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1105,7 +1105,7 @@ class ConfigMap {
                                             ]
                                     ]
                             ],
-                            afterInsert : [
+                            $afterInsert : [
                                     [
                                             domainClass   : Voucher,
                                             properties    : [
@@ -1116,7 +1116,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1131,7 +1131,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1146,7 +1146,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1161,7 +1161,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1176,7 +1176,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1191,7 +1191,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -1206,7 +1206,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ]
 
@@ -1221,7 +1221,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1236,7 +1236,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1251,7 +1251,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate",
                                             ],
 
@@ -1266,7 +1266,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1281,7 +1281,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1296,7 +1296,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
@@ -1311,7 +1311,7 @@ class ConfigMap {
                                                     narration     : [$value:""],
                                                     lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher       : [""],
+                                                    voucher       : [$currentDomainInstance:true],
                                                     date          : "invoiceDate"
                                             ],
 
