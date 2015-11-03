@@ -83,175 +83,234 @@ class ConfigMap {
                                             typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
                                             billNo       : "invoiceNo",
                                             billDate     : "invoiceDate",
-                                            crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSUbproperty  domain helpers
+                                            crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
                                             amount       : "grandTotal",
                                             amountStatus : [$value: "Dr"],
                                             narration    : [$value: ""],
                                             remainAmount : "grandTotal",
                                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
-                                    ]
-                            ],
+                                                       ]
+                                           ],
+                            afterInsert : [[
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
+                                                                   amount        : "netAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                           ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],
+                                                                   amount        : "packingAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate",
+                                                                           ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],
+                                                                   amount        : "freightAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate",
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],
+                                                                   amount        : "insuranceAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate",
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["exciseId": "id"], queryMap: true],
+                                                                   amount        : "exciseAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["serviceTaxId": "id"], queryMap: true],
+                                                                   amount        : "serviceTaxAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                          ]
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["edCessId": "id"], queryMap: true],
+                                                                   amount        : "edCessAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                           ]
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["hsedCessId": "id"], queryMap: true],
+                                                                   amount        : "shEdCessAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate",
+                                                                           ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["vatId": "id"], queryMap: true],
+                                                                   amount        : "vatAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["cstId": "id"], queryMap: true],
+                                                                   amount        : "cstAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate",
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["tcsId": "id"], queryMap: true],
+                                                                   amount        : "tcsAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                           ],
+
+                                                   ],
+                                                   [
+                                                           domainClass   : Voucher,
+                                                           properties    : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["tdsId": "id"], queryMap: true],
+                                                                   amount        : "tdsAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                           ],
+
+                                                   ],
+                                                   [
+                                                           domainClass  : Voucher,
+                                                           properties   : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
+                                                                   amount        : "lbtAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                          ],
+
+                                                   ],
+                                                   [
+                                                           domainClass  : Voucher,
+                                                           properties   : [
+                                                                   partyName     : [domainClass: AccountLedger, srcPropName: ["othersId": "id"], queryMap: true],
+                                                                   amount        : "othersAmount",
+                                                                   rate          : [$value: 0],
+                                                                   amountStatus  : [$value:"Cr"],
+                                                                   narration     : [$value:""],
+                                                                   lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                                                   company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+                                                                   voucher       : [""],
+                                                                   date          : "invoiceDate"
+                                                                          ],
+
+                                                   ]
+
+                                           ]]
+
 
                                 ]
 
             ],/*end of InvoiceEntry*/
 
-            Voucher :[
-                    properties: [
-                                  [
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
-                                          amount        : "netAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
 
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],
-                                          amount        : "packingAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],
-                                          amount        : "freightAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],
-                                          amount        : "insuranceAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["exciseId": "id"], queryMap: true],
-                                          amount        : "exciseAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["serviceTaxId": "id"], queryMap: true],
-                                          amount        : "serviceTaxAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["edCessId": "id"], queryMap: true],
-                                          amount        : "edCessAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["hsedCessId": "id"], queryMap: true],
-                                          amount        : "shEdCessAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["vatId": "id"], queryMap: true],
-                                          amount        : "vatAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["cstId": "id"], queryMap: true],
-                                          amount        : "cstAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["tcsId": "id"], queryMap: true],
-                                          amount        : "tcsAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["tdsId": "id"], queryMap: true],
-                                          amount        : "tdsAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
-                                          amount        : "lbtAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ],
-                                  [
-
-                                          partyName     : [domainClass: AccountLedger, srcPropName: ["othersId": "id"], queryMap: true],
-                                          amount        : "othersAmount",
-                                          rate          : [$value: 0],
-                                          amountStatus  : [$value:"Cr"],
-                                          lastUpdatedBy : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                          company       : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                          voucher       : [""],
-                                          date          : "invoiceDate",
-                                  ]
-                                ]
 
                     // same voucher details instance for packingLedgerId,packingAmount
 //                                                               freightLedgerId,freightAmount
@@ -267,7 +326,7 @@ class ConfigMap {
 //                            lbtId nullable: true
 //                            othersId nullable: true
 
-                     ],
+
 
             BillPassing    :
                     [
