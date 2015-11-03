@@ -1,6 +1,7 @@
 package com.sync
 
 import com.helpers.DomainHelpers
+import grails.test.mixin.gorm.Domain
 import grails.transaction.Transactional
 
 @Transactional
@@ -8,10 +9,23 @@ class DomainSyncService {
 
    def save(String domainName,Map domainProperties){
 
-//        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap)
-        def domainInstance = new DomainHelpers(domainName,domainProperties).initialiseDomainInstanceByDomainProperties()
-        log.debug("Final Domain Instance To Be Saved....${domainInstance}" )
-        return domainInstance.save()
+        def domainInstances = new DomainHelpers(domainName,domainProperties).initialiseDomainInstanceByDomainProperties()
+        log.debug("Final Domain Instance To Be Saved....${domainInstances}" )
+
+       if(domainProperties instanceof Map){
+           def mainDomainInstance = domainInstances[DomainHelpers.MAIN_DOMAIN_INSTANCE]
+
+           if(mainDomainInstance.save()){
+               def dependentDomainInstances = domainInstances[DomainHelpers.DEPENDENT_DOMAIN_INSTANCES]
+               dependentDomainInstances.each{dependentDomainInstance->
+                   dependentDomainInstance.save()
+               }
+           }else{
+               //TODO handle error
+           }
+       }else{
+           return domainInstances.save()
+       }
 
        /*
         Our steps to save any map of class
