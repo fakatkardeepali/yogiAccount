@@ -104,7 +104,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [""],
+                                                    voucher      : [$currentDomainInstance:true],
                                                     date         : "invoiceDate"
                                             ],
 
