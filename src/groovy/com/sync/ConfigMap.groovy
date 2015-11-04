@@ -68,7 +68,7 @@ class ConfigMap {
             InvoiceEntry   : [
                     domainClass: Voucher,
                     properties : [
-                            voucherNo    : [$value: ""],
+                            voucherNo    : [method:Voucher.getVoucherNumber,srcPropName: [1:["voucherType.id":[depends: "Self"]],2:[date:[depends: "Self"]],3:[$value:null]]],
                             date         : [domainClass: Date, srcPropName: "invoiceDate",dateFormat:"yyyy-MM-dd"],
                             referenceNo  : "challanNo",
                             narration    : "description",
@@ -77,7 +77,7 @@ class ConfigMap {
                             partyName    : [domainClass: AccountLedger, srcPropName: ["customer.name": "name"], queryMap: true],
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                            voucherType:[method:VoucherType.findByCompanyAndName,],
+                            voucherType:[domainClass: VoucherType,srcPropName: [company: "company",$value:["name":"Sales"]],queryMap: true],
                             partyAccount : [
                                     domainClass      : PartyAccount,
                                     createNewInstance: true,
