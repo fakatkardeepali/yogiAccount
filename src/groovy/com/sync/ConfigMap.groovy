@@ -3,6 +3,7 @@ package com.sync
 import com.common.AccountFlag
 import com.master.AccountGroup
 import com.master.AccountLedger
+import com.master.VoucherType
 import com.system.Company
 import com.system.User
 import com.transaction.PartyAccount
@@ -67,7 +68,7 @@ class ConfigMap {
                     domainClass: Voucher,
                     properties : [
                             voucherNo    : [$value: ""],
-                            date         : "invoiceDate",
+                            date         : [domainClass: Date, srcPropName: "invoiceDate",dateFormat:"yyyy-MM-dd"],
                             referenceNo  : "challanNo",
                             narration    : "description",
                             amount       : "grandTotal",
@@ -75,6 +76,7 @@ class ConfigMap {
                             partyName    : [domainClass: AccountLedger, srcPropName: ["customer.name": "name"], queryMap: true],
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                            voucherType:[method:VoucherType.findByCompanyAndName,],
                             partyAccount : [
                                     domainClass      : PartyAccount,
                                     createNewInstance: true,
@@ -83,7 +85,7 @@ class ConfigMap {
                                             partyName    : [dependsParentConfig: true],
                                             company      : [dependsParentConfig: true],
                                             typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                            billNo       : "invoiceNo",
+                                            billNo       : [dependsParentConfig: true,srcPropName: "date"],
                                             billDate     : "invoiceDate",
                                             crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
                                             amount       : "grandTotal",

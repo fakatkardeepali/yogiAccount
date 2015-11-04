@@ -67,7 +67,7 @@ class UrlMappings {
             parseRequest = false
         }
 
-        "/"(view: "/login/login")
+        //"/"(view: "/login/login")
         "500"(view: '/error')
     }
 

@@ -3,7 +3,7 @@ package filter
 class SessionFilters {
 
     def filters = {
-        all(controller:'*', action:'*') {
+        /*all(controller:'*', action:'*') {
             before = {
                 println "filter call"
                 if(!request.xhr) return;
@@ -19,6 +19,6 @@ class SessionFilters {
             afterView = { Exception e ->
 
             }
-        }
+        }*/
     }
 }
