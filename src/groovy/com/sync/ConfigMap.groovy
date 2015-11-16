@@ -71,7 +71,6 @@ class ConfigMap {
             InvoiceEntry   : [
                     domainClass: Voucher,
                     properties : [
-                            voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                             date              : [domainClass: Date, srcPropName: "invoiceDate", dateFormat: "yyyy-MM-dd"],
                             referenceNo       : "challanNo",
                             narration         : "description",
@@ -80,7 +79,8 @@ class ConfigMap {
                             partyName         : [domainClass: AccountLedger, srcPropName: ["customer.name": "name"], queryMap: true],
                             company           : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                            voucherType       : [domainClass: VoucherType, srcPropName: [company: "company", $value: ["name": "Sales"]], queryMap: true],
+                            voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sale"]], queryMap: true],
+                            voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                             partyAccount      : [
                                     domainClass      : PartyAccount,
                                     createNewInstance: true,
@@ -89,13 +89,13 @@ class ConfigMap {
                                             partyName    : [dependsParentConfig: true],
                                             company      : [dependsParentConfig: true],
                                             typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                            billNo       : [dependsParentConfig: true, srcPropName: "date"],
-                                            billDate     : "invoiceDate",
+                                            billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                            billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                             crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                            amount       : "grandTotal",
+                                            amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                             amountStatus : [$value: "Dr"],
                                             narration    : [$value: ""],
-                                            remainAmount : "grandTotal",
+                                            remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
                                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                     ]
                             ],
@@ -106,10 +106,10 @@ class ConfigMap {
                                     properties       : [
                                             partyName    : [dependsParentConfig: true],
                                             typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                            billNo       : "invoiceNo",
-                                            billDate     : "invoiceDate",
+                                            billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                            billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                             crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                            amount       : "grandTotal",
+                                            amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                             amountStatus : [$value: "Dr"],
                                             narration    : [$value: ""],
                                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
@@ -128,7 +128,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -143,7 +143,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate",
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -158,7 +158,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate",
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -173,7 +173,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate",
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -188,7 +188,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -203,7 +203,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ]
 
                                     ],
@@ -218,7 +218,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ]
 
                                     ],
@@ -233,7 +233,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate",
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -248,7 +248,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -263,7 +263,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate",
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -278,7 +278,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -293,7 +293,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -308,7 +308,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
@@ -323,7 +323,7 @@ class ConfigMap {
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                                     voucher      : [$currentDomainInstance: true],
-                                                    date         : "invoiceDate"
+                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ]
@@ -353,7 +353,7 @@ class ConfigMap {
                     [
                             domainClass: Voucher,
                             properties : [
-                                    voucherNo         : [$value: ""],
+                                    voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                                     date              : "billDate",
                                     referenceNo       : "billNo",
                                     narration         : [$value: ""],
@@ -362,6 +362,7 @@ class ConfigMap {
                                     partyName         : [domainClass: AccountLedger, srcPropName: ["supplierName.name": "name"], queryMap: true],
                                     company           : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                     lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                    voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sales"]], queryMap: true],
                                     partyAccount      : [
                                             domainClass      : PartyAccount,
                                             createNewInstance: true,
@@ -370,13 +371,13 @@ class ConfigMap {
                                                     partyName    : [dependsParentConfig: true],
                                                     company      : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "billNo",
-                                                    billDate     : "billDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSUbproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    remainAmount : "grandTotal",
+                                                    remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                             ]
                                     ],
@@ -387,10 +388,10 @@ class ConfigMap {
                                             properties       : [
                                                     partyName    : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
@@ -619,7 +620,7 @@ class ConfigMap {
                     [
                             domainClass: Voucher,
                             properties : [
-                                    voucherNo         : [$value: ""],
+                                    voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                                     date              : "invoiceDate",
                                     referenceNo       : "invoiceNo",
                                     narration         : [$value: ""],
@@ -628,6 +629,7 @@ class ConfigMap {
                                     partyName         : [domainClass: AccountLedger, srcPropName: ["customerName.name": "name"], queryMap: true],
                                     company           : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                     lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                    voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sales"]], queryMap: true],
                                     partyAccount      : [
                                             domainClass      : PartyAccount,
                                             createNewInstance: true,
@@ -636,13 +638,13 @@ class ConfigMap {
                                                     partyName    : [dependsParentConfig: true],
                                                     company      : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
-                                                    remainAmount : "grandTotal",
+                                                    remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                             ]
                                     ],
@@ -653,10 +655,10 @@ class ConfigMap {
                                             properties       : [
                                                     partyName    : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
@@ -885,7 +887,7 @@ class ConfigMap {
                     [
                             domainClass: Voucher,
                             properties : [
-                                    voucherNo         : [$value: ""],
+                                    voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                                     date              : "invoiceDate",
                                     referenceNo       : "invoiceNo",
                                     narration         : [$value: ""],
@@ -894,6 +896,7 @@ class ConfigMap {
                                     partyName         : [domainClass: AccountLedger, srcPropName: ["customer.name": "name"], queryMap: true],
                                     company           : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                     lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                    voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sales"]], queryMap: true],
                                     partyAccount      : [
                                             domainClass      : PartyAccount,
                                             createNewInstance: true,
@@ -902,13 +905,13 @@ class ConfigMap {
                                                     partyName    : [dependsParentConfig: true],
                                                     company      : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
-                                                    remainAmount : "grandTotal",
+                                                    remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                             ]
                                     ],
@@ -919,10 +922,10 @@ class ConfigMap {
                                             properties       : [
                                                     partyName    : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
@@ -1150,7 +1153,7 @@ class ConfigMap {
                     [
                             domainClass: Voucher,
                             properties : [
-                                    voucherNo         : [$value: ""],
+                                    voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date",dependsSelf:true], 2: [$value: null]]],
                                     date              : "invoiceDate",
                                     referenceNo       : "invoiceNo",
                                     narration         : [$value: ""],
@@ -1159,6 +1162,7 @@ class ConfigMap {
                                     partyName         : [domainClass: AccountLedger, srcPropName: ["customer.name": "name"], queryMap: true],
                                     company           : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                                     lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+                                    voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sales"]], queryMap: true],
                                     partyAccount      : [
                                             domainClass      : PartyAccount,
                                             createNewInstance: true,
@@ -1167,13 +1171,13 @@ class ConfigMap {
                                                     partyName    : [dependsParentConfig: true],
                                                     company      : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
-                                                    remainAmount : "grandTotal",
+                                                    remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                             ]
                                     ],
@@ -1184,10 +1188,10 @@ class ConfigMap {
                                             properties       : [
                                                     partyName    : [dependsParentConfig: true],
                                                     typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                                    billNo       : "invoiceNo",
-                                                    billDate     : "invoiceDate",
+                                                    billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+                                                    billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                                     crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                                    amount       : "grandTotal",
+                                                    amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                                     amountStatus : [$value: "Dr"],
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
