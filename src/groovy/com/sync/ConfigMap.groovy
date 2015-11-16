@@ -52,7 +52,7 @@ class ConfigMap {
     }
 
 
-    private def config = [
+    private Map config = [
             Party          : [
                     domainClass: AccountLedger,
                     properties : [
