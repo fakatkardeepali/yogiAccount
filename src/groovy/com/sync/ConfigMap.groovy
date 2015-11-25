@@ -31,13 +31,13 @@ class ConfigMap {
     static def METHOD_PARAM_VALUE = "methodParamValue"
     static def HAS_MANY = "hasMany"
     static def PARENT_PROP_NAME = "parentPropName"
-    static def SUB_PROPERTY_NAME = "srcPropName"
+    static def SUB_PROPERTY_NAME = "subPropertyName"
     static String DEPENDS_SELF = "dependsSelf"
     static String PROPERTY_NAME = "propertyName"
 
 
     static String AFTER_INSERT = "\$afterInsert"
-
+//ToDo remove propertyName
     private String propertyName
     private Map propertyConfig
 
@@ -105,6 +105,7 @@ class ConfigMap {
                                     hasMany          : true,
                                     properties       : [
                                             partyName    : [dependsParentConfig: true],
+                                            company      : [dependsParentConfig: true],
                                             typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
                                             billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
                                             billDate     : [dependsParentConfig: true, srcPropName: "date"],
