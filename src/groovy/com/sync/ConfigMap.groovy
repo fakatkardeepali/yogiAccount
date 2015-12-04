@@ -130,7 +130,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true,propertyName: ""],
+                                                    voucher      : [dependsParentDomainInstance: true],
                                                     date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 

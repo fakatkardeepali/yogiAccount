@@ -337,7 +337,7 @@ class DomainHelpers {
                 // expecting propertyValue as list of config maps
                 def dependentDomainInstances = propertyValue.inject([]) { list, dependentInstanceConfig ->
                     ConfigMap configMap = new ConfigMap(null,dependentInstanceConfig)
-                    list.add(createDomainInstanceByConfig(configMap))
+                    list.add(createDomainInstanceByConfig(configMap,domainInstance))
                     return list
                 }
                 domainInstances[DEPENDENT_DOMAIN_INSTANCES] = dependentDomainInstances
@@ -349,13 +349,13 @@ class DomainHelpers {
         return domainInstances
     }
 
-    def createDomainInstanceByConfig(ConfigMap config) {
+    def createDomainInstanceByConfig(ConfigMap config, def parentDomainInstance = null) {
         def domainInstance = config.getDomainClassInstance()
         def properties = config.getProperties()
         properties.each { configPropertyName, propertyValue ->
-            if (propertyValue instanceof Map && propertyValue.containsKey("\$currentDomainInstance")) {
-                // handled case $currentDomainInstance:true here since we require domain instance which is available here
-                domainInstance."${configPropertyName}" = domainInstance
+            if (propertyValue instanceof Map && propertyValue.containsKey(ConfigMap.DEPENDS_PARENT_DOMAIN_INSTANCE)) {
+                // handled case dependsParentDomainInstance:true here since we require parent domain instance which is available here
+                domainInstance."${configPropertyName}" = parentDomainInstance
             } else {
                 domainInstance."${configPropertyName}" = getPropertyValueFromConfigMap(configPropertyName, config)
             }
