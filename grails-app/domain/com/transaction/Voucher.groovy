@@ -86,7 +86,7 @@ class Voucher {
 
     static mapping = {
         date type: "date"
-
+        company lazy: false
     }
 
     def beforeInsert() {
@@ -109,7 +109,10 @@ class Voucher {
                 }
             }
         }
+
+
     }
+
 
     static getVoucherNumber(Long id, Date date, String no) {
         def data = VoucherType.findById(id);

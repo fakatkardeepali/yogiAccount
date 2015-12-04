@@ -1,21 +1,18 @@
 package com.sync
 
 import com.helpers.DomainHelpers
-import grails.test.mixin.gorm.Domain
 import grails.transaction.Transactional
 
 @Transactional
 class DomainSyncService {
 
    def save(String domainName,Map domainProperties){
-
         def domainInstances = new DomainHelpers(domainName,domainProperties).initialiseDomainInstanceByDomainProperties()
         log.debug("Final Domain Instance To Be Saved....${domainInstances}" )
 
        if(domainProperties instanceof Map){
            def mainDomainInstance = domainInstances[DomainHelpers.MAIN_DOMAIN_INSTANCE]
-
-           if(mainDomainInstance.save()){
+           if(mainDomainInstance.save(flush:true)){
                def dependentDomainInstances = domainInstances[DomainHelpers.DEPENDENT_DOMAIN_INSTANCES]
                dependentDomainInstances.each{dependentDomainInstance->
                    dependentDomainInstance.save()
@@ -38,10 +35,11 @@ class DomainSyncService {
         */
     }
 
-   def update(String domainName,def hashMap){
-        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap,true/*find existing instead of create new instance*/)
-       if(domainInstance){
-           return domainInstance.save()
+   def update(String domainName,def domainProperties){
+        def domainInstances = new DomainHelpers(domainName,domainProperties,true).initialiseDomainInstanceByDomainProperties()
+//        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap,true/*find existing instead of create new instance*/)
+       if(domainInstances){
+           return domainInstances.save()
        }else{
            log.debug("Failed to update domain : ${domainName}")
            false

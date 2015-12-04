@@ -31,13 +31,13 @@ class DomainHelpers {
 
 
     String domainName
-    Map domainProperties
+    Map sourceDomainProperties
     ConfigMap config
 
-    // domainProperties is Json came from ERP
-    public DomainHelpers(String domainName, Map domainProperties) {
+    // sourceDomainProperties is Json came from ERP
+    public DomainHelpers(String domainName, Map sourceDomainProperties) {
         this.domainName = domainName
-        this.domainProperties = domainProperties
+        this.sourceDomainProperties = sourceDomainProperties
         this.config = new ConfigMap(domainName)
     }
 
@@ -64,13 +64,14 @@ class DomainHelpers {
 
     /** assuming that similar properties have direct values, so no need to find their values*/
     Map getSimilarDomainProperties() {
+        def configMapProperties = config.getConfigPropertyList()
         Map destinationDomainProperties = config.getDomainClassProperties()
         log.debug("Checking similar Destination domain properties : ${destinationDomainProperties}")
 
         def propertyNames = destinationDomainProperties.keySet()
 
-        return domainProperties.inject([:]) { map, entry ->
-            if (propertyNames.contains(entry.key)) {
+        return sourceDomainProperties.inject([:]) { map, entry ->
+            if (propertyNames.contains(entry.key) && !configMapProperties.contains(entry.key)) {
                 map[entry.key] = entry.value
             }
             return map;
@@ -90,7 +91,7 @@ class DomainHelpers {
                 finalQueryMap[key] = getPropertyValueFromConfigMap(key)
             }
             else {
-                Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(domainProperties, key)     //doubt for splitting single value
+                Object queryPropertyValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties, key)     //doubt for splitting single value
                 log.debug("Query property value : ${queryPropertyValue}")
                 finalQueryMap[value] = queryPropertyValue
             }
@@ -159,7 +160,7 @@ class DomainHelpers {
                         }
                     } else {
                         log.debug("Getting domain instance name separated from property : ${key}")
-                        def propValue = MapUtils.getMapValueByDeepProperty(domainProperties, key)
+                        def propValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties, key)
                         methodParams[value] = propValue
                         // PartyJson[partyType][enumDescription]  (e.g.supplier/customer)
                     }
@@ -254,7 +255,7 @@ class DomainHelpers {
                                 }
                             } else {
                                 log.debug("Getting domain instance name separated from property : ${key}")
-                                def propValue = MapUtils.getMapValueByDeepProperty(domainProperties, key)
+                                def propValue = MapUtils.getMapValueByDeepProperty(sourceDomainProperties, key)
                                 methodParams[value] = propValue
                                 // PartyJson[partyType][enumDescription]  (e.g.supplier/customer) 
                             }
@@ -295,11 +296,19 @@ class DomainHelpers {
                 def subPropertyName = propertyValue[ConfigMap.SUB_PROPERTY_NAME]
                 result = parentValue."${subPropertyName}"
             }
+
+            //case8: propertyValue has key dateFormat
+            else if(propertyValue.containsKey(ConfigMap.DATE_FORMAT)){
+                log.debug("Found property with date format : ${propertyName}")
+//                def dateProperty = getPropertyValueFromConfigMap(propertyValue[SRC_PROP_NAME])
+//                result = Date.parse(ConfigMap.DATE_FORMAT,dateProperty)
+                result = new Date()
+            }
         }
         //case :  propertyValue is not a map, simple property
         else if (!(propertyValue instanceof Map)) {
             log.debug("Found simple property : ${propertyValue}")
-            result = domainProperties[propertyValue]
+            result = sourceDomainProperties[propertyValue]
         }
 
         /*if(result == null){
@@ -364,14 +373,14 @@ class DomainHelpers {
 
                 if (isUpdate) {
                     log.debug("Updating domain instance : ${domainName}")
-                    log.debug("Finding Party by id ${domainProperties.id}")
-                    domainInstance = AccountLedger.findByPartyId(domainProperties.id)
+                    log.debug("Finding Party by id ${sourceDomainProperties.id}")
+                    domainInstance = AccountLedger.findByPartyId(sourceDomainProperties.id)
                     if (domainInstance) {
                         log.debug("Found domain instance from Account : ${domainInstance?.properties}")
                         domainInstance.properties = targetDomainProperties
 
                     } else {
-                        log.debug("Could not find party by id : ${domainProperties.id}")
+                        log.debug("Could not find party by id : ${sourceDomainProperties.id}")
                     }
                 } else {
                     log.debug("Creating new instance of Account Ledger with properties : ${targetDomainProperties}")
@@ -402,14 +411,14 @@ class DomainHelpers {
 
                 if (isUpdate) {
                     log.debug("Updating domain instance : ${domainName}")
-                    log.debug("Finding Party by id ${domainProperties.id}")
-                    domainInstance = Voucher.findById(domainProperties.id)
+                    log.debug("Finding Party by id ${sourceDomainProperties.id}")
+                    domainInstance = Voucher.findById(sourceDomainProperties.id)
                     if (domainInstance) {
                         log.debug("Found domain instance from Account : ${domainInstance?.properties}")
                         domainInstance.properties = targetDomainProperties
 
                     } else {
-                        log.debug("Could not find Voucher by id : ${domainProperties.id}")
+                        log.debug("Could not find Voucher by id : ${sourceDomainProperties.id}")
                     }
                 } else {
                     log.debug("Creating new instance of Voucher with properties : ${targetDomainProperties}")

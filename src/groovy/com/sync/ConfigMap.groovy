@@ -27,6 +27,7 @@ class ConfigMap {
     static def CONFIG_MAP = "configMap"
     static def PROPERTY_VALUE = "\$value"
     static def DEPENDS_PARENT_CONFIG = "dependsParentConfig"
+    static def DEPENDS_PARENT_DOMAIN_INSTANCE = "dependsParentDomainInstance"
     static def METHOD = "method"
     static def METHOD_PARAM_VALUE = "methodParamValue"
     static def HAS_MANY = "hasMany"
@@ -34,6 +35,7 @@ class ConfigMap {
     static def SUB_PROPERTY_NAME = "subPropertyName"
     static String DEPENDS_SELF = "dependsSelf"
     static String PROPERTY_NAME = "propertyName"
+    static String DATE_FORMAT = "dateFormat"
 
 
     static String AFTER_INSERT = "\$afterInsert"
@@ -128,7 +130,7 @@ class ConfigMap {
                                                     narration    : [$value: ""],
                                                     lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                                                     company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [$currentDomainInstance: true],
+                                                    voucher      : [dependsParentDomainInstance: true,propertyName: ""],
                                                     date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
@@ -1458,4 +1460,7 @@ class ConfigMap {
     def getPropertyMethodParameter(String propertyName) {
         return getPropertyValue(propertyName)[METHOD_PARAM_VALUE]
     }
+    def getConfigPropertyList(){
+                return getProperties().keySet()
+        }
 }
