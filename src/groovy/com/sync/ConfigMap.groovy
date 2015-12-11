@@ -36,6 +36,7 @@ class ConfigMap {
     static String DEPENDS_SELF = "dependsSelf"
     static String PROPERTY_NAME = "propertyName"
     static String DATE_FORMAT = "dateFormat"
+    static def AFTER_INSERT_METHOD = "\$method"
 
 
     static String AFTER_INSERT = "\$afterInsert"
@@ -120,6 +121,10 @@ class ConfigMap {
 
                             ],
                             $afterInsert      : [
+                                    [
+                                           $method: [domainClass: Voucher, method: "parametersInsert", srcPropName: [0: [propertyName: "voucherType", dependsParentConfig: true], 1: [propertyName: "date",dependsParentConfig:true]]],
+
+                                    ],
                                     [
                                             domainClass: Voucher,
                                             properties : [
@@ -289,7 +294,7 @@ class ConfigMap {
                                     [
                                             domainClass: Voucher,
                                             properties : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
+                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.lbtId": "id"], queryMap: true],
                                                     amount       : "lbtAmount",
                                                     rate         : [$value: 0],
                                                     amountStatus : [$value: "Cr"],

@@ -2,7 +2,9 @@ package com.sync
 
 import com.helpers.DomainHelpers
 import com.master.AccountLedger
+import com.master.VoucherType
 import com.system.Company
+import com.transaction.Voucher
 import test.PartySyncTest
 
 //import utils.JSONUtils
@@ -35,6 +37,7 @@ class DomainSyncController {
     }
 
     def save(){
+
         //make hash table here
         log.debug("Called save of domain sync controller")
 
@@ -60,7 +63,7 @@ class DomainSyncController {
 //        res.success = "rest call successfull"
 
 //        respond res,[formats:['json']]
-        respond ""
+//        respond "rest call successfull",formats: 'json'
 
     }
 
@@ -73,7 +76,7 @@ class DomainSyncController {
         def domainInstanceProperties = request.getJSON()
         log.debug("Got properties from ERP to update : ${domainInstanceProperties}")
         domainSyncService.update(domainInstanceProperties.className, domainInstanceProperties)
-
+        respond 11,[formats:'json']
         log.debug("ledger count : ${AccountLedger.count()}")
         log.debug("ledger properties : ${AccountLedger.findByPartyId(domainInstanceProperties.id).properties}")
         //println "ledger properties : ${AccountLedger.last().properties.partyId}"
@@ -122,7 +125,7 @@ class DomainSyncController {
 
 //    case InvoiceLC
 //    case 'InvoiceEntryLC':
-//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, sourceDomainProperties, new Voucher().properties)
 //    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
 //    targetDomainProperties.date = date
 //    if(targetDomainProperties?.company?.id){
@@ -143,14 +146,14 @@ class DomainSyncController {
 //    def domainInstance;
 //    if (isUpdate) {
 //        log.debug("Updating domain instance : ${domainName}")
-//        log.debug("Finding Party by id ${domainProperties.id}")
-//        domainInstance = Voucher.findById(domainProperties.id)
+//        log.debug("Finding Party by id ${sourceDomainProperties.id}")
+//        domainInstance = Voucher.findById(sourceDomainProperties.id)
 //        if (domainInstance) {
 //            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
 //            domainInstance.properties = targetDomainProperties
 //
 //        } else {
-//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//            log.debug("Could not find Voucher by id : ${sourceDomainProperties.id}")
 //        }
 //    }
 //    else {
@@ -160,7 +163,7 @@ class DomainSyncController {
 //    return domainInstance
 //
 //    case 'ProFormaInvoice':
-//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, sourceDomainProperties, new Voucher().properties)
 //    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
 //    targetDomainProperties.date = date
 //    if(targetDomainProperties?.company?.id){
@@ -181,14 +184,14 @@ class DomainSyncController {
 //    def domainInstance;
 //    if (isUpdate) {
 //        log.debug("Updating domain instance : ${domainName}")
-//        log.debug("Finding Party by id ${domainProperties.id}")
-//        domainInstance = Voucher.findById(domainProperties.id)
+//        log.debug("Finding Party by id ${sourceDomainProperties.id}")
+//        domainInstance = Voucher.findById(sourceDomainProperties.id)
 //        if (domainInstance) {
 //            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
 //            domainInstance.properties = targetDomainProperties
 //
 //        } else {
-//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//            log.debug("Could not find Voucher by id : ${sourceDomainProperties.id}")
 //        }
 //    }
 //    else {
@@ -198,7 +201,7 @@ class DomainSyncController {
 //    return domainInstance
 //
 //    case 'PurchaseReturn':
-//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, domainProperties, new Voucher().properties)
+//    Map targetDomainProperties = getPropertiesForDomainInstance(domainName, sourceDomainProperties, new Voucher().properties)
 //    Date date = Date.parse("yyyy-MM-dd",targetDomainProperties?.date)
 //    targetDomainProperties.date = date
 //    if(targetDomainProperties?.company?.id){
@@ -219,14 +222,14 @@ class DomainSyncController {
 //    def domainInstance;
 //    if (isUpdate) {
 //        log.debug("Updating domain instance : ${domainName}")
-//        log.debug("Finding Party by id ${domainProperties.id}")
-//        domainInstance = Voucher.findById(domainProperties.id)
+//        log.debug("Finding Party by id ${sourceDomainProperties.id}")
+//        domainInstance = Voucher.findById(sourceDomainProperties.id)
 //        if (domainInstance) {
 //            log.debug("Found domain instance from Account : ${domainInstance?.properties}")
 //            domainInstance.properties = targetDomainProperties
 //
 //        } else {
-//            log.debug("Could not find Voucher by id : ${domainProperties.id}")
+//            log.debug("Could not find Voucher by id : ${sourceDomainProperties.id}")
 //        }
 //    }
 //    else {
@@ -234,4 +237,8 @@ class DomainSyncController {
 //        domainInstance = new Voucher(targetDomainProperties)
 //    }
 //    return domainInstance
+
+    def testVoucher(){
+        Voucher.parametersInsert(VoucherType.findById(46),null)
+    }
 }

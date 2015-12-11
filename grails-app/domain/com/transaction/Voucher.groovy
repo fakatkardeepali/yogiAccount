@@ -93,7 +93,7 @@ class Voucher {
         uniqueKey = (last()?.uniqueKey ?: 0) + 1;
     }
 
-    static parametersInsert(VoucherType voucherType, Date date) {
+    static parametersInsert(VoucherType voucherType, Date date) { //parameter update
         if (voucherType.methodOfVoucherNumbering == "1") {
             if (voucherType.useAdavanceConfiguration) {
                 def data = Parameters.findByVoucherTypeAndApplicableFromGreaterThanEqualsAndApplicableToLessThanEquals(voucherType, date, date);
@@ -102,10 +102,11 @@ class Voucher {
                     data.save();
                 }
             } else {
-                def data = VoucherType.findById(voucherType.id);
-                if (data) {
-                    data.lastNumber = data.lastNumber + 1;
-                    data.save(flush: true);
+//                def data = VoucherType.findById(voucherType.id);
+                if (voucherType) {
+                    voucherType.lastNumber = voucherType.lastNumber + 1;
+                    voucherType.save(flush: true);
+
                 }
             }
         }
