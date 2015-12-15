@@ -386,6 +386,7 @@ class DomainHelpers {
                         list.add(createDomainInstanceByConfig(configMap,domainInstance))
                         return list
                     }
+                    return list
                 }
                 domainInstances[DEPENDENT_DOMAIN_INSTANCES] = dependentDomainInstances
             } else {
