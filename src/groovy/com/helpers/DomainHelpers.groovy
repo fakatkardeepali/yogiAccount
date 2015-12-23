@@ -337,55 +337,100 @@ class DomainHelpers {
                 // expecting propertyValue as list of config maps
                 def dependentDomainInstances = propertyValue.inject([]) { list, dependentInstanceConfig ->
 
-                    if(dependentInstanceConfig.containsKey(ConfigMap.AFTER_INSERT_METHOD)){
-                        def dependentInstancePropertyValue = dependentInstanceConfig[ConfigMap.AFTER_INSERT_METHOD]
-                        def srcProp = dependentInstancePropertyValue[SRC_PROP_NAME]    // srcProp = ["partyType":"enumDescription"]
-                        def method = dependentInstancePropertyValue[METHOD]
+                        if(dependentInstanceConfig.containsKey(ConfigMap.AFTER_INSERT_METHOD)){
+                            def dependentInstancePropertyValue = dependentInstanceConfig[ConfigMap.AFTER_INSERT_METHOD]
+                            def srcProp = dependentInstancePropertyValue[SRC_PROP_NAME]    // srcProp = ["partyType":"enumDescription"]
+                            def method = dependentInstancePropertyValue[METHOD]
 
-                        def domainClassInstance = dependentInstancePropertyValue[DOMAIN_CLASS].newInstance()
-                        Object[] methodArguments = new Object[srcProp.size()]
+                            def domainClassInstance = dependentInstancePropertyValue[DOMAIN_CLASS].newInstance()
+                            Object[] methodArguments = new Object[srcProp.size()]
 
-                        srcProp.keySet().sort().each{index->
-                            int intIndex = Integer.parseInt(index.toString())
-                            def indexValue = srcProp[index]
+                            srcProp.keySet().sort().each{index->
+                                int intIndex = Integer.parseInt(index.toString())
+                                def indexValue = srcProp[index]
 
-                            if(indexValue instanceof Map){
-                                if(indexValue.containsKey(ConfigMap.DEPENDS_PARENT_CONFIG)){
+                                if(indexValue instanceof Map){
+                                    if(indexValue.containsKey(ConfigMap.DEPENDS_PARENT_CONFIG)){
 
-                                    def propName = indexValue[ConfigMap.PROPERTY_NAME]                       //e.g. [propertyName: "voucherType"
-                                    def propValue = getPropertyValueFromConfigMap(propName,config)           //e.g. getPropertyValueFromConfigMap(voucherType,config)
-                                    methodArguments[intIndex] = propValue
+                                        def propName = indexValue[ConfigMap.PROPERTY_NAME]                       //e.g. [propertyName: "voucherType"
+                                        def propValue = getPropertyValueFromConfigMap(propName,config)           //e.g. getPropertyValueFromConfigMap(voucherType,config)
+                                        methodArguments[intIndex] = propValue
+                                        log.debug("Method Arguments ${intIndex} : ${methodArguments}")
+                                    }
+                                }else if(indexValue.containsKey(ConfigMap.PROPERTY_VALUE)){
+                                    methodArguments[intIndex] = indexValue[ConfigMap.PROPERTY_VALUE]
                                     log.debug("Method Arguments ${intIndex} : ${methodArguments}")
                                 }
-                            }else if(indexValue.containsKey(ConfigMap.PROPERTY_VALUE)){
-                                methodArguments[intIndex] = indexValue[ConfigMap.PROPERTY_VALUE]
-                                log.debug("Method Arguments ${intIndex} : ${methodArguments}")
-                            }
 
-                        }
-                        def methodToInvoke = ClassUtils.getMethodByName(domainClassInstance.class,method)
-                        if(method=="parametersInsert"){
-                            Voucher.parametersInsert(methodArguments[0],methodArguments[1])
-                        }
-                        if(methodToInvoke){
-                            try{
-//                                methodToInvoke.invoke(domainClassInstance,methodArguments)
-                                log.debug("method invoked : ${method}")
                             }
-                            catch (Exception e){
-                                e.printStackTrace()
-                            }
+                            def methodToInvoke = ClassUtils.getMethodByName(domainClassInstance.class,method)
+
+                            if(methodToInvoke){
+                                try{
+                                    methodToInvoke.invoke(domainClassInstance,methodArguments)
+                                    log.debug("method invoked : ${method}")
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace()
+                                }
 
 
-                        }else{
-                            log.error("Failed to find method:${method} on instance:${domainClassInstance} ")
+                            }else{
+                                log.error("Failed to find method:${method} on instance:${domainClassInstance} ")
+                            }
                         }
-                    }
-                    else{
-                        ConfigMap configMap = new ConfigMap(null,dependentInstanceConfig)
-                        list.add(createDomainInstanceByConfig(configMap,domainInstance))
+                       else if(dependentInstanceConfig.containsKey(ConfigMap.INSERT_CONDITION)){
+
+                            def dependentInstancePropertyValue = dependentInstanceConfig[ConfigMap.INSERT_CONDITION]
+                            def srcProp = dependentInstancePropertyValue[SRC_PROP_NAME]    // srcProp = ["partyType":"enumDescription"]
+                            def method = dependentInstancePropertyValue[METHOD]
+
+                            def domainClassInstance = dependentInstancePropertyValue[DOMAIN_CLASS].newInstance()
+                            Object[] methodArguments = new Object[srcProp.size()]
+
+                            srcProp.keySet().sort().each{index->
+                                int intIndex = Integer.parseInt(index.toString())
+                                def indexValue = srcProp[index]
+
+                                if(indexValue instanceof Map){
+//                                    if(indexValue.containsKey(ConfigMap.DEPENDS_PARENT_CONFIG)){
+
+                                        def propName = indexValue[ConfigMap.PROPERTY_NAME]                       //e.g. [propertyName: "voucherType"
+                                        def propValue = getPropertyValueFromConfigMap(propName,config)           //e.g. getPropertyValueFromConfigMap(voucherType,config)
+                                        methodArguments[intIndex] = propValue
+                                        log.debug("Method Arguments ${intIndex} : ${methodArguments}")
+//                                    }
+                                }else if(indexValue.containsKey(ConfigMap.PROPERTY_VALUE)){
+                                    methodArguments[intIndex] = indexValue[ConfigMap.PROPERTY_VALUE]
+                                    log.debug("Method Arguments ${intIndex} : ${methodArguments}")
+                                }
+
+                            }
+                            def methodToInvoke = ClassUtils.getMethodByName(domainClassInstance.class,method)
+                            if(methodToInvoke){
+                                try{
+                                    Boolean isAmountGreaterThanZero = methodToInvoke.invoke(domainClassInstance,methodArguments)
+                                    if(isAmountGreaterThanZero){
+                                        ConfigMap configMap = new ConfigMap(null,dependentInstanceConfig)
+                                        list.add(createDomainInstanceByConfig(configMap,domainInstance))
+                                    }
+                                    log.debug("method invoked : ${method}")
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace()
+                                }
+
+
+                        }
+                      }
+                      else{
+                                ConfigMap configMap = new ConfigMap(null,dependentInstanceConfig)
+                                list.add(createDomainInstanceByConfig(configMap,domainInstance))
+
+                        }
                         return list
-                    }
+
+
                 }
                 domainInstances[DEPENDENT_DOMAIN_INSTANCES] = dependentDomainInstances
             } else {

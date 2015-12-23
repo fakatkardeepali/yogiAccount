@@ -37,6 +37,7 @@ class ConfigMap {
     static String PROPERTY_NAME = "propertyName"
     static String DATE_FORMAT = "dateFormat"
     static def AFTER_INSERT_METHOD = "\$method"
+    static def INSERT_CONDITION = "insertCondition"
 
 
     static String AFTER_INSERT = "\$afterInsert"
@@ -127,6 +128,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "netAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
                                                     amount       : "netAmount",
@@ -142,6 +144,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "packingAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],
                                                     amount       : "packingAmount",
@@ -157,6 +160,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "freightAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],
                                                     amount       : "freightAmount",
@@ -172,6 +176,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "insuranceAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],
                                                     amount       : "insuranceAmount",
@@ -187,6 +192,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cenvatAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.exciseId": "id"], queryMap: true],
 //                                                    amount       : [srcPropName: "tax.exciseAmount", innerSourceProperty:true],
@@ -203,6 +209,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "serviceTaxAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.serviceTaxId": "id"], queryMap: true],
                                                     amount       : "serviceTaxAmount",
@@ -218,6 +225,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "edCessAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.edCessId": "id"], queryMap: true],
                                                     amount       : "edCessAmount",
@@ -233,6 +241,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "shEdCessAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.hsedCessId": "id"], queryMap: true],
                                                     amount       : "shEdCessAmount",
@@ -248,6 +257,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "saleTaxAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.vatId": "id"], queryMap: true],
                                                     amount       : "saleTaxAmount",
@@ -263,6 +273,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cstAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.cstId": "id"], queryMap: true],
                                                     amount       : "cstAmount",
@@ -278,6 +289,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "tdsAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.tdsId": "id"], queryMap: true],
                                                     amount       : "tdsAmount",
@@ -293,6 +305,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "lbtAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.lbtId": "id"], queryMap: true],
                                                     amount       : "lbtAmount",
@@ -308,6 +321,7 @@ class ConfigMap {
                                     ],
                                     [
                                             domainClass: Voucher,
+                                            insertCondition:[domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "othersAmount"]]],
                                             properties : [
                                                     partyName    : [domainClass: AccountLedger, srcPropName: ["tax.othersId": "id"], queryMap: true],
                                                     amount       : "othersAmount",

@@ -84,8 +84,12 @@ class Voucher {
         voucher nullable: true
     }
 
+    static fetchMode = [voucherType: 'eager']
+
     static mapping = {
         date type: "date"
+
+
         company lazy: false
     }
 
@@ -110,10 +114,7 @@ class Voucher {
                 }
             }
         }
-
-
     }
-
 
     static getVoucherNumber(Long id, Date date, String no) {
         def data = VoucherType.findById(id);
@@ -159,5 +160,9 @@ class Voucher {
                 company: company,
                 voucher: voucher,
                 date: voucher.date)
+    }
+
+    static Boolean isAmountGreaterThanZero(BigDecimal amount){
+        return (amount>0)
     }
 }
