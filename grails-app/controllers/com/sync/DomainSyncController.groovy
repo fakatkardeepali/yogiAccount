@@ -6,15 +6,24 @@ import com.master.VoucherType
 import com.system.Company
 import com.transaction.Voucher
 import test.PartySyncTest
+import utils.InvoiceEntryTestData
 
 //import utils.JSONUtils
 
 class DomainSyncController {
     DomainSyncService domainSyncService
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    //static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "GET", update: "POST", delete: "POST"]
+
 
     def index(){
+        String domainName = InvoiceEntryTestData.data.className
+        Map domainProperties = InvoiceEntryTestData.domainInstanceProperties
+        domainSyncService.save(domainName,domainProperties);
+    }
+
+    /*def index(){
         PartySyncTest.checkPrerequisites()
 
 //        Map domainInstanceProperties = TestData.domainInstanceProperties
@@ -34,7 +43,7 @@ class DomainSyncController {
         //println companyInstance
         //println diffProperties
 
-    }
+    }*/
 
     def save(){
 
@@ -46,16 +55,16 @@ class DomainSyncController {
 
 
 
-        Map domainInstanceProperties = request.getJSON()
+      //  Map domainInstanceProperties = request.getJSON()
 //        Object destinationProperties = AccountLedger.get(1)
 //        Map configMap = DomainHelpers.getConfigMapForDomain("Party")
 //        println configMap
 //        DomainHelpers.getDomainInstanceByQueryMap("company",configMap,domainInstanceProperties)
 
 //        println domainInstanceProperties
-        log.debug("Got properties from ERP to save : ${domainInstanceProperties}")
-        def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
-        log.debug("After Saving Domain Class properties : ${res.properties}")
+      //  log.debug("Got properties from ERP to save : ${domainInstanceProperties}")
+       // def res = domainSyncService.save(domainInstanceProperties.className,domainInstanceProperties)
+        //log.debug("After Saving Domain Class properties : ${res.properties}")
 //        println "ledger count : ${AccountLedger.count()}"
 //        println "ledger properties : ${AccountLedger.last().properties}"
 
@@ -64,6 +73,10 @@ class DomainSyncController {
 
 //        respond res,[formats:['json']]
 //        respond "rest call successfull",formats: 'json'
+
+        def company = Company.findById(6);
+        def vt = VoucherType.findWhere(name:"Sale",company: company)
+        Voucher.parametersInsert(vt, null)
 
     }
 
@@ -239,6 +252,9 @@ class DomainSyncController {
 //    return domainInstance
 
     def testVoucher(){
-        Voucher.parametersInsert(VoucherType.findById(46),null)
+        def company = Company.findById(6);
+        def vt = VoucherType.findWhere(name:"Sale",company: company)
+        //Voucher.parametersInsert(VoucherType.findById(46),null)
+        Voucher.parametersInsert(vt,null)
     }
 }
