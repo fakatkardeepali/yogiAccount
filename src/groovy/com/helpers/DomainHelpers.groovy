@@ -337,7 +337,7 @@ class DomainHelpers {
                 // expecting propertyValue as list of config maps
                 def dependentDomainInstances = propertyValue.inject([]) { list, dependentInstanceConfig ->
 
-                        if(dependentInstanceConfig.containsKey(ConfigMap.AFTER_INSERT_METHOD)){
+                       if(dependentInstanceConfig.containsKey(ConfigMap.AFTER_INSERT_METHOD)){
                             def dependentInstancePropertyValue = dependentInstanceConfig[ConfigMap.AFTER_INSERT_METHOD]
                             def srcProp = dependentInstancePropertyValue[SRC_PROP_NAME]    // srcProp = ["partyType":"enumDescription"]
                             def method = dependentInstancePropertyValue[METHOD]
@@ -373,8 +373,6 @@ class DomainHelpers {
                                 catch (Exception e){
                                     e.printStackTrace()
                                 }
-
-
                             }else{
                                 log.error("Failed to find method:${method} on instance:${domainClassInstance} ")
                             }
@@ -396,7 +394,8 @@ class DomainHelpers {
 //                                    if(indexValue.containsKey(ConfigMap.DEPENDS_PARENT_CONFIG)){
 
                                         def propName = indexValue[ConfigMap.PROPERTY_NAME]                       //e.g. [propertyName: "voucherType"
-                                        def propValue = getPropertyValueFromConfigMap(propName,config)           //e.g. getPropertyValueFromConfigMap(voucherType,config)
+
+                                        def propValue = sourceDomainProperties[propName]           //e.g. getPropertyValueFromConfigMap(voucherType,config)
                                         methodArguments[intIndex] = propValue
                                         log.debug("Method Arguments ${intIndex} : ${methodArguments}")
 //                                    }
