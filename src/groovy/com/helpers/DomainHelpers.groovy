@@ -62,9 +62,59 @@ class DomainHelpers {
         return domainInstances
     }
 
-    Object updateDomainInstanceByDomainProperties() {
-
+    Object getUpdatedDomainInstanceByDomainProperties() {
+        def domainInstanceToBeUpdated = findDomainInstanceByBusinessKey()
+        if(domainInstanceToBeUpdated){
+            def updatedProperties = createPropertyValueMap()
+            domainInstanceToBeUpdated.properties += updatedProperties
+            return domainInstanceToBeUpdated
+        }else{
+            log.error("failed to find domain instance to be update for domain ${domainName}")
+            return null
+        }
     }
+
+
+    def findDomainInstanceByBusinessKey(){
+        def domainClass = config.getDomainClass()
+        Map searchProperties = generatePropertyMapByBusinessKeys()
+        def foundDomainInstance = domainClass.findWhere(searchProperties)
+
+        if(foundDomainInstance){
+            return foundDomainInstance
+        }else{
+            return null
+        }
+    }
+
+    def generatePropertyMapByBusinessKeys(){
+        Map businessKeys = config.getBusinessKey()
+        Map propertyValuesByBusinessKeys=[:]
+        businessKeys.each {propertyName,propertyValue ->
+            // here we are assuming that business key is one of config properties
+            propertyValuesByBusinessKeys[propertyName] = getPropertyValueFromConfigMap(propertyName)
+        }
+        return propertyValuesByBusinessKeys
+    }
+
+    // the map returned by this method is used to update the domain instance for update api
+    Map createPropertyValueMap(){
+
+        Map similarProperties = getSimilarDomainProperties()
+        log.debug("Found similar destiantion domain properties : ${similarProperties}")
+
+        Map configProperties = config.getProperties()
+        log.debug("Initializing domain instance by config map : ${configProperties}")
+
+        //TODO handle the case of property having type of domain instance
+        Map differentPropertiesMap = [:]
+        configProperties.each { propertyName, propertyValue ->
+            differentPropertiesMap[propertyName] = getPropertyValueFromConfigMap(propertyName)
+        }
+
+        return similarProperties + differentPropertiesMap;
+    }
+
 
     /** assuming that similar properties have direct values, so no need to find their values*/
     Map getSimilarDomainProperties() {
@@ -107,6 +157,7 @@ class DomainHelpers {
         return domainInstance
     }
 
+    //TODO move method processing logic in this method and call this method
     Object getPropertyValueByMethod(String propertyName) {
         Object result;
         def methodPropertyValue = config.getPropertyMethod(propertyName)

@@ -6,3 +6,19 @@
          4.Get map for perticular class in Account project using switch case
          5.Create instance of that class using CreateDomain method in DomainUtil class
          6.Save the perticular Instance of class
+
+
+update api process
+==================
+
+         Requirements
+         ------------
+          - Identify properties of domain class to be updated that uniquely find the domain instance. Call these properties business key
+          - set this business to in config map
+
+         Algo
+         ----
+          - Find the domain instance by using business key
+          - Create a map of properties that are set to the domain instance to update it
+          - set this map to found domain instance
+          - save the domain instance to complete the update process

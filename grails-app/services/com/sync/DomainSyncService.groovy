@@ -36,8 +36,7 @@ class DomainSyncService {
     }
 
    def update(String domainName,def domainProperties){
-        def domainInstances = new DomainHelpers(domainName,domainProperties,true).initialiseDomainInstanceByDomainProperties()
-//        def domainInstance = DomainHelpers.createDomainInstance(domainName,hashMap,true/*find existing instead of create new instance*/)
+        def domainInstances = new DomainHelpers(domainName,domainProperties).getUpdatedDomainInstanceByDomainProperties()
        if(domainInstances){
            return domainInstances.save()
        }else{
