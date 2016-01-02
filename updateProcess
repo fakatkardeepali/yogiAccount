@@ -1,0 +1,17 @@
+This doc refers the update operation process to be done from ERP to Account application.
+
+Party :
+       1.Simple property with same names as well as different names are updated successfully with the current logic.
+       2.Company and lastUpdatedBy properties are not updated from ERP side.
+
+       3.Properties that may be updated from ERP to Account and their mapping :
+
+         address      : officeAddress,
+         telephoneNo  : telephoneNo1,
+         cstTin       : cstNo,
+         salesTaxNo   : serviceTaxNo,
+         underGroup   : partyType.enumDescription",
+         creditDays   : creditDays,
+         name         : name,
+         faxNo        : faxNo,
+         panNo        : panNo
