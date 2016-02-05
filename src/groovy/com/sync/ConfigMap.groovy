@@ -65,7 +65,7 @@ class ConfigMap {
                             address      : "officeAddress",
                             telephoneNo  : "telephoneNo1",
                             partyId      : "id",
-                            cstTin       : "cstNo",
+                            cstNo        : "cstTin",
                             salesTaxNo   : "serviceTaxNo",
                             company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
                             lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
