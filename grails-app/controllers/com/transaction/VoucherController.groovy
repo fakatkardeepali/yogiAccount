@@ -4,7 +4,9 @@ import com.annotation.ParentScreen
 import com.common.AccountFlag
 import com.master.MasterService
 import com.report.MasterReportService
+import com.system.Company
 import com.system.SystemService
+import com.system.User
 import grails.converters.JSON
 import grails.transaction.Transactional
 
@@ -18,6 +20,7 @@ class VoucherController {
     MasterService masterService
     TransactionService transactionService
     MasterReportService masterReportService
+    VoucherService voucherService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -44,69 +47,83 @@ class VoucherController {
 
 //        def vNewInstance=this.class.classLoader.loadClass("Voucher",true,false)?.newInstance()
 
-        ArrayList<Voucher> voucher = [];
+//        ArrayList<Voucher> voucher = [];
         bindData(voucherInstance, params, [exclude: ['lastUpdatedBy', 'company', 'date']])
+        println("CHILD JSON")
+        println(params.child)
 
-        voucherInstance.lastUpdatedBy = systemService.getUserById(session['activeUser'].user.id as Long);
-        voucherInstance.company = systemService.getCompanyObjectById(session['company'].id as Long);
-        voucherInstance.date = Date.parse("yyyy-MM-dd", params.date);
-        voucherInstance.amountStatus = VoucherDetails.parentStatus(voucherInstance);
-        voucherInstance.voucherNo = Voucher.getVoucherNumber(voucherInstance.voucherType.id, voucherInstance.date, params.voucherNo)
+        User user = systemService.getUserById(session['activeUser'].user.id as Long);
+        Company company = systemService.getCompanyObjectById(session['company'].id as Long);
 
-        if (voucherInstance == null) {
-            notFound()
+        def newVoucherInstance = voucherService.saveVoucherInstance(voucherInstance, company, user, params, false)
+        if(newVoucherInstance == null){
+            notFound();
             return
         }
 
-        if (params.child) {
-            def child = JSON.parse(params.child);
-            if (child) {
-                child.each { c ->
-//                    voucherInstance.addToVoucherDetails(VoucherDetails.buildFromJSON(c, session['company'], voucherInstance));
-                    voucher.add(Voucher.buildFromJSON(c, session['company'], voucherInstance, voucherInstance.lastUpdatedBy));
-                }
-            }
 
-            if (voucherInstance.voucherType.property == "Contra") {
-                new PartyAccount(billNo: voucherInstance?.voucherNo ?: 0, company: voucherInstance.company,
-                        partyName: voucherInstance, crDays: 0,
-                        voucher: voucherInstance ?: null,
-                        amount: voucherInstance.amount as BigDecimal,
-                        remainAmount: voucherInstance.amount as BigDecimal,
-                        amountStatus: voucherInstance.amountStatus,
-                        lastUpdatedBy: voucherInstance.lastUpdatedBy,
-                        narration: voucherInstance?.narration ?: "",
-                        billDate: voucherInstance?.lastUpdated ? voucherInstance?.lastUpdated : null,
-                        typeOfRef: AccountFlag.findByName("On Account")).save();
-            }
-        }
+//        voucherInstance.lastUpdatedBy = systemService.getUserById(session['activeUser'].user.id as Long);
+//        voucherInstance.company = systemService.getCompanyObjectById(session['company'].id as Long);
+//        voucherInstance.date = Date.parse("yyyy-MM-dd", params.date);
+//        voucherInstance.amountStatus = VoucherDetails.parentStatus(voucherInstance);
+//        voucherInstance.voucherNo = Voucher.getVoucherNumber(voucherInstance.voucherType.id, voucherInstance.date, params.voucherNo)
+//
+//        if (voucherInstance == null) {
+//            notFound()
+//            return
+//        } else {
+//            render voucherService.saveVoucherInstance(voucherInstance, session, params)
+//        }
 
-        if (voucherInstance.partyName.maintainBill) {
-            if (params.billChild) {
-                def child = JSON.parse(params.billChild);
-                if (child) {
-                    child.each { c ->
-                        def accountFlag = AccountFlag.get(c?.typeRef as Long);
-                        if (accountFlag.name == "Agst Ref.") {
+//        if (params.child) {
+//            def child = JSON.parse(params.child);
+//            if (child) {
+//                child.each { c ->
+////                    voucherInstance.addToVoucherDetails(VoucherDetails.buildFromJSON(c, session['company'], voucherInstance));
+//                    voucher.add(Voucher.buildFromJSON(c, session['company'], voucherInstance, voucherInstance.lastUpdatedBy));
+//                }
+//            }
+//
+//            if (voucherInstance.voucherType.property == "Contra") {
+//                new PartyAccount(billNo: voucherInstance?.voucherNo ?: 0, company: voucherInstance.company,
+//                        partyName: voucherInstance, crDays: 0,
+//                        voucher: voucherInstance ?: null,
+//                        amount: voucherInstance.amount as BigDecimal,
+//                        remainAmount: voucherInstance.amount as BigDecimal,
+//                        amountStatus: voucherInstance.amountStatus,
+//                        lastUpdatedBy: voucherInstance.lastUpdatedBy,
+//                        narration: voucherInstance?.narration ?: "",
+//                        billDate: voucherInstance?.lastUpdated ? voucherInstance?.lastUpdated : null,
+//                        typeOfRef: AccountFlag.findByName("On Account")).save();
+//            }
+//        }
+//
+//        if (voucherInstance.partyName.maintainBill) {
+//            if (params.billChild) {
+//                def child = JSON.parse(params.billChild);
+//                if (child) {
+//                    child.each { c ->
+//                        def accountFlag = AccountFlag.get(c?.typeRef as Long);
+//                        if (accountFlag.name == "Agst Ref.") {
+//
+////                            PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
+//                            def partyAccount = PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)   //maintain remaining amount in Party Account
+//                            partyAccount.save();
+//                        } else {
+//                            voucherInstance.addToPartyAccount(PartyAccount.buildFromJSON(c, session['company'], voucherInstance.partyName, voucherInstance.lastUpdatedBy));
+//                        }
+//                        voucherInstance.addToVoucherBillDetails(VoucherBillDetails.buildFromJSON(c, session['company'], voucherInstance.partyName, voucherInstance.lastUpdatedBy));
+//                    }
+//                }
+//            }
+//        }
 
-//                            PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
-                            def partyAccount = PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)   //maintain remaining amount in Party Account
-                            partyAccount.save();
-                        } else {
-                            voucherInstance.addToPartyAccount(PartyAccount.buildFromJSON(c, session['company'], voucherInstance.partyName, voucherInstance.lastUpdatedBy));
-                        }
-                        voucherInstance.addToVoucherBillDetails(VoucherBillDetails.buildFromJSON(c, session['company'], voucherInstance.partyName, voucherInstance.lastUpdatedBy));
-                    }
-                }
-            }
-        }
-
-        if (voucherInstance.hasErrors()) {
-            render voucherInstance.errors
+        if (newVoucherInstance.hasErrors()) {
+            render newVoucherInstance.errors
         } else {
-            voucherInstance.save()
-            Voucher.saveAll(voucher);
-            Voucher.parametersInsert(voucherInstance.voucherType, voucherInstance.date);
+//            voucherInstance.save()
+//            Voucher.saveAll(voucher);
+//            Voucher.parametersInsert(voucherInstance.voucherType, voucherInstance.date);
 
             render true;
         }

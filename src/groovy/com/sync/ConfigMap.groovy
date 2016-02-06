@@ -87,253 +87,251 @@ class ConfigMap {
                             lastUpdatedBy     : [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
                             voucherType       : [domainClass: VoucherType, srcPropName: ["company": [depends: "Self"], $value: ["name": "Sale"]], queryMap: true],
                             voucherNo         : [domainClass: Voucher, method: "getVoucherNumber", srcPropName: [0: [propertyName: "voucherType", subPropertyName: "id", dependsSelf: true], 1: [propertyName: "date", dependsSelf: true], 2: [$value: null]]],
-                            partyAccount      : [
-                                    domainClass      : PartyAccount,
-                                    createNewInstance: true,
-                                    hasMany          : true,
-                                    properties       : [
-                                            partyName    : [dependsParentConfig: true],
-                                            company      : [dependsParentConfig: true],
-                                            typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
-                                            billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
-                                            billDate     : [dependsParentConfig: true, srcPropName: "date"],
-                                            crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
-                                            amount       : [dependsParentConfig: true, srcPropName: "amount"],
-                                            amountStatus : [$value: "Dr"],
-                                            narration    : [$value: ""],
-                                            remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
-                                            lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
-                                    ]
-                            ],
+//                            partyAccount      : [
+//                                    domainClass      : PartyAccount,
+//                                    createNewInstance: true,
+//                                    hasMany          : true,
+//                                    properties       : [
+//                                            partyName    : [dependsParentConfig: true],
+//                                            company      : [dependsParentConfig: true],
+//                                            typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
+//                                            typeRef      : [$value: 3],
+//                                            billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
+//                                            billDate     : [dependsParentConfig: true, srcPropName: "date"],
+//                                            crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
+//                                            amount       : [dependsParentConfig: true, srcPropName: "amount"],
+//                                            amountStatus : [$value: "Dr"],
+//                                            narration    : [$value: ""],
+//                                            remainAmount : [dependsParentConfig: true, srcPropName: "amount"],
+//                                            lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
+//                                    ]
+//                            ],
                             voucherBillDetails: [
-                                    domainClass      : VoucherBillDetails,
                                     createNewInstance: true,
                                     hasMany          : true,
                                     properties       : [
-                                            partyName    : [dependsParentConfig: true],
-                                            company      : [dependsParentConfig: true],
-                                            typeOfRef    : [method: AccountFlag.findByNameClosure, methodParamValue: "New Ref."],
+                                            typeRef      : [$value: 3],
                                             billNo       : [dependsParentConfig: true, srcPropName: "referenceNo"],
                                             billDate     : [dependsParentConfig: true, srcPropName: "date"],
                                             crDays       : [parentPropName: "partyName", subPropertyName: "creditDays"],   //getDomainSubproperty  domain helpers
                                             amount       : [dependsParentConfig: true, srcPropName: "amount"],
                                             amountStatus : [$value: "Dr"],
                                             narration    : [$value: ""],
-                                            lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true]
                                     ]
 
                             ],
                             $afterInsert      : [
-                                    [
-                                            $method: [domainClass: Voucher, method: "parametersInsert", srcPropName: [0: [propertyName: "voucherType", dependsParentConfig: true], 1: [propertyName: "date", dependsParentConfig: true]]],
+//                                    [
+//                                            $method: [domainClass: Voucher, method: "parametersInsert", srcPropName: [0: [propertyName: "voucherType", dependsParentConfig: true], 1: [propertyName: "date", dependsParentConfig: true]]],
+//
+//                                    ],
 
-                                    ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "netAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "netAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["netAmountLedgerId": "id"], queryMap: true],
                                                     amount       : "netAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "packingAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "packingAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["packingLedgerId": "id"], queryMap: true],
                                                     amount       : "packingAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "freightAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "freightAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["freightLedgerId": "id"], queryMap: true],
                                                     amount       : "freightAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "insuranceAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "insuranceAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["insuranceLedgerId": "id"], queryMap: true],
                                                     amount       : "insuranceAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cenvatAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cenvatAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.exciseId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.exciseId": "id"], queryMap: true],
 //                                                    amount       : [srcPropName: "tax.exciseAmount", innerSourceProperty:true],
                                                     amount       : "cenvatAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "serviceTaxAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "serviceTaxAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.serviceTaxId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.serviceTaxId": "id"], queryMap: true],
                                                     amount       : "serviceTaxAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ]
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "edCessAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "edCessAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.edCessId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.edCessId": "id"], queryMap: true],
                                                     amount       : "edCessAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ]
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "shEdCessAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "shEdCessAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.hsedCessId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.hsedCessId": "id"], queryMap: true],
                                                     amount       : "shEdCessAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "saleTaxAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "saleTaxAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.vatId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.vatId": "id"], queryMap: true],
                                                     amount       : "saleTaxAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cstAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "cstAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.cstId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.cstId": "id"], queryMap: true],
                                                     amount       : "cstAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "tdsAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "tdsAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.tdsId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.tdsId": "id"], queryMap: true],
                                                     amount       : "tdsAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "lbtAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "lbtAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.lbtId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.lbtId": "id"], queryMap: true],
                                                     amount       : "lbtAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ],
                                     [
-                                            domainClass    : Voucher,
-                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "othersAmount"]]],
+//                                            domainClass    : Voucher,
+//                                            insertCondition: [domainClass: Voucher, method: "isAmountGreaterThanZero", srcPropName: [0: [propertyName: "othersAmount"]]],
                                             properties     : [
-                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.othersId": "id"], queryMap: true],
+//                                                    partyName    : [domainClass: AccountLedger, srcPropName: ["tax.othersId": "id"], queryMap: true],
                                                     amount       : "othersAmount",
-                                                    rate         : [$value: 0],
-                                                    amountStatus : [$value: "Cr"],
+//                                                    rate         : [$value: 0],
+//                                                    amountStatus : [$value: "Cr"],
                                                     narration    : [$value: ""],
-                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
-                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
-                                                    voucher      : [dependsParentDomainInstance: true],
-                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
+//                                                    lastUpdatedBy: [domainClass: User, srcPropName: ["lastUpdatedBy.mailId": "username"], queryMap: true],
+//                                                    company      : [domainClass: Company, srcPropName: ["company.regNo": "registrationNo"], queryMap: true],
+//                                                    voucher      : [dependsParentDomainInstance: true],
+//                                                    date         : [dependsParentConfig: true, srcPropName: "date"]
                                             ],
 
                                     ]

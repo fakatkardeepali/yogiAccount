@@ -344,8 +344,13 @@ class DomainHelpers {
             //case5 : propertyValue depends on parent config
             else if (propertyValue.containsKey(DEPENDS_PARENT_CONFIG)) {
                 log.debug("finding value of property having dependency of parent config map: ${propertyName}")
-                // TODO if property name is different from original property then it should be defined with srcPropName eg. partyName:[srcPropName:"name",dependsParentConfig: true],
-                result = getPropertyValueFromConfigMap(propertyName)
+                // if property name is different from original property then it should be defined with srcPropName eg. partyName:[srcPropName:"name",dependsParentConfig: true],
+                if(propertyValue.containsKey(ConfigMap.SRC_PROP_NAME)){
+                    def sourcePropertyValue = propertyValue[ConfigMap.SRC_PROP_NAME]
+                    result = getPropertyValueFromConfigMap(sourcePropertyValue)
+                } else {
+                    result = getPropertyValueFromConfigMap(propertyName)
+                }
             }
 
             //case6 : propertyValue has key CREATE_NEW_INSTANCE
@@ -610,6 +615,50 @@ This method is used instead of converting a domain instance into JSON.*/
                 map[propEntry.key] = propEntry.value.properties
             }
             return map
+        }
+    }
+
+    Map buildParamsMap(String domainName){
+        List paramsList = []
+        Map finalParamsMap = [
+                            child       :[],
+                            billChild   :[]
+        ]
+        if(domainName == "InvoiceEntry"){
+            Map configProperties = config.getProperties()
+            log.debug("Initializing domain instance by config map : ${configProperties}")
+
+            configProperties.each { propertyName, propertyValue ->
+                if (propertyName.equals(ConfigMap.AFTER_INSERT)) {
+                    log.debug("Found after insert property")
+                    propertyValue.each { tempDomainInstanceConfig ->
+                        if (tempDomainInstanceConfig.containsKey(ConfigMap.AFTER_INSERT_METHOD)) {
+//                      TODO
+                        } else if (tempDomainInstanceConfig.containsKey(ConfigMap.INSERT_CONDITION)) {
+//                      TODO
+                        } else {
+                            ConfigMap configMap = new ConfigMap(null, tempDomainInstanceConfig)
+                            def properties = configMap.getProperties()
+                            Map paramsMap = [:]
+                            properties.each {configPropertyName, configPropertyValue ->
+                                paramsMap[configPropertyName] = getPropertyValueFromConfigMap(configPropertyName,configMap)
+                            }
+                            finalParamsMap.child.add(paramsMap)
+                        }
+                    }
+                } else  if (propertyValue instanceof Map && propertyValue[ConfigMap.CREATE_NEW_INSTANCE] && propertyValue[ConfigMap.HAS_MANY]) {
+                    log.debug("Found child properties having keys CREATE_NEW_INSTANCE and HAS_MANY : ${propertyValue}")
+                    // here expecting propertyValue as a config
+                    ConfigMap configMap = new ConfigMap(propertyName, propertyValue)
+                    def properties = configMap.getProperties()
+                    Map paramsMap = [:]
+                    properties.each {configPropertyName, configPropertyValue ->
+                        paramsMap[configPropertyName] = getPropertyValueFromConfigMap(configPropertyName,configMap)
+                    }
+                    finalParamsMap.billChild.add(paramsMap)
+                }
+            }
+            return finalParamsMap
         }
     }
 }
