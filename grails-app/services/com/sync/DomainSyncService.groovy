@@ -1,28 +1,47 @@
 package com.sync
 
 import com.helpers.DomainHelpers
+import com.transaction.VoucherService
 import grails.transaction.Transactional
 
 @Transactional
 class DomainSyncService {
 
-   def save(String domainName,Map domainProperties){
-        def domainInstances = new DomainHelpers(domainName,domainProperties).initialiseDomainInstanceByDomainProperties()
-        log.debug("Final Domain Instance To Be Saved....${domainInstances}" )
+    VoucherService voucherService
 
-       if(domainProperties instanceof Map){
-           def mainDomainInstance = domainInstances[DomainHelpers.MAIN_DOMAIN_INSTANCE]
-           if(mainDomainInstance.save(flush:true)){
-               def dependentDomainInstances = domainInstances[DomainHelpers.DEPENDENT_DOMAIN_INSTANCES]
-               dependentDomainInstances.each{dependentDomainInstance->
-                   dependentDomainInstance.save()
-               }
-           }else{
-               //TODO handle error
-           }
-       }else{
-           return domainInstances.save()
+   def save(String domainName,Map domainProperties){
+
+       Map params = [:]
+        def domainHelpers = new DomainHelpers(domainName,domainProperties)
+        log.debug("Final Domain Instance To Be Saved....${domainHelpers}" )
+//       List list = domainHelpers.buildParamsMap(domainName)
+
+       def mainDomainInstance = domainHelpers.initialiseDomainInstanceByDomainProperties()
+//
+       if(domainName == "InvoiceEntry"){
+           // TODO Initialise DomainInstance by Domain Properties
+           params = domainHelpers.buildParamsMap(domainName)
+//           params.child = list
+           println("Params Map:" + params)
+
+           voucherService.saveVoucherInstance(mainDomainInstance,mainDomainInstance.company, mainDomainInstance.lastUpdatedBy,params,true)
+
        }
+
+
+//       if(domainProperties instanceof Map){
+//           def mainDomainInstance = domainInstances[DomainHelpers.MAIN_DOMAIN_INSTANCE]
+//           if(mainDomainInstance.save(flush:true)){
+//               def dependentDomainInstances = domainInstances[DomainHelpers.DEPENDENT_DOMAIN_INSTANCES]
+//               dependentDomainInstances.each{dependentDomainInstance->
+//                   dependentDomainInstance.save()
+//               }
+//           }else{
+               //TODO handle error
+//           }
+//       }else{
+//           return domainInstances.save()
+//       }
 
        /*
         Our steps to save any map of class

@@ -6,7 +6,6 @@ import com.system.SystemService
 import com.system.User
 import grails.converters.JSON
 import grails.transaction.Transactional
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
 @Transactional
 class VoucherService {
@@ -17,7 +16,7 @@ class VoucherService {
 
     }
 
-    def saveVoucherInstance( Voucher voucherInstance, Company company, User user, GrailsParameterMap params, Boolean fromAPI){
+    def saveVoucherInstance( Voucher voucherInstance, Company company, User user, Map params, Boolean fromAPI){
         //        def data=JSON.parse(params.tryChild)
 //        data.each {d->
 //            print(d.className)
@@ -25,7 +24,10 @@ class VoucherService {
 
 //        def vNewInstance=this.class.classLoader.loadClass("Voucher",true,false)?.newInstance()
 
+        com.google.gson.Gson gson = new com.google.gson.Gson();
         ArrayList<Voucher> voucher = [];
+        def child = null
+        String jsonArray = ""
 //        bindData(voucherInstance, params, [exclude: ['lastUpdatedBy', 'company', 'date']])
 
 //        voucherInstance.lastUpdatedBy = systemService.getUserById(session['activeUser'].user.id as Long);
@@ -53,17 +55,23 @@ class VoucherService {
         }
 
         if (params.child) {
-            def child = null
-            if(fromAPI){
-                child = params.child
+            if(fromAPI) {
+                println("Child :" + params.child)
+                jsonArray = gson.toJson(params.child);
             } else {
-                child = JSON.parse(params.child);
+                jsonArray = params.child
             }
+                child = JSON.parse(jsonArray);
             if (child) {
                 child.each { c ->
 //                    voucherInstance.addToVoucherDetails(VoucherDetails.buildFromJSON(c, session['company'], voucherInstance));
 //                    voucher.add(Voucher.buildFromJSON(c, session['company'], voucherInstance, voucherInstance.lastUpdatedBy));
-                    voucher.add(Voucher.buildFromJSON(c, company, voucherInstance, voucherInstance.lastUpdatedBy));
+                    println("Child Passed...." + c)
+                    if((fromAPI && c.debit > 0)) {
+                        voucher.add(Voucher.buildFromJSON(c, company, voucherInstance, voucherInstance.lastUpdatedBy));
+                    } else {
+                        voucher.add(Voucher.buildFromJSON(c, company, voucherInstance, voucherInstance.lastUpdatedBy));
+                    }
                 }
             }
 
@@ -82,12 +90,25 @@ class VoucherService {
         }
 
         if (voucherInstance.partyName.maintainBill) {
+            child = null
+            jsonArray = ""
             if (params.billChild) {
-                def child = JSON.parse(params.billChild);
+                if(fromAPI) {
+                    println("Child :" + params.billChild)
+                    jsonArray = gson.toJson(params.billChild);
+                } else {
+                    jsonArray = params.billChild
+                }
+
+                child = JSON.parse(jsonArray);
+
                 if (child) {
                     child.each { c ->
                         println(c.typeRef)
                         def accountFlag = AccountFlag.get(c?.typeRef as Long);
+                        if(fromAPI) {
+                            c.billDate = Date.parse("MMM dd, yyyy hh:mm:ss a", c.billDate).format("yyyy-MM-dd")
+                        }
                         if (accountFlag.name == "Agst Ref.") {
 
 //                            PartyAccount.updateChildByBillSatus(c, session['company'], voucherInstance.partyName)
@@ -116,6 +137,7 @@ class VoucherService {
 //        }
 
         if(voucherInstance.save()) {
+            println("Voucher Before Save :" + voucher)
             Voucher.saveAll(voucher);
             Voucher.parametersInsert(voucherInstance.voucherType, voucherInstance.date);
         }
