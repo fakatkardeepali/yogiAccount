@@ -372,9 +372,13 @@ class DomainHelpers {
             }
         }
         //case :  propertyValue is not a map, simple property
-        else if (!(propertyValue instanceof Map)) {
+        else if (propertyValue instanceof String) {
             log.debug("Found simple property : ${propertyValue}")
-            result = sourceDomainProperties[propertyValue]
+            if(propertyValue.contains('.')){
+                result = MapUtils.getMapValueByDeepProperty(sourceDomainProperties,propertyValue)
+            } else {
+                result = sourceDomainProperties[propertyValue]
+            }
         }
 
         /*if(result == null){

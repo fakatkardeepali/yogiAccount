@@ -40,7 +40,6 @@ class ConfigMap {
     static def INSERT_CONDITION = "insertCondition"
     static def BUSINESS_KEY = "businessKey"
 
-
     static String AFTER_INSERT = "\$afterInsert"
 //ToDo remove propertyName
     private String propertyName
@@ -112,96 +111,96 @@ class ConfigMap {
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "packingAmount",
+                                                    ledger       : "packingLedgerId",
+                                                    debit        : "packingAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "freightAmount",
+                                                    ledger       : "freightLedgerId",
+                                                    debit        : "freightAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "insuranceAmount",
+                                                    ledger       : "insuranceLedgerId",
+                                                    debit        : "insuranceAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "cenvatAmount",
+                                                    ledger       : "tax.exciseId",
+                                                    debit        : "cenvatAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "serviceTaxAmount",
+                                                    ledger       : "tax.serviceTaxId",
+                                                    debit        : "serviceTaxAmount",
                                                     narration    : [$value: ""],
                                             ]
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "edCessAmount",
+                                                    ledger       : "tax.edCessId",
+                                                    debit        : "edCessAmount",
                                                     narration    : [$value: ""],
                                             ]
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "shEdCessAmount",
+                                                    ledger       : "tax.hsedCessId",
+                                                    debit        : "shEdCessAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "saleTaxAmount",
+                                                    ledger       : "tax.vatId",
+                                                    debit        : "saleTaxAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "cstAmount",
+                                                    ledger       : "tax.cstId",
+                                                    debit        : "cstAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "tdsAmount",
+                                                    ledger       : "tax.tdsId",
+                                                    debit        : "tdsAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "lbtAmount",
+                                                    ledger       : "tax.lbtId",
+                                                    debit        : "lbtAmount",
                                                     narration    : [$value: ""],
                                             ],
 
                                     ],
                                     [
                                             properties     : [
-                                                    ledger       : "netAmountLedgerId",
-                                                    debit       : "othersAmount",
+                                                    ledger       : "tax.othersId",
+                                                    debit        : "othersAmount",
                                                     narration    : [$value: ""],
                                             ],
 
